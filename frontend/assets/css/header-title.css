@@ -1,10 +1,12 @@
 .header-title {
-    background: white;
-    top: -21px;
+    color: white;
+    min-height: 210px;
+}
+
+.header.header-filter {
+    position: absolute;
+    min-height: 300px;
+    width: 100%;
     z-index: -1;
-    padding-top: 20px;
-    height: 300px;
-    position: relative;
-    margin-bottom: -400px;
-    padding-left: 120px;
+    top: 70px;
 }
