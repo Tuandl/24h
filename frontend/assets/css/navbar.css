@@ -52,3 +52,8 @@ nav .logo-container .logo img {
         margin-top: 10px;
     }
 }
+
+.datepicker {
+    /* position: relative; */
+    z-index: 9999 !important;
+}
