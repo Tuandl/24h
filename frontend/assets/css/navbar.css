@@ -51,4 +51,7 @@ nav .logo-container .logo img {
         /* margin-right: 50px; */
         margin-top: 10px;
     }
+    .navbar.category-menu .navbar-collapse {
+        float: right;
+    }
 }
