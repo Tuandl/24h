@@ -31,6 +31,6 @@ function setTextCurrentDate(element) {
     var date = new Date();
     var dayInWeek = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
     var result = dayInWeek[date.getDay()] + ", ngày " + date.getDate() + ", tháng " +
-        date.getMonth() + ", " + date.getFullYear();
+        date.getMonth()+1 + ", " + date.getFullYear();
     element.text(result);
 }
