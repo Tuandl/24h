@@ -1,5 +1,6 @@
 .article-preview {
     width: 100%;
+    margin-bottom: 1em;
 }
 
 .article-preview .article-title {
@@ -7,9 +8,11 @@
     display: block;
     font-size: 1.5em;
     font-weight: 400;
-    text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
+    display: -webkit-box;
+    margin-bottom: 10px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     line-height: 25px;
 }
 
@@ -30,4 +33,14 @@
 .article-preview a {
     text-decoration: none;
     color: #333333;
+}
+
+.section .section-title {
+    margin-bottom: 15px;
+}
+
+.article-preview .article-author {
+    text-align: right;
+    display: block;
+    font-style: italic;
 }
