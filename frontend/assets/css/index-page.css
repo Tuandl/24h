@@ -1,0 +1,33 @@
+.article-preview {
+    width: 100%;
+}
+
+.article-preview .article-title {
+    margin: 10px 0px 10px 0px;
+    display: block;
+    font-size: 1.5em;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 25px;
+}
+
+.article-preview.article-highline .article-title {
+    font-size: 2.3em;
+    font-weight: 400;
+    line-height: 50px;
+}
+
+.article-preview .article-content {
+    overflow: hidden;
+    display: -webkit-box;
+    margin-bottom: 10px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.article-preview a {
+    text-decoration: none;
+    color: #333333;
+}
