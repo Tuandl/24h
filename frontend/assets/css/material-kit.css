@@ -4097,7 +4097,7 @@ input[type="file"]>input[type="button"]::-moz-focus-inner {
 }
 
 .section {
-    padding: 70px 0;
+    padding: 50px 0 10px 0;
 }
 
 .section-navbars {

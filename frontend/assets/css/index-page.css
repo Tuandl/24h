@@ -26,11 +26,11 @@
     overflow: hidden;
     display: -webkit-box;
     margin-bottom: 10px;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
 }
 
-.article-preview a {
+.section a {
     text-decoration: none;
     color: #333333;
 }
@@ -39,8 +39,18 @@
     margin-bottom: 15px;
 }
 
+.section .section-title .material-icons {
+    vertical-align: middle;
+    font-size: inherit;
+}
+
 .article-preview .article-author {
     text-align: right;
     display: block;
     font-style: italic;
+}
+
+.section:not(:first-child) {
+    padding-top: 20px;
+    border-top: thin solid rgba(33, 33, 33, 0.47);
 }
