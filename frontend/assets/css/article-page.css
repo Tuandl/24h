@@ -93,3 +93,8 @@ article .article-author {
     display: flex;
     justify-content: flex-end;
 }
+
+.comment {
+    font-family: sans-serif;
+    font-size: 1.1em;
+}
