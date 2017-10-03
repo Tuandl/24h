@@ -77,3 +77,19 @@ article .article-author {
     text-align: right;
     font-style: italic;
 }
+
+.comment .new-comment textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+}
+
+.comment .new-comment.jumbotron {
+    padding: 1px 20px 1px 20px;
+    margin-top: 20px;
+}
+
+.comment .new-comment .submit-comment {
+    display: flex;
+    justify-content: flex-end;
+}
