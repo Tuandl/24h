@@ -1,6 +1,5 @@
 $(document).ready(function() {
     setTextGreeting($(".wrapper .header .title"));
-    setTextCurrentDate($(".wrapper .header h4"));
 });
 
 /**
@@ -21,16 +20,4 @@ function setTextGreeting(element) {
     } else {
         element.text('Chào buổi tối');
     }
-}
-
-/**
- * Update text in element into current date
- * @param {Jquery selector} element 
- */
-function setTextCurrentDate(element) {
-    var date = new Date();
-    var dayInWeek = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
-    var result = dayInWeek[date.getDay()] + ", ngày " + date.getDate() + ", tháng " +
-        (date.getMonth()+1) + ", " + date.getFullYear();
-    element.text(result);
 }
