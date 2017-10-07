@@ -1,0 +1,34 @@
+.profile-avatar {
+    width: 200px;
+    height: 200px;
+    display: block;
+    overflow: hidden;
+    margin: auto;
+}
+
+.profile-avatar img {
+    max-height: 100%;
+    width: auto;
+}
+
+.profile-information div div:first-child {
+    font-size: 2.3em;
+    font-weight: 400;
+    text-align: right;
+    line-height: 2em;
+}
+
+.profile-information div div:nth-child(2) {
+    font-size: 2.3em;
+    font-weight: 400;
+    text-align: left;
+    line-height: 2em;
+}
+
+.section:nth-child(3) button:first-child {
+    float: left;
+}
+
+.section:nth-child(3) button:nth-child(2) {
+    float: right;
+}
