@@ -9,3 +9,4 @@ Prototype:<br/>
 <a href="https://tuandl.github.io/24h/frontend/html/search-result.html">Sample Search result page</a><br/>
 <a href="https://tuandl.github.io/24h/frontend/html/Profile.html">Profile page</a><br/>
 <a href="https://tuandl.github.io/24h/frontend/html/censor-page.html">Censor page</a><br/>
+<a href="https://tuandl.github.io/24h/frontend/html/admin-home-page.html">Admin home page</a><br/>
