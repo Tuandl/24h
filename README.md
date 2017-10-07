@@ -10,3 +10,4 @@ Prototype:<br/>
 <a href="https://tuandl.github.io/24h/frontend/html/Profile.html">Profile page</a><br/>
 <a href="https://tuandl.github.io/24h/frontend/html/censor-page.html">Censor page</a><br/>
 <a href="https://tuandl.github.io/24h/frontend/html/admin-home-page.html">Admin home page</a><br/>
+<a href="https://tuandl.github.io/24h/frontend/html/admin-view-account-page.html">Admin view account page</a><br/>
