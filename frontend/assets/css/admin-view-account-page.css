@@ -1,0 +1,20 @@
+.section:first-child .row:first-child {
+    width: 400px;
+    margin: auto;
+}
+
+.section:first-child .row:first-child .form-group {
+    margin: 0px;
+}
+
+.section:first-child .row:first-child label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.btn.btn-just-icon.btn-round {
+    margin: 0px;
+    font-size: 14px;
+    padding: 6px 5px;
+    line-height: 0.9em;
+}
