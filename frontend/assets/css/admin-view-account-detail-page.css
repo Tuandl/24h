@@ -1,0 +1,14 @@
+@media (min-width: 992px) {
+    .profile-information div div:first-child {
+        font-size: 1.4em;
+        line-height: 2em;
+    }
+    .profile-information div div:nth-child(2) {
+        font-size: 1.4em;
+        line-height: 2em;
+    }
+}
+
+.form-group.mr-small {
+    margin: 13px 0 0 0;
+}
