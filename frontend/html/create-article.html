@@ -24,6 +24,10 @@
     <link rel="stylesheet" href="../assets/css/header.css" />
     <link rel="stylesheet" href="../assets/css/category.css" />
     <link rel="stylesheet" href="../assets/css/header-title.css">
+
+    <link rel="stylesheet" href="../assets/css/third_party/froala_editor.min.css">
+    <link rel="stylesheet" href="../assets/css/third_party/froala_style.min.css">
+    <link rel="stylesheet" href="../assets/css/third_party/create-article.css">
 </head>
 
 <body class="template-page">
@@ -60,22 +64,10 @@
                         </div>
                     </li>
 
-                    <!-- Not login -->
-                    <li>
-                        <a href="#" data-toggle="modal" data-target="#login-modal">
-                            <i class="material-icons">person</i> Đăng nhập
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" data-toggle="modal" data-target="#signup-modal">
-                            <i class="material-icons">person_add</i> Đăng ký
-                        </a>
-                    </li>
-
                     <!-- logined -->
-                    <li class="hidden">
+                    <li class="">
                         <a href="#">
-                            <i class="material-icons">account_circle</i> Dương Anh Tuấn
+                            <i class="material-icons">account_circle</i> Tuấn đập chai
                         </a>
                     </li>
 
@@ -148,8 +140,49 @@
         <div class="main">
             <div class="container">
                 <!-- Newest -->
-                <div class="section">
+                <div class="section create-article">
+                    <form class="form-horizontal">
+                        <div class="center-block">
+                            <div class="form-group create-article-title">
+                                <label class="control-label control-label-normal col-sm-3" for="title">Tiêu đề:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="title" placeholder="Ghi tiêu đề ở đây">
+                                </div>
+                            </div>
+                            <div class="form-group create-article-category">
+                                <label class="control-label control-label-normal col-sm-5" for="category">Thể loại:</label>
+                                <div class="col-sm-7">
+                                    <select class="form-control" id="category">
+                                        <option>Thể thao</option>
+                                        <option>Thế giới</option>
+                                        <option>Thời trang</option>
+                                        <option>Bảo mật - xã hội</option>
+                                        <option>Hi-tech</option>
+                                        <option>Tài chính - Địa ốc</option>
+                                        <option>Thức ăn</option>
+                                        <option>Sắc đẹp</option>
+                                        <option>Showbiz</option>
+                                        <option>Giải trí</option>
+                                        <option>Trẻ - Đời sống</option>
+                                        <option>Giáo dục</option>
+                                        <option>Ô tô</option>
+                                        <option>Xe máy</option>
+                                        <option>Thị trường - người tiêu thụ</option>
+                                        <option>Du lịch</option>
+                                        <option>Sức khỏe</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group create-article-main-content">
+                                <label class="control-label control-label-normal" for="main-content">Nội dung chính:</label>
+                                <textarea class="form-control" name="" id="main-content" rows="4" placeholder="Ghi nội tóm tắt nội dung ở đây..."></textarea>
+                            </div>
+                        </div>
 
+                        <div class="create-article-content">
+                            <textarea name="" id="new-article"></textarea>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -172,158 +205,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Sart Login Modal -->
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        <i class="material-icons">clear</i>
-                    </button>
-                    <h4 class="modal-title">Đăng nhập</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" class="form-horizontal">
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Tên đăng nhập</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Mật khẩu</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-simple">Đăng nhập</button>
-                    <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Thoát</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--  End Login Modal -->
-    <!-- Sart Sign up Modal -->
-    <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        <i class="material-icons">clear</i>
-                    </button>
-                    <h4 class="modal-title">Đăng ký</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" class="form-horizontal">
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Tên đăng nhập</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Tên của bạn</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Mật khẩu</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Nhập lại mật khẩu</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Ngày sinh</label>
-                                    <input type="text" class="form-control datepicker" value="01/01/1997">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="radio">
-                                <label>
-                                        Giới tính:
-                                    </label>
-                                <label>
-                                        <input type="radio" name="gender" checked value="male">
-                                        Nam
-                                    </label>
-                                <label>
-                                        <input type="radio" name="gender" value="female">
-                                        Nữ
-                                    </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Địa chỉ</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Số điện thoại</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="form-group label-floating">
-                                    <label class="control-label">Email</label>
-                                    <input type="email" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="agree-policy">
-                                        Tôi đồng ý với <a href="#">Điều khoản</a>
-                                    </label>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-simple">Đăng ký</button>
-                    <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Thoát</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--  End Sign up Modal -->
 </body>
 
 <!--   Core JS Files   -->
@@ -342,6 +223,12 @@
 
 <!-- template page js -->
 <script src="../assets/js/template.js" type="text/javascript"></script>
+
+<!-- create article page -->
+<script src="../assets/js/create-article.js" type="text/javascript"></script>
+
+<!-- text editor plug in -->
+<script src="../assets/js/third_party/froala_editor.min.js" type="text/javascript"></script>
 
 <!-- genarate random img. ONLY USE FOR PROTOTYPE!! -->
 <script src="../assets/js/random-img.js" type="text/javascript"></script>
