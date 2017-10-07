@@ -12,17 +12,16 @@
 }
 
 .profile-information div div:first-child {
-    font-size: 2em;
+    font-size: 1.2em;
     font-weight: 400;
     text-align: right;
-    line-height: 2em;
+    line-height: 1.4em;
 }
 
 .profile-information div div:nth-child(2) {
-    font-size: 2em;
-    /* font-weight: 400; */
+    font-size: 1.2em;
     text-align: left;
-    line-height: 2em;
+    line-height: 1.4em;
 }
 
 .item-center {
@@ -30,10 +29,29 @@
     justify-content: center;
 }
 
+@media (min-width: 768px) {
+    .profile-information div div:first-child {
+        font-size: 1.5em;
+        line-height: 1.5em;
+    }
+    .profile-information div div:nth-child(2) {
+        font-size: 1.5em;
+        line-height: 1.5em;
+    }
+}
+
 @media (min-width: 992px) {
     .profile-avatar {
         position: relative;
         top: 95px;
         bottom: auto;
+    }
+    .profile-information div div:first-child {
+        font-size: 2em;
+        line-height: 2em;
+    }
+    .profile-information div div:nth-child(2) {
+        font-size: 2em;
+        line-height: 2em;
     }
 }
