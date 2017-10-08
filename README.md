@@ -13,3 +13,4 @@ Prototype:<br/>
 <a href="https://tuandl.github.io/24h/frontend/html/admin-view-account-page.html">Admin view account page</a><br/>
 <a href="https://tuandl.github.io/24h/frontend/html/admin-view-account-detail.html">Admin view account detail and change role</a><br/>
 <a href="https://tuandl.github.io/24h/frontend/html/create-article.html">Create article</a><br/>
+<a href="https://tuandl.github.io/24h/frontend/html/term-and-policy.html">Term and policy</a><br/>
