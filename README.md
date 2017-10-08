@@ -16,3 +16,4 @@ Prototype:<br/>
 <a href="https://tuandl.github.io/24h/frontend/html/term-and-policy.html">Term and policy</a><br/>
 <a href="https://tuandl.github.io/24h/frontend/html/about-us.html">About us</a><br/>
 <a href="https://tuandl.github.io/24h/frontend/html/journalist-manage-articles.html">Manager Article - journalist</a><br/>
+<a href="https://tuandl.github.io/24h/frontend/html/censor-article-detail.html">Censor article detail</a><br/>
