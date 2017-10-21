@@ -294,8 +294,8 @@ public class ArticleDAO {
         return res;
     }
     
-    public ArticleDTO findByCategoryIDAndStatus(int categoryID, String status) {
-        ArticleDTO res = null;
+    public List<ArticleDTO> findByCategoryIDAndStatus(int categoryID, String status) {
+        List<ArticleDTO> res = new ArrayList<>();
         try {
             String sql = "EXEC dbo.ProcedureFindArticleByCategoryIDAndStatus @CategoryID = ?, @Status = ?";
             cnn = MyConnection.getConnection();
@@ -321,7 +321,7 @@ public class ArticleDAO {
                 dto.setLastStatusChangerID(rs.getInt("LastStatusChangerID"));
                 dto.setLastStatusChangedTime(rs.getTimestamp("LastStatusChangedTime"));
                 dto.setViewCount(rs.getInt("ViewCount"));
-                res = dto;
+                res.add(dto);
             }
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -359,6 +359,40 @@ public class ArticleDAO {
                 dto.setLastStatusChangedTime(rs.getTimestamp("LastStatusChangedTime"));
                 dto.setViewCount(rs.getInt("ViewCount"));
                 res.add(dto);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+        return res;
+    }
+    
+    public ArticleDTO findByArticleID(int articleID) {
+        ArticleDTO res = new ArticleDTO();
+        try {
+            String sql = "EXEC dbo.ProcedureFindArticleByCategoryIDAndStatus @ArticleID = ?";
+            cnn = MyConnection.getConnection();
+            stm = cnn.prepareStatement(sql);
+            stm.setInt(1, articleID);
+            
+            rs = stm.executeQuery();
+            
+            if (rs.next()) {
+                res.setArticleID(rs.getInt("ArticleID"));
+                res.setTitle(rs.getString("Title"));
+                res.setHeadline(rs.getString("Headline"));
+                res.setContent(rs.getString("Content"));
+                res.setThumbnail(rs.getString("Thumbnail"));
+                res.setCategoryID(rs.getInt("CategoryID"));
+                res.setCreatorID(rs.getInt("CreatorID"));
+                res.setCreatedTime(rs.getTimestamp("CreatedTime"));
+                res.setLastModifierID(rs.getInt("LastModifierID"));
+                res.setLastModifiedTime(rs.getTimestamp("LastModifiedTime"));
+                res.setStatus(rs.getString("Status"));
+                res.setLastStatusChangerID(rs.getInt("LastStatusChangerID"));
+                res.setLastStatusChangedTime(rs.getTimestamp("LastStatusChangedTime"));
+                res.setViewCount(rs.getInt("ViewCount"));
             }
         } catch(Exception ex) {
             ex.printStackTrace();

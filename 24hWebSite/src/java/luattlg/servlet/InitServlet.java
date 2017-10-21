@@ -6,11 +6,15 @@
 package luattlg.servlet;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tuanvxm.DTOs.ArticleDTO;
+import tuanvxm.other.Category;
 import tuanvxm.other.CategoryList;
 import tuanvxm.other.GenderList;
 import tuanvxm.other.RoleList;
@@ -18,6 +22,7 @@ import tuanvxm.other.RoleList;
 /**
 * This servlet is for initializing the category list 
 * the role list, the gender list then load them into the application scope.
+* Get the list of articles that show in home page by map the category and the list of articles.
 * On the other hand, set the role of the user to Guest.
 * Redirect to home page
 */
@@ -42,9 +47,8 @@ public class InitServlet extends HttpServlet {
         //If it's the first time, do the initialization
         if (isFirst == null){
             isFirst = "first";
-                      
             getServletContext().setAttribute("ISFIRST", isFirst);
-            getServletContext().setAttribute("CATEGORY-LIST", CategoryList.CATEGORY_LIST);
+            getServletContext().setAttribute("CATEGORY-LIST", CategoryList.CATEGORY_LIST);           
             getServletContext().setAttribute("GENDER-LIST", GenderList.GENDER_LIST);
             getServletContext().setAttribute("ROLE-LIST", RoleList.ROLE_LIST);
         }

@@ -40,7 +40,7 @@ public class ReadArticleServlet extends HttpServlet {
             throws ServletException, IOException {
         
         int articleID = Integer.parseInt(request.getParameter("articleID"));
-        ArticleDTO article = new ArticleDAO().findByCategoryIDAndStatus(articleID, ArticleDTO.STATUS_AVAILABLE);
+        ArticleDTO article = new ArticleDAO().findByArticleID(articleID);
         
         if(article == null){
             response.sendError(response.SC_NOT_FOUND, "Article not found or this article has been removed.");
