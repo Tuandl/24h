@@ -25,6 +25,12 @@ import tuanvxm.other.CategoryList;
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/Login.action"})
 public class LoginServlet extends HttpServlet {
+    
+    private static final String ADMIN = "admin.jsp";
+    private static final String EDITOR = "editor.jsp";
+    private static final String JOURNALIST = "journalist.jsp";
+    private static final String READER = "reader.jsp";
+    private static final String GUEST = "guest.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,26 +53,26 @@ public class LoginServlet extends HttpServlet {
         if(user.login()){
             String role = CategoryList.getName(user.getRoleID());
             request.getSession().setAttribute("ROLE", role);
-            request.getSession().setAttribute("USERINFO", user);
+            request.getSession().setAttribute("USER", user);
             
             if(role.equalsIgnoreCase("admin")){
-                response.sendRedirect("admin.jsp");
+                response.sendRedirect(ADMIN);
             }
             if(role.equalsIgnoreCase("editor")){
-                response.sendRedirect("editor.jsp");
+                response.sendRedirect(EDITOR);
             }
             if(role.equalsIgnoreCase("journalist")){
-                response.sendRedirect("journalist.jsp");
+                response.sendRedirect(JOURNALIST);
             }
             if(role.equalsIgnoreCase("reader")){
-                response.sendRedirect("reader.jsp");
+                response.sendRedirect(READER);
             }
             
             return;
         }
         
         request.setAttribute("ERROR", "Username or password is incorrect.");
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        request.getRequestDispatcher(GUEST).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

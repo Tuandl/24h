@@ -28,6 +28,8 @@ import tuanvxm.other.RoleList;
 */
 @WebServlet(name = "InitServlet", urlPatterns = {"/Init.action"})
 public class InitServlet extends HttpServlet {
+    
+    private static final String HOMEPAGE = "home.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,7 +57,7 @@ public class InitServlet extends HttpServlet {
         
         //Set the role to guest
         request.getSession().setAttribute("ROLE", "guest");
-        response.sendRedirect("home.jsp");
+        response.sendRedirect(HOMEPAGE);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

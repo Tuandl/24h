@@ -266,9 +266,10 @@ public class ArticleDTO {
     Find and return list of articles which categoryID is the same searching categoryID 
             and status is the same with searching status
     @param String categoryID
+    @param status
     @return empty list if there isn't any article matching search condition
     */
-    public ArticleDTO findByCategoryIDAndStatus(int categoryID, String status) {
+    public List<ArticleDTO> findByCategoryIDAndStatus(int categoryID, String status) {
         return new ArticleDAO().findByCategoryIDAndStatus(categoryID, status);
     }
     

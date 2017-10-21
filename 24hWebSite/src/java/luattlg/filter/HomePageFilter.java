@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,10 +34,9 @@ import tuanvxm.other.Category;
 public class HomePageFilter implements Filter {
     
     private static final boolean debug = true;
-
-    // The filter configuration object we are associated with.  If
-    // this value is null, this filter instance is not currently
-    // configured. 
+    private static final int GETTOP = 15;
+    private static final int STARTDAY = 3;
+    
     private FilterConfig filterConfig = null;
     
     public HomePageFilter() {
@@ -114,6 +116,12 @@ public class HomePageFilter implements Filter {
                 articleWithCategory.put(category.getName(), articles);
             }
             
+            //Get trending article count from 1 day
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
+            Timestamp time = new Timestamp(calendar.getTime().getTime());
+            ArrayList<ArticleDTO> articles = (ArrayList)new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
             request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);
             chain.doFilter(request, response);     
     }

@@ -21,11 +21,13 @@ import tuanvxm.DTOs.CommentDTO;
 /**
  * This servlet is for loading article and comment of that article from database.
  * Redirect :
- * Article is not removed - article.jsp.
+ * Article is not removed - article page.
  * Article is removed - HTTP 404 ERROR page.
  */
 @WebServlet(name = "ReadArticleServlet", urlPatterns = {"/ReadArticle.action"})
 public class ReadArticleServlet extends HttpServlet {
+    
+    private static final String ARTICLE = "article.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -53,7 +55,7 @@ public class ReadArticleServlet extends HttpServlet {
         request.setAttribute("ARTICLE", article);
         request.setAttribute("COMMENT-LIST", commentList);
         
-        request.getRequestDispatcher("article.jsp").forward(request, response);
+        request.getRequestDispatcher(ARTICLE).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
