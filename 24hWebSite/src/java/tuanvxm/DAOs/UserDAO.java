@@ -260,4 +260,38 @@ public class UserDAO {
         }
         return res;
     }
+    
+     public List<UserDTO> findLikeName(String name) {
+        List<UserDTO> res = new ArrayList<>();
+        try {
+            String sql = "EXEC dbo.ProcedureFindUserLikeName @Name = ?";
+            cnn = MyConnection.getConnection();
+            stm = cnn.prepareStatement(sql);
+            stm.setString(1, name);
+            
+            rs = stm.executeQuery();
+            
+            while (rs.next()) {
+                UserDTO dto = new UserDTO();
+                dto.setUserID(rs.getInt("UserID"));
+                dto.setUsername(rs.getString("Username"));
+                dto.setName(rs.getString("Name"));
+                dto.setBirthday(rs.getTimestamp("Birthday"));
+                dto.setGender(rs.getInt("Gender"));
+                dto.setAddress(rs.getString("Address"));
+                dto.setPhone(rs.getString("Phone"));
+                dto.setEmail(rs.getString("Email"));
+                dto.setPeopleIndentityCard(rs.getString("PeopleIndentityCard"));
+                dto.setPressCard(rs.getString("PressCard"));
+                dto.setRoleID(rs.getInt("RoleID"));
+                dto.setStatus(rs.getString("Status"));
+                res.add(dto);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+        return res;
+    }
 }

@@ -118,8 +118,8 @@ public class ReadArticleFilter implements Filter {
         List<CommentDTO> commentList = (List) request.getAttribute("COMMENT-LIST");
         List<CommentDTO> afterDeleteList = new ArrayList<CommentDTO>();
         for (CommentDTO comment : commentList) {
-            if (!comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) && comment.getLastStatusChangerID() != userID) {
-                commentList.remove(comment);
+            if (comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) || comment.getLastStatusChangerID() == userID) {
+                afterDeleteList.add(comment);
             }
         }
         

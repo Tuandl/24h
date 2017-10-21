@@ -266,4 +266,13 @@ public class UserDTO {
     public boolean changeRoleID(int userID, int newRoleID, String newPressCard) {
         return new UserDAO().changeRoleID(userID, newRoleID, newPressCard);
     }
+    
+    /*
+    Search users in database using a part of fullname
+    @param String name
+    @return list of UserDTO if one or more users carry the searching role. opposite return empty list
+     */
+    public List<UserDTO> findLikeFullName(String name) {
+        return new UserDAO().findLikeName(name);
+    }
 }
