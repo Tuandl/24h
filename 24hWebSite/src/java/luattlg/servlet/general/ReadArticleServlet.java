@@ -3,34 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package luattlg.servlet;
+package luattlg.servlet.general;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tuanvxm.DTOs.UserDTO;
-import tuanvxm.other.CategoryList;
+import tuanvxm.DAOs.ArticleDAO;
+import tuanvxm.DAOs.CommentDAO;
+import tuanvxm.DTOs.ArticleDTO;
+import tuanvxm.DTOs.CommentDTO;
 
 /**
-* This servlet is for login action.
-* This servlet will redirect base on user's role:
-* Admin : admin.jsp
-* Editor : editor.jsp
-* Journalist : journalist.jsp
-* Reader : reader.jsp
-* Guest (Login fail) : home.jsp
+ * This servlet is for loading article and comment of that article from database.
+ * Redirect :
+ * Article is not removed - article page.
+ * Article is removed - HTTP 404 ERROR page.
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/Login.action"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "ReadArticleServlet", urlPatterns = {"/ReadArticle.action"})
+public class ReadArticleServlet extends HttpServlet {
     
-    private static final String ADMIN = "admin.jsp";
-    private static final String EDITOR = "editor.jsp";
-    private static final String JOURNALIST = "journalist.jsp";
-    private static final String READER = "reader.jsp";
-    private static final String GUEST = "guest.jsp";
+    private static final String ARTICLE = "article.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,36 +40,22 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("txtUsername");
-        String password = request.getParameter("pwfPassword");
         
-        UserDTO user = new UserDTO();
-        user.setUsername(username);
-        user.setPassword(password);
+        int articleID = Integer.parseInt(request.getParameter("articleID"));
+        ArticleDTO article = new ArticleDAO().findByArticleID(articleID);
         
-        if(user.login()){
-            String role = CategoryList.getName(user.getRoleID());
-            request.getSession().setAttribute("ROLE", role);
-            request.getSession().setAttribute("USER", user);
-            
-            if(role.equalsIgnoreCase("admin")){
-                response.sendRedirect(ADMIN);
-            }
-            if(role.equalsIgnoreCase("editor")){
-                response.sendRedirect(EDITOR);
-            }
-            if(role.equalsIgnoreCase("journalist")){
-                response.sendRedirect(JOURNALIST);
-            }
-            if(role.equalsIgnoreCase("reader")){
-                response.sendRedirect(READER);
-            }
-            
+        if(article == null){
+            response.sendError(response.SC_NOT_FOUND, "Article not found or this article has been removed.");
             return;
         }
         
-        request.setAttribute("ERROR", "Username or password is incorrect.");
-        request.getRequestDispatcher(GUEST).forward(request, response);
+        //Get comment of the article
+        List<CommentDTO> commentList = new CommentDAO().findByArticleID(articleID);
+        article.increaseViewCount();
+        request.setAttribute("ARTICLE", article);
+        request.setAttribute("COMMENT-LIST", commentList);
+        
+        request.getRequestDispatcher(ARTICLE).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

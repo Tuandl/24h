@@ -31,7 +31,7 @@ public class RoleList {
     */
     public static int getID(String roleName) {
         for (Role r : ROLE_LIST) {
-            if (r.getName().compareTo(roleName) == 0) 
+            if (r.getName().equalsIgnoreCase(roleName)) 
                 return r.getRoleID();
         }
         return -1;
