@@ -294,8 +294,8 @@ public class ArticleDAO {
         return res;
     }
     
-    public List<ArticleDTO> findByCategoryIDAndStatus(int categoryID, String status) {
-        List<ArticleDTO> res = new ArrayList<>();
+    public ArticleDTO findByCategoryIDAndStatus(int categoryID, String status) {
+        ArticleDTO res = null;
         try {
             String sql = "EXEC dbo.ProcedureFindArticleByCategoryIDAndStatus @CategoryID = ?, @Status = ?";
             cnn = MyConnection.getConnection();
@@ -321,7 +321,7 @@ public class ArticleDAO {
                 dto.setLastStatusChangerID(rs.getInt("LastStatusChangerID"));
                 dto.setLastStatusChangedTime(rs.getTimestamp("LastStatusChangedTime"));
                 dto.setViewCount(rs.getInt("ViewCount"));
-                res.add(dto);
+                res = dto;
             }
         } catch(Exception ex) {
             ex.printStackTrace();

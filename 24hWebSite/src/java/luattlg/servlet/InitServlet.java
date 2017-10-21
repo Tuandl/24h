@@ -12,11 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tuanvxm.other.CategoryList;
+import tuanvxm.other.GenderList;
 import tuanvxm.other.RoleList;
 
 /**
 * This servlet is for initializing the category list 
-* and the role list, then load them into the application scope.
+* the role list, the gender list then load them into the application scope.
 * On the other hand, set the role of the user to Guest.
 * Redirect to home page
 */
@@ -44,6 +45,7 @@ public class InitServlet extends HttpServlet {
                       
             getServletContext().setAttribute("ISFIRST", isFirst);
             getServletContext().setAttribute("CATEGORY-LIST", CategoryList.CATEGORY_LIST);
+            getServletContext().setAttribute("GENDER-LIST", GenderList.GENDER_LIST);
             getServletContext().setAttribute("ROLE-LIST", RoleList.ROLE_LIST);
         }
         

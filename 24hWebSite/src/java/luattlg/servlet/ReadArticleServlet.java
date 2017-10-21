@@ -6,25 +6,26 @@
 package luattlg.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tuanvxm.DTOs.UserDTO;
-import tuanvxm.other.CategoryList;
+import tuanvxm.DAOs.ArticleDAO;
+import tuanvxm.DAOs.CommentDAO;
+import tuanvxm.DTOs.ArticleDTO;
+import tuanvxm.DTOs.CommentDTO;
 
 /**
-* This servlet is for login action.
-* This servlet will redirect base on user's role:
-* Admin : admin.jsp
-* Editor : editor.jsp
-* Journalist : journalist.jsp
-* Reader : reader.jsp
-* Guest (Login fail) : home.jsp
+ * This servlet call for loading article from database.
+ * Redirect :
+ * Article is not removed - article.jsp
+ * Article is removed - HTTP 404 ERROR page
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/Login.action"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "ReadArticleServlet", urlPatterns = {"/ReadArticle.action"})
+public class ReadArticleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,36 +38,22 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("txtUsername");
-        String password = request.getParameter("pwfPassword");
         
-        UserDTO user = new UserDTO();
-        user.setUsername(username);
-        user.setPassword(password);
+        int articleID = Integer.parseInt(request.getParameter("articleID"));
+        ArticleDTO article = new ArticleDAO().findByCategoryIDAndStatus(articleID, ArticleDTO.STATUS_AVAILABLE);
         
-        if(user.login()){
-            String role = CategoryList.getName(user.getRoleID());
-            request.getSession().setAttribute("ROLE", role);
-            request.getSession().setAttribute("USERINFO", user);
-            
-            if(role.equalsIgnoreCase("admin")){
-                response.sendRedirect("admin.jsp");
-            }
-            if(role.equalsIgnoreCase("editor")){
-                response.sendRedirect("editor.jsp");
-            }
-            if(role.equalsIgnoreCase("journalist")){
-                response.sendRedirect("journalist.jsp");
-            }
-            if(role.equalsIgnoreCase("reader")){
-                response.sendRedirect("reader.jsp");
-            }
-            
+        if(article == null){
+            response.sendError(response.SC_NOT_FOUND, "Article not found or this article has been removed.");
             return;
         }
         
-        request.setAttribute("ERROR", "Username or password is incorrect.");
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        //Get comment of the article
+        List<CommentDTO> commentList = new CommentDAO().findByArticleID(articleID);
+        article.increaseViewCount();
+        request.setAttribute("ARTICLE", article);
+        request.setAttribute("COMMENTLIST", commentList);
+        
+        request.getRequestDispatcher("article.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

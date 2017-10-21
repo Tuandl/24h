@@ -16,7 +16,7 @@ import tuanvxm.DAOs.ArticleDAO;
  */
 public class ArticleDTO {
     
-    public static final String STATUS_New = "New"; //Default status
+    public static final String STATUS_NEW= "New"; //Default status
     public static final String STATUS_AVAILABLE = "Available";
     public static final String STATUS_HIDED = "Hided";
     
@@ -219,11 +219,10 @@ public class ArticleDTO {
     /*
     Increase ViewCount of article by 1
     Searching article by ArticleID
-    @param String articleID
     @return true if successful
     @return false if not success
     */
-    public boolean increaseViewCount(int articleID) {
+    public boolean increaseViewCount() {
         return new ArticleDAO().increaseViewCount(articleID);
     }
     
@@ -269,7 +268,7 @@ public class ArticleDTO {
     @param String categoryID
     @return empty list if there isn't any article matching search condition
     */
-    public List<ArticleDTO> findByCategoryIDAndStatus(int categoryID, String status) {
+    public ArticleDTO findByCategoryIDAndStatus(int categoryID, String status) {
         return new ArticleDAO().findByCategoryIDAndStatus(categoryID, status);
     }
     
