@@ -19,10 +19,10 @@ import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.CommentDTO;
 
 /**
- * This servlet call for loading article from database.
+ * This servlet is for loading article and comment of that article from database.
  * Redirect :
- * Article is not removed - article.jsp
- * Article is removed - HTTP 404 ERROR page
+ * Article is not removed - article.jsp.
+ * Article is removed - HTTP 404 ERROR page.
  */
 @WebServlet(name = "ReadArticleServlet", urlPatterns = {"/ReadArticle.action"})
 public class ReadArticleServlet extends HttpServlet {
@@ -51,7 +51,7 @@ public class ReadArticleServlet extends HttpServlet {
         List<CommentDTO> commentList = new CommentDAO().findByArticleID(articleID);
         article.increaseViewCount();
         request.setAttribute("ARTICLE", article);
-        request.setAttribute("COMMENTLIST", commentList);
+        request.setAttribute("COMMENT-LIST", commentList);
         
         request.getRequestDispatcher("article.jsp").forward(request, response);
     }
