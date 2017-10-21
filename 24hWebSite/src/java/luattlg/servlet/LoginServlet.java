@@ -11,22 +11,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.CategoryList;
-import tuanvxm.other.RoleList;
 
 /**
-* This servlet is for initializing the category list 
-* and the role list, then load them into the application scope.
-* On the other hand, set the role of the user to Guest.
-* Redirect to home page
-*/
-@WebServlet(name = "InitServlet", urlPatterns = {"/Init.action"})
-public class InitServlet extends HttpServlet {
+ *
+ * @author luattlgse62386
+ */
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     * 
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -34,22 +32,36 @@ public class InitServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String username = request.getParameter("txtUsername");
+        String password = request.getParameter("pwfPassword");
         
-        //This instance is for check if this is the first time the website load or not.
-        String isFirst = (String) getServletContext().getAttribute("ISFIRST");
+        UserDTO user = new UserDTO();
+        user.setUsername(username);
+        user.setPassword(password);
         
-        //If it's the first time, do the initialization
-        if (isFirst == null){
-            isFirst = "first";
-                      
-            getServletContext().setAttribute("ISFIRST", isFirst);
-            getServletContext().setAttribute("CATEGORY-LIST", CategoryList.CATEGORY_LIST);
-            getServletContext().setAttribute("ROLE-LIST", RoleList.ROLE_LIST);
+        if(user.login()){
+            String role = CategoryList.getName(user.getRoleID());
+            request.getSession().setAttribute("ROLE", role);
+            request.getSession().setAttribute("USERINFO", user);
+            
+            if(role.equalsIgnoreCase("admin")){
+                response.sendRedirect("admin.jsp");
+            }
+            if(role.equalsIgnoreCase("editor")){
+                response.sendRedirect("editor.jsp");
+            }
+            if(role.equalsIgnoreCase("journalist")){
+                response.sendRedirect("journalist.jsp");
+            }
+            if(role.equalsIgnoreCase("reader")){
+                response.sendRedirect("reader.jsp");
+            }
+            
+            return;
         }
         
-        //Set the role to guest
-        request.getSession().setAttribute("ROLE", "guest");
-        response.sendRedirect("home.jsp");
+        request.setAttribute("ERROR", "Username or password is incorrect.");
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
