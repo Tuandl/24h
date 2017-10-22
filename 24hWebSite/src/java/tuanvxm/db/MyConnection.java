@@ -19,10 +19,9 @@ public class MyConnection {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             res = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;"
-                    + "instanceName=MSSQLSERVER01;"
-                    + "database = Web24H;"
+                    + "databaseName = Web24H;"
                     + "user = sa;"
-                    + "password = 123");
+                    + "password = 123456");
         } catch (Exception e) {
             e.printStackTrace();
         } 
