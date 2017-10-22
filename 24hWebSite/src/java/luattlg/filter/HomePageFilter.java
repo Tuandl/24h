@@ -30,7 +30,7 @@ import tuanvxm.other.Category;
 /**
 * Filter for loading the article of the home page
  */
-@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/home.html"})
+@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/home.jsp"})
 public class HomePageFilter implements Filter {
     
     private static final boolean debug = true;
@@ -116,7 +116,7 @@ public class HomePageFilter implements Filter {
                 articleWithCategory.put(category.getName(), articles);
             }
             
-            //Get trending article count from 1 day
+            //Get trending article count from now-GETTOP day
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);

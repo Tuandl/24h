@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -16,24 +19,25 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author luattlgse62386
+ * Filter to validate the data load in Register
  */
-@WebFilter(filterName = "RegisterFilter", urlPatterns = {"/Login.action"})
+@WebFilter(filterName = "RegisterFilter", urlPatterns = {"/Register.action"})
 public class RegisterFilter implements Filter {
-    
-    private static final boolean debug = true;
 
+    private static final boolean debug = true;
+    private static final String REGISTER = "home.jsp";
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
-    
+
     public RegisterFilter() {
-    }    
-    
+    }
+
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
@@ -60,8 +64,8 @@ public class RegisterFilter implements Filter {
 	    log(buf.toString());
 	}
          */
-    }    
-    
+    }
+
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
@@ -99,9 +103,68 @@ public class RegisterFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
+        Map<String,String> error = doValidate((HttpServletRequest) request,(HttpServletResponse) response);
+        if(!error.isEmpty()){
+            request.setAttribute("ERROR", error);
+            request.getRequestDispatcher(REGISTER).forward(request, response);
+            return;
+        }
+        chain.doFilter(request, response);
+    }
+
+    private Map<String,String> doValidate(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
         
-            System.out.println("Hello world");
-            chain.doFilter(request, response);
+        //Get value
+        String username = request.getParameter("txtUsername");
+        String password = request.getParameter("pwfPassword");
+        String confirmPassword = request.getParameter("pwfConfirmPassword");
+        String name = request.getParameter("txtName");
+        String address = request.getParameter("txtAddress");
+        String phoneNumber = request.getParameter("txtPhoneNumber");
+        String email = request.getParameter("txtEmail");
+        String identityCard = request.getParameter("identityCard");
+        String agree = request.getParameter("cbAgree");
+        
+        //Validate
+        Map<String,String> error = new HashMap<>();
+        if(username == null || username.length() == 0){
+            error.put("USERNAME", "User name cannot be blank.");
+        }
+        if(password == null || password.length() == 0){
+            error.put("PASSWORD", "Password cannot be blank.");
+        }
+        if(confirmPassword == null || !confirmPassword.equals(password)){
+            error.put("CONFIRM-PASSWORD", "Confirm password doesn't match the password.");
+        }
+        if(name == null || name.length() == 0){
+            error.put("NAME", "Name cannot be blank");
+        }
+        if(address == null || address.length() == 0){
+            error.put("ADDRESS", "Address cannot be blank");
+        }
+        if(phoneNumber == null || phoneNumber.length() == 0){
+            error.put("PHONE", "Phone number cannot be blank");
+        }
+        else{
+            if(!Pattern.matches("[0-9]{9,11}", phoneNumber)){
+                error.put("PHONE", "Phone number's length must be from 9 to 11 numbers");
+            }
+        }
+        if(email == null || email.length() == 0){
+            error.put("EMAIL", "E-mail cannot be blank.");
+        }
+        else{
+            if(!Pattern.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\\.[a-zA-Z]+)+", email)){
+                error.put("EMAIL","E-mail is not in the correct format.");
+            }
+        }
+        if(identityCard == null || identityCard.length() == 0){
+            error.put("IDENTITY-CARD", "Identity card cannot be blank");
+        }
+        if(agree == null || agree.length() == 0){
+            error.put("AGREE-THE-POLICY","Please agree with our policy");
+        }
+        return error;
     }
 
     /**
@@ -123,16 +186,16 @@ public class RegisterFilter implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {        
+    public void destroy() {
     }
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {        
+    public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {                
+            if (debug) {
                 log("RegisterFilter:Initializing filter");
             }
         }
@@ -151,20 +214,20 @@ public class RegisterFilter implements Filter {
         sb.append(")");
         return (sb.toString());
     }
-    
+
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);        
-        
+        String stackTrace = getStackTrace(t);
+
         if (stackTrace != null && !stackTrace.equals("")) {
             try {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);                
+                PrintWriter pw = new PrintWriter(ps);
                 pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
 
                 // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
-                pw.print(stackTrace);                
+                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
+                pw.print(stackTrace);
                 pw.print("</pre></body>\n</html>"); //NOI18N
                 pw.close();
                 ps.close();
@@ -181,7 +244,7 @@ public class RegisterFilter implements Filter {
             }
         }
     }
-    
+
     public static String getStackTrace(Throwable t) {
         String stackTrace = null;
         try {
@@ -195,9 +258,9 @@ public class RegisterFilter implements Filter {
         }
         return stackTrace;
     }
-    
+
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);        
+        filterConfig.getServletContext().log(msg);
     }
-    
+
 }
