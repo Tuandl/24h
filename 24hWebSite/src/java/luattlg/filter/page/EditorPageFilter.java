@@ -3,19 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package luattlg.filter;
+package luattlg.filter.page;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -23,29 +18,32 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DTOs.ArticleDTO;
-import tuanvxm.other.Category;
 
 /**
-* Filter for loading the article of the home page
+ * This filter to check if user is editor or not.
+ * 
  */
-@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/home.jsp"})
-public class HomePageFilter implements Filter {
-    
+@WebFilter(filterName = "EditorPageFilter", urlPatterns = {"/editor.jsp"})
+public class EditorPageFilter implements Filter {
+
     private static final boolean debug = true;
-    private static final int GETTOP = 15;
-    private static final int STARTDAY = 3;
-    
+
+    // The filter configuration object we are associated with.  If
+    // this value is null, this filter instance is not currently
+    // configured. 
     private FilterConfig filterConfig = null;
-    
-    public HomePageFilter() {
-    }    
-    
+
+    public EditorPageFilter() {
+    }
+
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("HomePageFilter:DoBeforeProcessing");
+            log("EditorPageFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -68,12 +66,12 @@ public class HomePageFilter implements Filter {
 	    log(buf.toString());
 	}
          */
-    }    
-    
+    }
+
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("HomePageFilter:DoAfterProcessing");
+            log("EditorPageFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -107,23 +105,25 @@ public class HomePageFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-       
-            //Load article 
-            Map<String,ArrayList<ArticleDTO>> articleWithCategory = new HashMap<>();
-            List<Category> listOfCategory = (ArrayList<Category>)request.getServletContext().getAttribute("CATEGORY-LIST");
-            for(Category category : listOfCategory){
-                ArrayList<ArticleDTO> articles = (ArrayList<ArticleDTO>) new ArticleDAO().findByCategoryIDAndStatus(category.getCategoryID(), ArticleDTO.STATUS_AVAILABLE);
-                articleWithCategory.put(category.getName(), articles);
-            }
-            
-            //Get trending article count from now-GETTOP day
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date());
-            calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
-            Timestamp time = new Timestamp(calendar.getTime().getTime());
-            ArrayList<ArticleDTO> articles = (ArrayList)new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
-            request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);
-            chain.doFilter(request, response);     
+        //Check role
+        HttpServletRequest httpRequest = (HttpServletRequest)request;
+        String role = (String)httpRequest.getSession().getAttribute("ROLE");
+        if(role == null || !role.equalsIgnoreCase("editor")){
+            HttpServletResponse httpResponse = (HttpServletResponse)response;
+            httpResponse.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "This page is only for editor. Please login to editor account to access the page.");
+            return;
+        }
+        
+        //Load article for editor
+        List<ArticleDTO> availableArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_AVAILABLE);
+        List<ArticleDTO> newArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_NEW);
+        List<ArticleDTO> hidedArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_HIDED);
+        
+        request.setAttribute("AVAILABLE-ARTICLE-LIST", availableArticleList);
+        request.setAttribute("NEW-ARTICLE-LIST", newArticleList);
+        request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList);
+        chain.doFilter(request, response);
+
     }
 
     /**
@@ -145,17 +145,17 @@ public class HomePageFilter implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {        
+    public void destroy() {
     }
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {        
+    public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {                
-                log("HomePageFilter:Initializing filter");
+            if (debug) {
+                log("EditorPageFilter:Initializing filter");
             }
         }
     }
@@ -166,27 +166,27 @@ public class HomePageFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("HomePageFilter()");
+            return ("EditorPageFilter()");
         }
-        StringBuffer sb = new StringBuffer("HomePageFilter(");
+        StringBuffer sb = new StringBuffer("EditorPageFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
     }
-    
+
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);        
-        
+        String stackTrace = getStackTrace(t);
+
         if (stackTrace != null && !stackTrace.equals("")) {
             try {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);                
+                PrintWriter pw = new PrintWriter(ps);
                 pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
 
                 // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
-                pw.print(stackTrace);                
+                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
+                pw.print(stackTrace);
                 pw.print("</pre></body>\n</html>"); //NOI18N
                 pw.close();
                 ps.close();
@@ -203,7 +203,7 @@ public class HomePageFilter implements Filter {
             }
         }
     }
-    
+
     public static String getStackTrace(Throwable t) {
         String stackTrace = null;
         try {
@@ -217,9 +217,9 @@ public class HomePageFilter implements Filter {
         }
         return stackTrace;
     }
-    
+
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);        
+        filterConfig.getServletContext().log(msg);
     }
-    
+
 }

@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package luattlg.filter;
+package luattlg.filter.action;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -20,30 +21,27 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tuanvxm.DAOs.ArticleDAO;
-import tuanvxm.DTOs.ArticleDTO;
 
 /**
- * This filter to check if user is editor or not.
- * 
+ * Filter to validate the data load in Register
  */
-@WebFilter(filterName = "EditorPageFilter", urlPatterns = {"/editor.jsp"})
-public class EditorPageFilter implements Filter {
+@WebFilter(filterName = "RegisterActionFilter", urlPatterns = {"/Register.action"})
+public class RegisterActionFilter implements Filter {
 
     private static final boolean debug = true;
-
+    private static final String REGISTER = "home.jsp";
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
 
-    public EditorPageFilter() {
+    public RegisterActionFilter() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("EditorPageFilter:DoBeforeProcessing");
+            log("RegisterFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -71,7 +69,7 @@ public class EditorPageFilter implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("EditorPageFilter:DoAfterProcessing");
+            log("RegisterFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -105,25 +103,68 @@ public class EditorPageFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        //Check role
-        HttpServletRequest httpRequest = (HttpServletRequest)request;
-        String role = (String)httpRequest.getSession().getAttribute("ROLE");
-        if(!role.equalsIgnoreCase("editor")){
-            HttpServletResponse httpResponse = (HttpServletResponse)response;
-            httpResponse.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "This page is only for editor. Please login to editor account to access the page.");
+        Map<String,String> error = doValidate((HttpServletRequest) request,(HttpServletResponse) response);
+        if(!error.isEmpty()){
+            request.setAttribute("ERROR", error);
+            request.getRequestDispatcher(REGISTER).forward(request, response);
             return;
         }
-        
-        //Load article for editor
-        List<ArticleDTO> availableArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_AVAILABLE);
-        List<ArticleDTO> newArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_NEW);
-        List<ArticleDTO> hidedArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_HIDED);
-        
-        request.setAttribute("AVAILABLE-ARTICLE-LIST", availableArticleList);
-        request.setAttribute("NEW-ARTICLE-LIST", newArticleList);
-        request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList);
         chain.doFilter(request, response);
+    }
 
+    private Map<String,String> doValidate(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
+        
+        //Get value
+        String username = request.getParameter("txtUsername");
+        String password = request.getParameter("pwfPassword");
+        String confirmPassword = request.getParameter("pwfConfirmPassword");
+        String name = request.getParameter("txtName");
+        String address = request.getParameter("txtAddress");
+        String phoneNumber = request.getParameter("txtPhoneNumber");
+        String email = request.getParameter("txtEmail");
+        String identityCard = request.getParameter("identityCard");
+        String agree = request.getParameter("cbAgree");
+        
+        //Validate
+        Map<String,String> error = new HashMap<>();
+        if(username == null || username.length() == 0){
+            error.put("USERNAME", "User name cannot be blank.");
+        }
+        if(password == null || password.length() == 0){
+            error.put("PASSWORD", "Password cannot be blank.");
+        }
+        if(confirmPassword == null || !confirmPassword.equals(password)){
+            error.put("CONFIRM-PASSWORD", "Confirm password doesn't match the password.");
+        }
+        if(name == null || name.length() == 0){
+            error.put("NAME", "Name cannot be blank");
+        }
+        if(address == null || address.length() == 0){
+            error.put("ADDRESS", "Address cannot be blank");
+        }
+        if(phoneNumber == null || phoneNumber.length() == 0){
+            error.put("PHONE", "Phone number cannot be blank");
+        }
+        else{
+            if(!Pattern.matches("[0-9]{9,11}", phoneNumber)){
+                error.put("PHONE", "Phone number's length must be from 9 to 11 numbers");
+            }
+        }
+        if(email == null || email.length() == 0){
+            error.put("EMAIL", "E-mail cannot be blank.");
+        }
+        else{
+            if(!Pattern.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\\.[a-zA-Z]+)+", email)){
+                error.put("EMAIL","E-mail is not in the correct format.");
+            }
+        }
+        if(identityCard == null || identityCard.length() == 0){
+            error.put("IDENTITY-CARD", "Identity card cannot be blank");
+        }
+        if(agree == null || agree.length() == 0){
+            error.put("AGREE-THE-POLICY","Please agree with our policy");
+        }
+        return error;
     }
 
     /**
@@ -155,7 +196,7 @@ public class EditorPageFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("EditorPageFilter:Initializing filter");
+                log("RegisterFilter:Initializing filter");
             }
         }
     }
@@ -166,9 +207,9 @@ public class EditorPageFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("EditorPageFilter()");
+            return ("RegisterFilter()");
         }
-        StringBuffer sb = new StringBuffer("EditorPageFilter(");
+        StringBuffer sb = new StringBuffer("RegisterFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());

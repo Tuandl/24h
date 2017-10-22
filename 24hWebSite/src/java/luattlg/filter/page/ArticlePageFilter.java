@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package luattlg.filter;
+package luattlg.filter.page;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -30,8 +30,8 @@ import tuanvxm.DTOs.UserDTO;
  * If that user is the one who hide the comment : they will see the comment they hided and available comments
  * Else they just see the available comments.
  */
-@WebFilter(filterName = "ReadArticleFilter", urlPatterns = {"/article.jsp"})
-public class ReadArticleFilter implements Filter {
+@WebFilter(filterName = "AreticlePageFilter", urlPatterns = {"/article.jsp"})
+public class ArticlePageFilter implements Filter {
 
     private static final boolean debug = true;
 
@@ -40,7 +40,7 @@ public class ReadArticleFilter implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
 
-    public ReadArticleFilter() {
+    public ArticlePageFilter() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
