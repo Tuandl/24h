@@ -20,6 +20,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.CommentDTO;
 import tuanvxm.DTOs.UserDTO;
 
@@ -106,8 +108,13 @@ public class ReadArticleFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-
+      
         HttpServletRequest httpRequest = (HttpServletRequest) request;
+        ArticleDTO article = (ArticleDTO)httpRequest.getAttribute("ARTICLE");
+        if(article == null){
+            HttpServletResponse httpResponse = (HttpServletResponse)response;
+            httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "Please enter by choosing an article");
+        }
         UserDTO user = (UserDTO) httpRequest.getSession().getAttribute("USER");
         int userID = -1;
         if(user != null){
