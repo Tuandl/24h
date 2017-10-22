@@ -9,26 +9,22 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletRequestWrapper;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tuanvxm.DAOs.ArticleDAO;
-import tuanvxm.DTOs.ArticleDTO;
 
 /**
- * This filter to check if user is editor or not.
- * 
+ *Set role to guest when time out or first run.
  */
-@WebFilter(filterName = "EditorPageFilter", urlPatterns = {"/editor.jsp"})
-public class EditorPageFilter implements Filter {
+@WebFilter(filterName = "GeneralFilter", urlPatterns = {"/*"})
+public class GeneralFilter implements Filter {
 
     private static final boolean debug = true;
 
@@ -37,13 +33,13 @@ public class EditorPageFilter implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
 
-    public EditorPageFilter() {
+    public GeneralFilter() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("EditorPageFilter:DoBeforeProcessing");
+            log("GeneralFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -71,7 +67,7 @@ public class EditorPageFilter implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("EditorPageFilter:DoAfterProcessing");
+            log("GeneralFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -105,23 +101,13 @@ public class EditorPageFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        //Check role
+        
         HttpServletRequest httpRequest = (HttpServletRequest)request;
         String role = (String)httpRequest.getSession().getAttribute("ROLE");
-        if(!role.equalsIgnoreCase("editor")){
-            HttpServletResponse httpResponse = (HttpServletResponse)response;
-            httpResponse.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "This page is only for editor. Please login to editor account to access the page.");
-            return;
+        if(role == null){
+            httpRequest.getSession().setAttribute("ROLE", "guest");
         }
-        
-        //Load article for editor
-        List<ArticleDTO> availableArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_AVAILABLE);
-        List<ArticleDTO> newArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_NEW);
-        List<ArticleDTO> hidedArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_HIDED);
-        
-        request.setAttribute("AVAILABLE-ARTICLE-LIST", availableArticleList);
-        request.setAttribute("NEW-ARTICLE-LIST", newArticleList);
-        request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList);
+   
         chain.doFilter(request, response);
 
     }
@@ -155,7 +141,7 @@ public class EditorPageFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("EditorPageFilter:Initializing filter");
+                log("GeneralFilter:Initializing filter");
             }
         }
     }
@@ -166,9 +152,9 @@ public class EditorPageFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("EditorPageFilter()");
+            return ("GeneralFilter()");
         }
-        StringBuffer sb = new StringBuffer("EditorPageFilter(");
+        StringBuffer sb = new StringBuffer("GeneralFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
