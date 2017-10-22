@@ -30,7 +30,7 @@ import tuanvxm.DTOs.UserDTO;
  * If that user is the one who hide the comment : they will see the comment they hided and available comments
  * Else they just see the available comments.
  */
-@WebFilter(filterName = "ReadArticleFilter", urlPatterns = {"/article.jsp"}, dispatcherTypes = {DispatcherType.FORWARD})
+@WebFilter(filterName = "ReadArticleFilter", urlPatterns = {"/article.jsp"})
 public class ReadArticleFilter implements Filter {
 
     private static final boolean debug = true;
