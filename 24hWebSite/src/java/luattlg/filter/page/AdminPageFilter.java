@@ -27,11 +27,13 @@ import tuanvxm.other.Role;
 
 /**
  * Filter for checking role and load data 
- * for admin page.
+ * for admin page. If it's not admin, redirect to
+ * Home page.
  */
 @WebFilter(filterName = "AdminPageFilter", urlPatterns = {"/admin.jsp"})
 public class AdminPageFilter implements Filter {
 
+    private static final String HOME = "home.jsp";
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
@@ -112,7 +114,8 @@ public class AdminPageFilter implements Filter {
         String role = (String)httpRequest.getSession().getAttribute("ROLE");
         if(role == null || !role.equalsIgnoreCase("admin")){
             HttpServletResponse httpResponse = (HttpServletResponse)response;
-            httpResponse.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "This page is only for admin. Please login to admin account to access the page.");
+            httpResponse.sendRedirect(HOME);
+            return;
         }
                 
         List<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");

@@ -25,12 +25,14 @@ import tuanvxm.DTOs.ArticleDTO;
 
 /**
  * This filter to check if user is editor or not.
+ * If it's not editor, redirect to home.
  * 
  */
 @WebFilter(filterName = "EditorPageFilter", urlPatterns = {"/editor.jsp"})
 public class EditorPageFilter implements Filter {
 
     private static final boolean debug = true;
+    private static final String HOME = "home.jsp";
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
@@ -110,7 +112,7 @@ public class EditorPageFilter implements Filter {
         String role = (String)httpRequest.getSession().getAttribute("ROLE");
         if(role == null || !role.equalsIgnoreCase("editor")){
             HttpServletResponse httpResponse = (HttpServletResponse)response;
-            httpResponse.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "This page is only for editor. Please login to editor account to access the page.");
+            httpResponse.sendRedirect(HOME);
             return;
         }
         
