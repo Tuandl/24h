@@ -1,0 +1,72 @@
+.article-preview {
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.article-preview .article-title {
+    margin: 10px 0px 10px 0px;
+    display: block;
+    font-size: 1.5em;
+    font-weight: 400;
+    overflow: hidden;
+    display: -webkit-box;
+    margin-bottom: 10px;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    line-height: 25px;
+}
+
+.article-preview.article-highline .article-title {
+    font-size: 2.3em;
+    font-weight: 400;
+    line-height: 50px;
+    -webkit-line-clamp: 2;
+}
+
+.article-preview .article-content {
+    overflow: hidden;
+    display: -webkit-box;
+    margin-bottom: 10px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.section a {
+    text-decoration: none;
+    color: #333333;
+}
+
+.section .section-title {
+    margin-bottom: 15px;
+}
+
+.section .section-title .material-icons {
+    vertical-align: middle;
+    font-size: inherit;
+}
+
+.article-preview .article-author {
+    text-align: right;
+    display: block;
+    font-style: italic;
+}
+
+.section:not(:first-child) {
+    padding-top: 20px;
+    border-top: thin solid rgba(33, 33, 33, 0.47);
+}
+
+.square-img {
+    width: 9em;
+    height: 9em;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.square-img img {
+    width: auto;
+    height: 100%;
+    max-width: max-content;
+}

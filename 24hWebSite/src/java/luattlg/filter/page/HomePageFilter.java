@@ -30,7 +30,7 @@ import tuanvxm.other.Category;
 /**
 * Filter for loading the article of the home page
  */
-@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/home.jsp"})
+@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/index.html"})
 public class HomePageFilter implements Filter {
     
     private static final boolean debug = true;

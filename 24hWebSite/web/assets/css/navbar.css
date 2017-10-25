@@ -1,0 +1,59 @@
+nav .logo-container .logo img {
+    height: 50px;
+}
+
+.navbar .navbar-form .input-group .input-group-btn button {
+    background-image: none;
+}
+
+.navbar.navbar-white {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.navbar.navbar-white .navbar-form .form-group input.form-control::-moz-placeholder,
+.navbar.navbar-white .navbar-form input.form-control::-moz-placeholder {
+    color: #000000;
+}
+
+.navbar.navbar-white .navbar-form .form-group input.form-control:-ms-input-placeholder,
+.navbar.navbar-white .navbar-form input.form-control:-ms-input-placeholder {
+    color: #000000;
+}
+
+.navbar.navbar-white .navbar-form .form-group input.form-control::-webkit-input-placeholder,
+.navbar.navbar-white .navbar-form input.form-control::-webkit-input-placeholder {
+    color: #000000;
+}
+
+.navbar.navbar-white .dropdown-menu {
+    border-radius: 3px !important;
+}
+
+.navbar.navbar-white .dropdown-menu li>a:hover,
+.navbar.navbar-white .dropdown-menu li>a:focus {
+    color: #000000;
+    background-color: #FFFFFF;
+}
+
+.navbar.navbar-white .dropdown-menu .active>a {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.navbar.navbar-white .dropdown-menu .active>a:hover,
+.navbar.navbar-white .dropdown-menu .active>a:focus {
+    color: #000000;
+}
+
+@media (min-width:768px) {
+    .navbar .navbar-form {
+        /* margin-right: 50px; */
+        margin-top: 10px;
+    }
+}
+
+.datepicker {
+    /* position: relative; */
+    z-index: 9999 !important;
+}

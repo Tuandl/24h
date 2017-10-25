@@ -1,0 +1,67 @@
+.banner .article-preview .article-preview-img {
+    width: 80px;
+    height: 80px;
+}
+
+.article-preview a {
+    text-decoration: none;
+    color: #333;
+}
+
+.article-preview.article-preview-small {
+    margin-bottom: 15px;
+}
+
+.article-preview.article-preview-small .article-preview-title {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    margin-bottom: 5px;
+    font-weight: 400;
+    font-size: 1.1em;
+}
+
+.article-preview.article-preview-small .article-preview-author {
+    text-align: right;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+.article-preview.article-preview-highline .article-preview-title {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    font-size: 2.0em;
+    line-height: 1.1em;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.article-preview.article-preview-highline .article-preview-main-content {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    margin-bottom: 10px;
+    font-weight: 1.1em;
+}
+
+.article-preview.article-preview-highline .article-preview-author {
+    text-align: right;
+    font-style: italic;
+}
+
+.article-preview .article-preview-img {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    float: left;
+    margin-right: 10px;
+}
+
+.article-preview .article-preview-img img {
+    height: 105%;
+    width: auto;
+}

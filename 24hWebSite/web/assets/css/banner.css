@@ -1,0 +1,43 @@
+.banner .article-preview .article-preview-img {
+    display: block;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    float: left;
+    margin-right: 0.7em;
+}
+
+.banner .article-preview .article-preview-img img {
+    height: 110%;
+    width: auto;
+}
+
+.banner .banner-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.banner .banner-content .article-preview .article-preview-header {
+    font-size: 1.2em;
+    font-weight: 600;
+    overflow: hidden;
+    display: -webkit-box;
+    margin-bottom: 10px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.banner .article-preview a {
+    text-decoration: none;
+    color: #333;
+}
+
+.banner .article-preview {
+    margin-bottom: 1em;
+}
+
+.banner .article-preview-author {
+    text-align: right;
+    font-style: italic;
+}

@@ -1,0 +1,37 @@
+.form-group .control-label.control-label-normal {
+    font-size: 1.5em;
+    color: #333;
+    margin: 0px;
+}
+
+.create-article .create-article-title {
+    width: 500px;
+    margin-right: auto;
+}
+
+.create-article .create-article-category {
+    width: 300px;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.create-article .create-article-main-content {
+    width: 100%;
+    /* margin-left: auto;
+    margin-right: auto; */
+    margin-top: 10px;
+}
+
+.create-article .create-article-content {
+    margin-top: 10px;
+}
+
+.center-block {
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-submit-area button {
+    float: right;
+}

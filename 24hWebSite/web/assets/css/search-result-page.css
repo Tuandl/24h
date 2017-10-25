@@ -1,0 +1,56 @@
+.search-results .article-preview .article-preview-img {
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin-right: 10px;
+}
+
+.search-results .article-preview .article-preview-img img {
+    height: 100%;
+}
+
+.search-results .article-preview .article-preview-title {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-weight: 600;
+}
+
+.search-results .article-preview .article-preview-main-content {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.search-results .article-preview .article-preview-author {
+    font-size: 0.9em;
+    font-style: italic;
+    text-align: right;
+    margin-top: 5px;
+}
+
+.search-results .article-preview a {
+    text-decoration: none;
+    color: #333;
+}
+
+.search-results .article-preview {
+    margin-bottom: 10px;
+}
+
+.section.search-results {
+    padding: 22px 0 10px 0;
+}
+
+.search-result-keyword {
+    font-size: 2.0em;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+
+.search-result-count {
+    margin-top: 5px;
+}

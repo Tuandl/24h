@@ -1,0 +1,12 @@
+.header-title {
+    color: white;
+    min-height: 210px;
+}
+
+.header.header-filter {
+    position: absolute;
+    min-height: 300px;
+    width: 100%;
+    z-index: -1;
+    top: 70px;
+}

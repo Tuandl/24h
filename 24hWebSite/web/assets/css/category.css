@@ -1,0 +1,12 @@
+.category-menu {
+    position: relative;
+    z-index: 4;
+    /* top: 210px; */
+    padding: 5px;
+}
+
+@media (min-width:768px) {
+    .navbar.category-menu .navbar-collapse {
+        float: right;
+    }
+}

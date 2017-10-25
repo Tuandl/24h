@@ -29,7 +29,7 @@ import tuanvxm.other.RoleList;
 @WebServlet(name = "InitServlet", urlPatterns = {"/Init.action"})
 public class InitServlet extends HttpServlet {
     
-    private static final String HOMEPAGE = "home.jsp";
+    private static final String HOMEPAGE = "tuanda/index.html";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

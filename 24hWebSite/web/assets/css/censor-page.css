@@ -1,0 +1,45 @@
+article .article-preview .article-preview-img {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    float: left;
+    margin-right: 10px;
+}
+
+article .article-preview .article-preview-img img {
+    height: 100%;
+}
+
+article .article-preview a {
+    text-decoration: none;
+    color: #333;
+}
+
+article .article-preview .article-preview-header {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-size: 1.3em;
+    font-weight: 500;
+    line-height: 1.3em;
+    margin-bottom: 7px;
+}
+
+article .article-preview .article-preview-main-content {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+article .article-preview .article-preview-author {
+    text-align: right;
+    font-style: italic;
+    font-size: small;
+    margin-top: 4px;
+}
+
+article .article-preview {
+    margin-bottom: 15px;
+}
