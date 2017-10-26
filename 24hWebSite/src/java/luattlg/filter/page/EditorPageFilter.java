@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -28,7 +29,8 @@ import tuanvxm.DTOs.ArticleDTO;
  * If it's not editor, redirect to home.
  * 
  */
-@WebFilter(filterName = "EditorPageFilter", urlPatterns = {"/editor.jsp"})
+@WebFilter(filterName = "EditorPageFilter", urlPatterns = {"/editor.jsp"}, 
+        dispatcherTypes = {DispatcherType.FORWARD,DispatcherType.REQUEST})
 public class EditorPageFilter implements Filter {
 
     private static final boolean debug = true;

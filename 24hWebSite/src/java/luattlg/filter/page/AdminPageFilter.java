@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -30,7 +31,8 @@ import tuanvxm.other.Role;
  * for admin page. If it's not admin, redirect to
  * Home page.
  */
-@WebFilter(filterName = "AdminPageFilter", urlPatterns = {"/admin.jsp"})
+@WebFilter(filterName = "AdminPageFilter", urlPatterns = {"/admin.jsp"}, 
+        dispatcherTypes = {DispatcherType.FORWARD,DispatcherType.REQUEST})
 public class AdminPageFilter implements Filter {
 
     private static final String HOME = "home.jsp";

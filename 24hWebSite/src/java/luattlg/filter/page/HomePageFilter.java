@@ -36,7 +36,8 @@ import tuanvxm.other.Role;
 /**
  * Filter for loading the article of the home page
  */
-@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/tuanda/index.jsp"}, dispatcherTypes = {DispatcherType.FORWARD,DispatcherType.REQUEST})
+@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/tuanda/index.jsp"}, 
+        dispatcherTypes = {DispatcherType.FORWARD,DispatcherType.REQUEST})
 public class HomePageFilter implements Filter {
 
     private static final boolean debug = true;

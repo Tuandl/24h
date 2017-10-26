@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="java.util.Map"%>
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@page import="tuanvxm.DTOs.ArticleDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
@@ -54,11 +53,11 @@
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="article-preview article-highline">
-                                    <a href="${firstArticle.articleID}">
+                                    <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${firstArticle.articleID}&articleCreator=${firstArticle.creator}">
                                         <img class="img-responsive" src="${firstArticle.thumbnail}" alt="article thumbnail">
                                         <span class="article-title">${firstArticle.title}</span>
                                         <span class="article-content">${firstArticle.headline}</span>
-                                        <span class="article-author">${firstArticle.creatorID}</span>
+                                        <span class="article-author">${firstArticle.creator}</span>
                                     </a>
                                 </div>
                             </div>
@@ -68,12 +67,12 @@
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="article-preview">
-                                                    <a href="${article.articleID}}">
+                                                    <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${article.articleID}&articleCreator=${firstArticle.creator}}">
                                                         <div class="square-img">
                                                             <img class="" src="${article.thumbnail}" alt="thumbnail article">
                                                         </div>
                                                         <span class="article-title">${article.title}</span>
-                                                        <span class="article-author">${article.creatorID}</span>
+                                                        <span class="article-author">${article.creator}</span>
                                                     </a>
                                                 </div>
                                             </div>

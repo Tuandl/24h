@@ -30,7 +30,7 @@ import tuanvxm.DTOs.UserDTO;
 @WebServlet(name = "ReadArticleServlet", urlPatterns = {"/ReadArticle.action"})
 public class ReadArticleServlet extends HttpServlet {
     
-    private static final String ARTICLE = "article.jsp";
+    private static final String ARTICLE = "tuanda/article.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

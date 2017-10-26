@@ -4,6 +4,7 @@
     Author     : TUANDASE62310
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="header header-filter" style="background-image: url('${pageContext.request.contextPath}/assets/img/bg4.jpeg');position: absolute;"></div>
@@ -11,7 +12,7 @@
     <div class="container header-title">
         <div class="row">
             <div class="col-md-6">
-                <h1 class="title"></h1>
+                <h1 class="title">${param.title}</h1>
                 <h4></h4>
             </div>
         </div>
@@ -32,24 +33,150 @@
             </div>
             <div class="collapse navbar-collapse" id="category-navbar">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="1">Tin hằng ngày</a></li>
-                    <li><a href="2">Thể thao</a></li>
-                    <li><a href="3">Thế giới</a></li>
-                    <li><a href="4">Thời trang</a></li>
-                    <li><a href="5">An ninh - xã hội</a></li>
-                    <li><a href="6">Hi-tech</a></li>
-                    <li><a href="7">Tài chính - Địa ốc</a></li>
-                    <li><a href="8">Ẩm thực</a></li>
-                    <li><a href="9">Sắc đẹp</a></li>
-                    <li><a href="10">Showbiz</a></li>
-                    <li><a href="11">Giải trí</a></li>
-                    <li><a href="12">Nhịp sống trẻ</a></li>
-                    <li><a href="13">Giáo dục</a></li>
-                    <li><a href="14">Ô tô</a></li>
-                    <li><a href="15">Xe máy</a></li>
-                    <li><a href="16">Thị trường - Tiêu dùng</a></li>
-                    <li><a href="17">Du lịch</a></li>
-                    <li><a href="18">Sức khỏe</a></li>
+                    <c:choose>
+                        <c:when test="${param.categoryId eq 1}">
+                            <li class="active"><a href="1">Tin hằng ngày</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="1">Tin hằng ngày</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="2">Thể thao</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="2">Thể thao</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="3">Thế giới</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="3">Thế giới</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="4">Thời trang</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="4">Thời trang</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="5">An ninh - xã hội</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="5">An ninh - xã hội</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="6">Hi-tech</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="6">Hi-tech</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="7">Tài chính - Địa ốc</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="7">Tài chính - Địa ốc</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="8">Ẩm thực</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="8">Ẩm thực</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="9">Sắc đẹp</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="9">Sắc đẹp</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="10">Showbiz</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="10">Showbiz</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="11">Giải trí</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="11">Giải trí</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="12">Nhịp sống trẻ</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="12">Nhịp sống trẻ</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="13">Giáo dục</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="13">Giáo dục</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="14">Ô tô</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="14">Ô tô</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="15">Xe máy</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="15">Xe máy</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="16">Thị trường - Tiêu dùng</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="16">Thị trường - Tiêu dùng</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="17">Du lịch</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="17">Du lịch</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${param.categoryId eq 2}">
+                            <li class="active"><a href="18">Sức khỏe</a></li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="18">Sức khỏe</a></li>
+                            </c:otherwise>
+                        </c:choose>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             Mục khác
