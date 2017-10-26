@@ -18,7 +18,7 @@
             <jsp:param name="title" value="24h Trang Chủ"/>
         </jsp:include>
         <!--css for current page-->
-        <link rel="stylesheet" href="../assets/css/index-page.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/index-page.css">
     </head>
     <body class="template-page">
         <jsp:include page="partial/navbar.jsp"/>
@@ -26,6 +26,12 @@
             <jsp:include page="partial/categories.jsp"/>
             <div class="main">
                 <div class="container">
+                    <jsp:include page="partial/notification.jsp">
+                        <jsp:param name="ERROR" value="${requestScope.ERROR}"/>
+                        <jsp:param name="INFO" value="${requestScope.INFO}"/>
+                        <jsp:param name="SUCCESS" value="${requestScope.SUCCESS}"/>
+                        <jsp:param name="WARNING" value="${requestScope.WARNING}"/>
+                    </jsp:include>
                     <%
                         HashMap<String, ArrayList<ArticleDTO>> articalListByCategory
                                 = (HashMap<String, ArrayList<ArticleDTO>>) request.getAttribute("ARTICLE-LIST-BY-CATEGORY");
@@ -92,7 +98,7 @@
 
         <jsp:include page="partial/common-js.jsp"/>
         <!-- javascript for current page -->
-        <script src="../assets/js/index.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/index.js" type="text/javascript"></script>
     </body>
 
 

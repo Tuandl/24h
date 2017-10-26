@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<div class="header header-filter" style="background-image: url('../assets/img/bg4.jpeg');position: absolute;"></div>
+<div class="header header-filter" style="background-image: url('${pageContext.request.contextPath}/assets/img/bg4.jpeg');position: absolute;"></div>
 <div class="header">
     <div class="container header-title">
         <div class="row">

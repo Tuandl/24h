@@ -1,16 +1,17 @@
-var imgURLs = ["../assets/img/bg-forum.jpg",
-    "../assets/img/bg-gui.jpg",
-    "../assets/img/bg-home-student-header.jpg",
-    "../assets/img/bg-license.jpg",
-    "../assets/img/bg-rank.jpg",
-    "../assets/img/bg.jpg",
-    "../assets/img/bg2.jpeg",
-    "../assets/img/bg3.jpeg",
-    "../assets/img/bg4.jpeg",
-    "../assets/img/bg5.jpeg",
-    "../assets/img/bg6.jpg",
-    "../assets/img/city.jpg",
-    "../assets/img/live-music.jpg"
+
+var imgURLs = ["/24hWebSite/assets/img/bg-forum.jpg",
+    "/24hWebSite/assets/img/bg-gui.jpg",
+    "/24hWebSite/assets/img/bg-home-student-header.jpg",
+    "/24hWebSite/assets/img/bg-license.jpg",
+    "/24hWebSite/assets/img/bg-rank.jpg",
+    "/24hWebSite/assets/img/bg.jpg",
+    "/24hWebSite/assets/img/bg2.jpeg",
+    "/24hWebSite/assets/img/bg3.jpeg",
+    "/24hWebSite/assets/img/bg4.jpeg",
+    "/24hWebSite/assets/img/bg5.jpeg",
+    "/24hWebSite/assets/img/bg6.jpg",
+    "/24hWebSite/assets/img/city.jpg",
+    "/24hWebSite/assets/img/live-music.jpg"
 ];
 
 $(document).ready(function() {

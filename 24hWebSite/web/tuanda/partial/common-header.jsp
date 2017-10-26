@@ -16,10 +16,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 
 <!-- CSS Files -->
-<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-<link href="../assets/css/material-kit.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/assets/css/material-kit.css" rel="stylesheet" />
 
-<link href="../assets/css/navbar.css" rel="stylesheet" />
-<link rel="stylesheet" href="../assets/css/header.css" />
-<link rel="stylesheet" href="../assets/css/category.css" />
-<link rel="stylesheet" href="../assets/css/header-title.css">
+<link href="${pageContext.request.contextPath}/assets/css/navbar.css" rel="stylesheet" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/category.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header-title.css">

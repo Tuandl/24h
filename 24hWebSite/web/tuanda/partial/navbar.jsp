@@ -14,7 +14,7 @@
             <a href="#">
                 <div class="logo-container">
                     <div class="logo">
-                        <img src="../assets/img/logo-white-background.png" alt="24h Logo" />
+                        <img src="${pageContext.request.contextPath}/assets/img/logo-white-background.png" alt="24h Logo" />
                     </div>
                 </div>
             </a>

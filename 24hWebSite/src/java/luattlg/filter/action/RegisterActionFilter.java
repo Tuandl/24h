@@ -105,6 +105,7 @@ public class RegisterActionFilter implements Filter {
             throws IOException, ServletException {
         Map<String,String> error = doValidate((HttpServletRequest) request,(HttpServletResponse) response);
         if(!error.isEmpty()){
+            System.out.println("have error " + error.size());
             request.setAttribute("ERROR", error);
             request.getRequestDispatcher(REGISTER).forward(request, response);
             return;

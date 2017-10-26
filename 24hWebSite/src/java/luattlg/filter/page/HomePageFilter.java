@@ -114,10 +114,6 @@ public class HomePageFilter implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
 
-//        System.out.println("HERE");
-
-//        chain.doFilter(request, response);
-
         //Load article 
         Map<String, ArrayList<ArticleDTO>> articleWithCategory = new HashMap<>();
         List<Category> listOfCategory = (ArrayList<Category>) request.getServletContext().getAttribute("CATEGORY-LIST");
@@ -142,14 +138,6 @@ public class HomePageFilter implements Filter {
         Timestamp time = new Timestamp(calendar.getTime().getTime());
         ArrayList<ArticleDTO> articles = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
         request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);
-//        for (Map.Entry<String, ArrayList<ArticleDTO>> entry : articleWithCategory.entrySet()) {
-//            String key = entry.getKey();
-//            System.out.println("key = " + key);
-//            System.out.println("count value = " + entry.getValue().size());
-//            for(ArticleDTO article : entry.getValue()){
-//                System.out.println("Value = " + article.getTitle());
-//            }
-//        }
         chain.doFilter(request, response);
     }
 
