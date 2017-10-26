@@ -60,14 +60,12 @@ public class ReadArticleServlet extends HttpServlet {
             return;
         }
         
-        //Get creator of article
-        
         
         //Get comment of the article
         List<CommentDTO> commentList = new CommentDAO().findByArticleID(articleID);
         article.increaseViewCount();
         
-         UserDTO user = (UserDTO) request.getSession().getAttribute("USER");
+        UserDTO user = (UserDTO) request.getSession().getAttribute("USER");
         int userID = -1;
         if(user != null){
             userID = user.getUserID();

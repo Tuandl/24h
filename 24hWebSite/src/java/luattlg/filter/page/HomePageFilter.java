@@ -32,6 +32,7 @@ import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.Category;
 import tuanvxm.other.Role;
+import tuanvxm.other.RoleList;
 
 /**
  * Filter for loading the article of the home page
@@ -118,7 +119,8 @@ public class HomePageFilter implements Filter {
         //Load article 
         Map<String, ArrayList<ArticleDTO>> articleWithCategory = new HashMap<>();
         List<Category> listOfCategory = (ArrayList<Category>) request.getServletContext().getAttribute("CATEGORY-LIST");
-        List<UserDTO>  listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist",(ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST")));
+        ArrayList<Role> listOfRole = (ArrayList<Role>)request.getServletContext().getAttribute("ROLE-LIST");
+        List<UserDTO>  listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist",listOfRole));
         HashMap<Integer,String> mapUser;
         mapUser = new HashMap<Integer, String>();
         for(UserDTO user : listOfUserDTOs){
@@ -143,7 +145,7 @@ public class HomePageFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private int getRoleID(String rolename, List<Role> listOfRole) {
+    private int getRoleID(String rolename, ArrayList<Role> listOfRole) {
         for (Role role : listOfRole) {
             if (role.getName().equalsIgnoreCase(rolename)) {
                 return role.getRoleID();
