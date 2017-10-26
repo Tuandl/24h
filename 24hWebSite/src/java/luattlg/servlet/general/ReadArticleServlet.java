@@ -7,7 +7,10 @@ package luattlg.servlet.general;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +34,8 @@ import tuanvxm.DTOs.UserDTO;
 public class ReadArticleServlet extends HttpServlet {
     
     private static final String ARTICLE = "tuanda/article.jsp";
+    private static final int GETTOP = 15;
+    private static final int STARTDAY = 3;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -76,11 +81,17 @@ public class ReadArticleServlet extends HttpServlet {
             }
         }
         
-        
+        //Get top trend
+         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
+        Timestamp time = new Timestamp(calendar.getTime().getTime());
+        ArrayList<ArticleDTO> articles = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
 //        System.out.println("COMMENT: " + afterDeleteList.size() + " " + afterDeleteList.get(0).getContent());
         
         request.setAttribute("COMMENT-LIST", afterDeleteList);
         request.setAttribute("ARTICLE", article);
+        request.setAttribute("TOP-TREND-LIST", articles);
         
         request.getRequestDispatcher(ARTICLE).forward(request, response);
     }

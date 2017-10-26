@@ -139,6 +139,7 @@ public class HomePageFilter implements Filter {
         Timestamp time = new Timestamp(calendar.getTime().getTime());
         ArrayList<ArticleDTO> articles = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
         request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);
+        request.setAttribute("TOP-TREND-ARTICLE", articles);
         chain.doFilter(request, response);
     }
 
