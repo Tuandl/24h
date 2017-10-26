@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DAOs.CommentDAO;
+import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.CommentDTO;
 import tuanvxm.DTOs.UserDTO;
@@ -44,12 +45,18 @@ public class ReadArticleServlet extends HttpServlet {
             throws ServletException, IOException {
         
         int articleID = Integer.parseInt(request.getParameter("articleID"));
+        String articleCreator = request.getParameter("articleCreator");
         ArticleDTO article = new ArticleDAO().findByArticleID(articleID);
+        article.setCreator(articleCreator);
+        
         
         if(article == null){
             response.sendError(response.SC_NOT_FOUND, "Article not found or this article has been removed.");
             return;
         }
+        
+        //Get creator of article
+        
         
         //Get comment of the article
         List<CommentDTO> commentList = new CommentDAO().findByArticleID(articleID);
@@ -61,7 +68,7 @@ public class ReadArticleServlet extends HttpServlet {
             userID = user.getUserID();
         }
 
-        //Hide comment with
+        //Hide comment
         List<CommentDTO> afterDeleteList = new ArrayList<CommentDTO>();
         for (CommentDTO comment : commentList) {
             if (comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) || comment.getLastStatusChangerID() == userID) {
