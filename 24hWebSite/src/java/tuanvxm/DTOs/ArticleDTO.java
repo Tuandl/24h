@@ -20,7 +20,7 @@ public class ArticleDTO {
     public static final String STATUS_AVAILABLE = "Available";
     public static final String STATUS_HIDED = "Hided";
     
-    private String title, headline, content, thumbnail, status;
+    private String title, headline, content, thumbnail, status,creator;
     private int articleID, categoryID, creatorID, lastModifierID, lastStatusChangerID, viewCount; 
     private Timestamp createdTime, lastModifiedTime, lastStatusChangedTime;
 
@@ -183,6 +183,15 @@ public class ArticleDTO {
     public void setLastStatusChangedTime(Timestamp lastStatusChangedTime) {
         this.lastStatusChangedTime = lastStatusChangedTime;
     }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+    
     
     /*
     Save this DTO to database as a new article

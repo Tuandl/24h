@@ -26,8 +26,11 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import tuanvxm.DAOs.ArticleDAO;
+import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.ArticleDTO;
+import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.Category;
+import tuanvxm.other.Role;
 
 /**
  * Filter for loading the article of the home page
@@ -113,11 +116,21 @@ public class HomePageFilter implements Filter {
 //        System.out.println("HERE");
 
 //        chain.doFilter(request, response);
+
         //Load article 
         Map<String, ArrayList<ArticleDTO>> articleWithCategory = new HashMap<>();
         List<Category> listOfCategory = (ArrayList<Category>) request.getServletContext().getAttribute("CATEGORY-LIST");
+        List<UserDTO>  listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist",(ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST")));
+        HashMap<Integer,String> mapUser;
+        mapUser = new HashMap<Integer, String>();
+        for(UserDTO user : listOfUserDTOs){
+            mapUser.put(new Integer(user.getUserID()),user.getName());
+        }
         for (Category category : listOfCategory) {
             ArrayList<ArticleDTO> articles = (ArrayList<ArticleDTO>) new ArticleDAO().findByCategoryIDAndStatus(category.getCategoryID(), ArticleDTO.STATUS_AVAILABLE);
+            for(ArticleDTO article : articles){
+                article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
+            }
             articleWithCategory.put(category.getName(), articles);
         }
 
@@ -139,6 +152,15 @@ public class HomePageFilter implements Filter {
         chain.doFilter(request, response);
     }
 
+    private int getRoleID(String rolename, List<Role> listOfRole) {
+        for (Role role : listOfRole) {
+            if (role.getName().equalsIgnoreCase(rolename)) {
+                return role.getRoleID();
+            }
+
+        }
+        return 0;
+    }
     /**
      * Return the filter configuration object for this filter.
      */
