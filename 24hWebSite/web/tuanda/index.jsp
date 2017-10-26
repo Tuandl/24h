@@ -67,7 +67,7 @@
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="article-preview">
-                                                    <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${article.articleID}&articleCreator=${firstArticle.creator}}">
+                                                    <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${article.articleID}&articleCreator=${firstArticle.creator}">
                                                         <div class="square-img">
                                                             <img class="" src="${article.thumbnail}" alt="thumbnail article">
                                                         </div>

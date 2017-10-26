@@ -76,6 +76,9 @@ public class ReadArticleServlet extends HttpServlet {
             }
         }
         
+        
+//        System.out.println("COMMENT: " + afterDeleteList.size() + " " + afterDeleteList.get(0).getContent());
+        
         request.setAttribute("COMMENT-LIST", afterDeleteList);
         request.setAttribute("ARTICLE", article);
         

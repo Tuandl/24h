@@ -10,13 +10,16 @@ $(document).ready(function() {
 function controlButtonShowHide() {
     $(".comment .media").each(function(index, element) {
         // element == this
+        console.log("herre");
         if ($(this).hasClass("comment-hidden")) {
-            $(this).find("button").each(function() {
+            $(this).find("a").each(function() {
+                console.log("hidden");
                 if ($(this).text() == 'Ẩn') $(this).addClass("hidden");
                 else $(this).removeClass("hidden");
             });
         } else {
-            $(this).find("button").each(function() {
+            $(this).find("a").each(function() {
+                console.log("not hidden");
                 if ($(this).text() == 'Hiện') $(this).addClass("hidden");
                 else $(this).removeClass("hidden");
             });

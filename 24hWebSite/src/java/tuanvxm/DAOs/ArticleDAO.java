@@ -371,7 +371,23 @@ public class ArticleDAO {
     public ArticleDTO findByArticleID(int articleID) {
         ArticleDTO res = new ArticleDTO();
         try {
-            String sql = "EXEC dbo.ProcedureFindArticleByCategoryIDAndStatus @ArticleID = ?";
+            String sql = "SELECT \n" +
+"		ArticleID,\n" +
+"		Title,\n" +
+"		Headline,\n" +
+"		Content,\n" +
+"		Thumbnail,\n" +
+"		CategoryID,\n" +
+"		CreatorID,\n" +
+"		CreatedTime,\n" +
+"		LastModifierID,\n" +
+"		LastModifiedTime,\n" +
+"		[Status],\n" +
+"		LastStatusChangerID,\n" +
+"		LastStatusChangedTime,\n" +
+"		ViewCount\n" +
+"	FROM Article\n" +
+"	WHERE ArticleID = ?";
             cnn = MyConnection.getConnection();
             stm = cnn.prepareStatement(sql);
             stm.setInt(1, articleID);
