@@ -23,25 +23,27 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.other.Category;
 
 /**
-* Filter for loading the article of the home page
+ * Filter for loading the article of the home page
  */
-@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/index.html"})
+@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/tuanda/index.jsp"})
 public class HomePageFilter implements Filter {
-    
+
     private static final boolean debug = true;
     private static final int GETTOP = 15;
     private static final int STARTDAY = 3;
-    
+
     private FilterConfig filterConfig = null;
-    
+
     public HomePageFilter() {
-    }    
-    
+    }
+
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
@@ -68,8 +70,8 @@ public class HomePageFilter implements Filter {
 	    log(buf.toString());
 	}
          */
-    }    
-    
+    }
+
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
@@ -107,23 +109,34 @@ public class HomePageFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-       
-            //Load article 
-            Map<String,ArrayList<ArticleDTO>> articleWithCategory = new HashMap<>();
-            List<Category> listOfCategory = (ArrayList<Category>)request.getServletContext().getAttribute("CATEGORY-LIST");
-            for(Category category : listOfCategory){
-                ArrayList<ArticleDTO> articles = (ArrayList<ArticleDTO>) new ArticleDAO().findByCategoryIDAndStatus(category.getCategoryID(), ArticleDTO.STATUS_AVAILABLE);
-                articleWithCategory.put(category.getName(), articles);
-            }
-            
-            //Get trending article count from now-GETTOP day
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date());
-            calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
-            Timestamp time = new Timestamp(calendar.getTime().getTime());
-            ArrayList<ArticleDTO> articles = (ArrayList)new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
-            request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);
-            chain.doFilter(request, response);     
+
+//        System.out.println("HERE");
+
+//        chain.doFilter(request, response);
+        //Load article 
+        Map<String, ArrayList<ArticleDTO>> articleWithCategory = new HashMap<>();
+        List<Category> listOfCategory = (ArrayList<Category>) request.getServletContext().getAttribute("CATEGORY-LIST");
+        for (Category category : listOfCategory) {
+            ArrayList<ArticleDTO> articles = (ArrayList<ArticleDTO>) new ArticleDAO().findByCategoryIDAndStatus(category.getCategoryID(), ArticleDTO.STATUS_AVAILABLE);
+            articleWithCategory.put(category.getName(), articles);
+        }
+
+        //Get trending article count from now-GETTOP day
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
+        Timestamp time = new Timestamp(calendar.getTime().getTime());
+        ArrayList<ArticleDTO> articles = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
+        request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);
+//        for (Map.Entry<String, ArrayList<ArticleDTO>> entry : articleWithCategory.entrySet()) {
+//            String key = entry.getKey();
+//            System.out.println("key = " + key);
+//            System.out.println("count value = " + entry.getValue().size());
+//            for(ArticleDTO article : entry.getValue()){
+//                System.out.println("Value = " + article.getTitle());
+//            }
+//        }
+        chain.doFilter(request, response);
     }
 
     /**
@@ -145,16 +158,16 @@ public class HomePageFilter implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {        
+    public void destroy() {
     }
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {        
+    public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {                
+            if (debug) {
                 log("HomePageFilter:Initializing filter");
             }
         }
@@ -173,20 +186,20 @@ public class HomePageFilter implements Filter {
         sb.append(")");
         return (sb.toString());
     }
-    
+
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);        
-        
+        String stackTrace = getStackTrace(t);
+
         if (stackTrace != null && !stackTrace.equals("")) {
             try {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);                
+                PrintWriter pw = new PrintWriter(ps);
                 pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
 
                 // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
-                pw.print(stackTrace);                
+                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
+                pw.print(stackTrace);
                 pw.print("</pre></body>\n</html>"); //NOI18N
                 pw.close();
                 ps.close();
@@ -203,7 +216,7 @@ public class HomePageFilter implements Filter {
             }
         }
     }
-    
+
     public static String getStackTrace(Throwable t) {
         String stackTrace = null;
         try {
@@ -217,9 +230,9 @@ public class HomePageFilter implements Filter {
         }
         return stackTrace;
     }
-    
+
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);        
+        filterConfig.getServletContext().log(msg);
     }
-    
+
 }

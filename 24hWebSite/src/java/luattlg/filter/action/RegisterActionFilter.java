@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RegisterActionFilter implements Filter {
 
     private static final boolean debug = true;
-    private static final String REGISTER = "home.jsp";
+    private static final String REGISTER = "tuanda/index.jsp";
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 

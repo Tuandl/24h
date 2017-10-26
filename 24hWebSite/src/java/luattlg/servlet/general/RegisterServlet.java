@@ -29,7 +29,7 @@ import tuanvxm.other.RoleList;
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/Register.action"})
 public class RegisterServlet extends HttpServlet {
 
-    private static final String RESULT = "home.jsp";
+    private static final String RESULT = "tuanda/index.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -68,9 +68,11 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("OLD-INFO", user);
             }
         } catch (Exception ex) {
+            System.out.println("Register controller " + ex.getMessage());
             log(ex.getMessage());
         }
         finally{
+            System.out.println(RESULT);
             request.getRequestDispatcher(RESULT).forward(request, response);
         }
     }
