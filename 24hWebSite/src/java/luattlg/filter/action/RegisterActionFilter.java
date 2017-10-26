@@ -117,12 +117,19 @@ public class RegisterActionFilter implements Filter {
         
         //Get value
         String username = request.getParameter("txtUsername");
+        request.setAttribute("txtUsername", username);
         String password = request.getParameter("pwfPassword");
+        request.setAttribute("pwfPassword", password);
         String confirmPassword = request.getParameter("pwfConfirmPassword");
+        request.setAttribute("pwfConfirmPassword", confirmPassword);
         String name = request.getParameter("txtName");
+        request.setAttribute("txtName", name);
         String address = request.getParameter("txtAddress");
+        request.setAttribute("txtAddress", address);
         String phoneNumber = request.getParameter("txtPhoneNumber");
+        request.setAttribute("txtPhoneNumber", phoneNumber);
         String email = request.getParameter("txtEmail");
+        request.setAttribute("txtEmail", email);
         String agree = request.getParameter("cbAgree");
         
         //Validate

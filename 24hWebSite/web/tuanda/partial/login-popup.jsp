@@ -16,7 +16,8 @@
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
                                 <label class="control-label">Tên đăng nhập</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" 
+                                       name="txtUsername" value="${param.txtUsername}">
                             </div>
                         </div>
                     </div>
@@ -24,7 +25,8 @@
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
                                 <label class="control-label">Mật khẩu</label>
-                                <input type="password" class="form-control">
+                                <input type="password" class="form-control"
+                                       name="pwfPassword" value="${param.pwfPassword}">
                             </div>
                         </div>
                     </div>

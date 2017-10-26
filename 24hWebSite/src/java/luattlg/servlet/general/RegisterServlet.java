@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,8 +50,9 @@ public class RegisterServlet extends HttpServlet {
             String password = request.getParameter("pwfPassword");
             String confirmPassword = request.getParameter("pwfConfirmPassword");
             String name = request.getParameter("txtName");
-            DateFormat format = DateFormat.getDateInstance();
-            Date getTime = format.parse(request.getParameter("txtDateOfBirth"));
+//            DateFormat format = DateFormat.getDateInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            Date getTime = sdf.parse(request.getParameter("txtDateOfBirth"));
             Timestamp dateOfBirTimestamp = new Timestamp(getTime.getTime());
             int gender = GenderList.toInt(request.getParameter("cbGender"));
             String address = request.getParameter("txtAddress");
@@ -66,13 +68,22 @@ public class RegisterServlet extends HttpServlet {
                 error.put("EXISTENCE", "This user is already exist. Please choose another");
                 request.setAttribute("ERROR", error);
                 request.setAttribute("OLD-INFO", user);
+            } else {
+                request.removeAttribute("txtUsername");
+                request.removeAttribute("pwfPassword");
+                request.removeAttribute("pwfConfirmPassword");
+                request.removeAttribute("txtName");
+                request.removeAttribute("txtDateOfBirth");
+                request.removeAttribute("txtEmail");
+                request.removeAttribute("txtAddress");
+                request.removeAttribute("txtPhoneNumber");
+                request.setAttribute("SUCCESS", "Chúc mừng! bạn đã tạo tài khoảng thành công!!");
             }
         } catch (Exception ex) {
             System.out.println("Register controller " + ex.getMessage());
             log(ex.getMessage());
         }
         finally{
-            System.out.println(RESULT);
             request.getRequestDispatcher(RESULT).forward(request, response);
         }
     }

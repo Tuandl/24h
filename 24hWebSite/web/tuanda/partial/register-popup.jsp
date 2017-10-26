@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!-- Sart Sign up Modal -->
@@ -16,7 +17,8 @@
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
                                 <label class="control-label">Tên đăng nhập</label>
-                                <input type="text" name="txtUsername" class="form-control" required>
+                                <input type="text" name="txtUsername" class="form-control" required
+                                       value="${param.txtUsername}">
                             </div>
                         </div>
                     </div>
@@ -24,7 +26,8 @@
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
                                 <label class="control-label">Tên của bạn</label>
-                                <input type="text" name="txtName" class="form-control" required>
+                                <input type="text" name="txtName" class="form-control" required 
+                                       value="${param.txtName}">
                             </div>
                         </div>
                     </div>
@@ -32,7 +35,8 @@
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
                                 <label class="control-label">Mật khẩu</label>
-                                <input type="password" name="pwfPassword" class="form-control" required>
+                                <input type="password" name="pwfPassword" class="form-control" required
+                                       value="${param.pwfPassword}">
                             </div>
                         </div>
                     </div>
@@ -40,7 +44,8 @@
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
                                 <label class="control-label">Nhập lại mật khẩu</label>
-                                <input type="password" name="pwfConfirmPassword" class="form-control" required>
+                                <input type="password" name="pwfConfirmPassword" class="form-control" required
+                                       value="${param.pwfConfirmPassword}">
                             </div>
                         </div>
                     </div>
@@ -48,7 +53,15 @@
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
                                 <label class="control-label">Ngày sinh</label>
-                                <input type="text" class="form-control datepicker" value="01/01/1997" name="txtDateOfBirth">
+                                <c:choose>
+                                    <c:when test="${empty param.txtDateOfBirth}">
+                                        <input type="text" class="form-control datepicker" value="01/01/1997" name="txtDateOfBirth">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="text" class="form-control datepicker" value="${param.txtDateOfBirth}" name="txtDateOfBirth">
+                                    </c:otherwise>
+                                </c:choose>
+                                
                             </div>
                         </div>
                     </div>
@@ -58,11 +71,11 @@
                                 Giới tính:
                             </label>
                             <label>
-                                <input type="radio" name="cbGender" checked value="male">
+                                <input type="radio" name="cbGender" checked value="Nam">
                                 Nam
                             </label>
                             <label>
-                                <input type="radio" name="cbGender" value="female">
+                                <input type="radio" name="cbGender" value="Nữ">
                                 Nữ
                             </label>
                         </div>
@@ -71,7 +84,8 @@
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
                                 <label class="control-label">Địa chỉ</label>
-                                <input type="text" name="txtAddress" class="form-control" required>
+                                <input type="text" name="txtAddress" class="form-control" required
+                                       value="${param.txtAddress}">
                             </div>
                         </div>
                     </div>
@@ -79,7 +93,8 @@
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
                                 <label class="control-label">Số điện thoại</label>
-                                <input type="text" name="txtPhoneNumber" class="form-control" required>
+                                <input type="text" name="txtPhoneNumber" class="form-control" required
+                                       value="${param.txtPhoneNumber}">
                             </div>
                         </div>
                     </div>
@@ -87,7 +102,8 @@
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
                                 <label class="control-label">Email</label>
-                                <input type="email" name="txtEmail" class="form-control" required>
+                                <input type="email" name="txtEmail" class="form-control" required
+                                       value="${param.txtEmail}">
                             </div>
                         </div>
                     </div>

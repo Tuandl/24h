@@ -92,8 +92,19 @@
         <jsp:include page="partial/footer.jsp"/>
 
         <c:if test="${empty sessionScope.USER}">
-            <jsp:include page="partial/login-popup.jsp"/>
-            <jsp:include page="partial/register-popup.jsp"/>
+            <jsp:include page="partial/login-popup.jsp">
+                <jsp:param name="txtUsername" value="${requestScope.txtUsername}"/>
+                <jsp:param name="pwfPassword" value="${requestScope.pwfPassword}"/>
+            </jsp:include>
+            <jsp:include page="partial/register-popup.jsp">
+                <jsp:param name="txtUsername" value="${requestScope.txtUsername}"/>
+                <jsp:param name="pwfPassword" value="${requestScope.pwfPassword}"/>
+                <jsp:param name="pwfConfirmPassword" value="${requestScope.pwfConfirmPassword}"/>
+                <jsp:param name="txtName" value="${requestScope.txtName}"/>
+                <jsp:param name="txtAddress" value="${requestScope.txtAddress}"/>
+                <jsp:param name="txtPhoneNumber" value="${requestScope.txtPhoneNumber}"/>
+                <jsp:param name="txtEmail" value="${requestScope.txtEmail}"/>
+            </jsp:include>
         </c:if>
 
         <jsp:include page="partial/common-js.jsp"/>
