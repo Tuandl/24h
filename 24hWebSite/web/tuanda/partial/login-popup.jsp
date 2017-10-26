@@ -10,8 +10,8 @@
                 </button>
                 <h4 class="modal-title">Đăng nhập</h4>
             </div>
-            <div class="modal-body">
-                <form action="" class="form-horizontal">
+            <form action="${pageContext.request.contextPath}/Login.action" class="form-horizontal">
+                <div class="modal-body">
                     <div class="row">
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating">
@@ -30,12 +30,12 @@
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-simple">Đăng nhập</button>
-                <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Thoát</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-simple">Đăng nhập</button>
+                    <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Thoát</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

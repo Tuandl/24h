@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.CategoryList;
+import tuanvxm.other.RoleList;
 
 /**
 * This servlet is for login action.
@@ -29,8 +30,8 @@ public class LoginServlet extends HttpServlet {
     private static final String ADMIN = "admin.jsp";
     private static final String EDITOR = "editor.jsp";
     private static final String JOURNALIST = "journalist.jsp";
-    private static final String READER = "reader.jsp";
-    private static final String GUEST = "guest.jsp";
+    private static final String READER = "tuanda/index.jsp";
+    private static final String GUEST = "tuanda/index.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,27 +51,30 @@ public class LoginServlet extends HttpServlet {
         user.setUsername(username);
         user.setPassword(password);
         
+        
         if(user.login()){
-            String role = CategoryList.getName(user.getRoleID());
+            String role = RoleList.getName(user.getRoleID());
             request.getSession().setAttribute("ROLE", role);
             request.getSession().setAttribute("USER", user);
+            request.setAttribute("SUCCESS", "Xin chào " + user.getName());
             
-            if(role.equalsIgnoreCase("admin")){
-                response.sendRedirect(ADMIN);
+            if(role.equalsIgnoreCase("Administrator")){
+                request.getRequestDispatcher(ADMIN).forward(request, response);
             }
             if(role.equalsIgnoreCase("editor")){
-                response.sendRedirect(EDITOR);
+                request.getRequestDispatcher(EDITOR).forward(request, response);
             }
             if(role.equalsIgnoreCase("journalist")){
-                response.sendRedirect(JOURNALIST);
+                request.getRequestDispatcher(JOURNALIST).forward(request, response);
             }
             if(role.equalsIgnoreCase("reader")){
-                response.sendRedirect(READER);
+                request.getRequestDispatcher(READER).forward(request, response);
             }
             
             return;
         }
-        
+        request.removeAttribute("txtUsername");
+        request.removeAttribute("pwfPassword");
         request.setAttribute("ERROR", "Username or password is incorrect.");
         request.getRequestDispatcher(GUEST).forward(request, response);
     }

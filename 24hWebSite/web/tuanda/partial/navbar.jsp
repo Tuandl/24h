@@ -41,6 +41,11 @@
                                 <i class="material-icons">account_circle</i> ${sessionScope.USER.name}
                             </a>
                         </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/Logout.action">
+                                <i class="material-icons">exit_to_app</i> Đăng xuất
+                            </a>
+                        </li>
                     </c:when>
                     <c:otherwise>
                         <!-- Not login -->
