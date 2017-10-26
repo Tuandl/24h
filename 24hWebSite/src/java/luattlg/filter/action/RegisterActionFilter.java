@@ -122,7 +122,6 @@ public class RegisterActionFilter implements Filter {
         String address = request.getParameter("txtAddress");
         String phoneNumber = request.getParameter("txtPhoneNumber");
         String email = request.getParameter("txtEmail");
-        String identityCard = request.getParameter("identityCard");
         String agree = request.getParameter("cbAgree");
         
         //Validate
@@ -157,9 +156,6 @@ public class RegisterActionFilter implements Filter {
             if(!Pattern.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\\.[a-zA-Z]+)+", email)){
                 error.put("EMAIL","E-mail is not in the correct format.");
             }
-        }
-        if(identityCard == null || identityCard.length() == 0){
-            error.put("IDENTITY-CARD", "Identity card cannot be blank");
         }
         if(agree == null || agree.length() == 0){
             error.put("AGREE-THE-POLICY","Please agree with our policy");
