@@ -115,22 +115,6 @@ public class ArticlePageFilter implements Filter {
             HttpServletResponse httpResponse = (HttpServletResponse)response;
             httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "Please enter by choosing an article");
         }
-        UserDTO user = (UserDTO) httpRequest.getSession().getAttribute("USER");
-        int userID = -1;
-        if(user != null){
-            userID = user.getUserID();
-        }
-
-        //Hide comment with
-        List<CommentDTO> commentList = (List) request.getAttribute("COMMENT-LIST");
-        List<CommentDTO> afterDeleteList = new ArrayList<CommentDTO>();
-        for (CommentDTO comment : commentList) {
-            if (comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) || comment.getLastStatusChangerID() == userID) {
-                afterDeleteList.add(comment);
-            }
-        }
-        
-        request.setAttribute("COMMENT-LIST", afterDeleteList);
         
         chain.doFilter(request, response);
     }

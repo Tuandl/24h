@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -35,7 +36,7 @@ import tuanvxm.other.Role;
 /**
  * Filter for loading the article of the home page
  */
-@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/tuanda/index.jsp"})
+@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/tuanda/index.jsp"}, dispatcherTypes = {DispatcherType.FORWARD,DispatcherType.REQUEST})
 public class HomePageFilter implements Filter {
 
     private static final boolean debug = true;

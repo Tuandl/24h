@@ -7,6 +7,7 @@ package luattlg.servlet.general;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,7 @@ import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DAOs.CommentDAO;
 import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.CommentDTO;
+import tuanvxm.DTOs.UserDTO;
 
 /**
  * This servlet is for loading article and comment of that article from database.
@@ -52,8 +54,23 @@ public class ReadArticleServlet extends HttpServlet {
         //Get comment of the article
         List<CommentDTO> commentList = new CommentDAO().findByArticleID(articleID);
         article.increaseViewCount();
+        
+         UserDTO user = (UserDTO) request.getSession().getAttribute("USER");
+        int userID = -1;
+        if(user != null){
+            userID = user.getUserID();
+        }
+
+        //Hide comment with
+        List<CommentDTO> afterDeleteList = new ArrayList<CommentDTO>();
+        for (CommentDTO comment : commentList) {
+            if (comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) || comment.getLastStatusChangerID() == userID) {
+                afterDeleteList.add(comment);
+            }
+        }
+        
+        request.setAttribute("COMMENT-LIST", afterDeleteList);
         request.setAttribute("ARTICLE", article);
-        request.setAttribute("COMMENT-LIST", commentList);
         
         request.getRequestDispatcher(ARTICLE).forward(request, response);
     }
