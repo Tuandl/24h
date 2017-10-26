@@ -146,11 +146,11 @@ public class HomePageFilter implements Filter {
     }
 
     private int getRoleID(String rolename, ArrayList<Role> listOfRole) {
+        //System.out.println("Get Role ID home page filter here "+listOfRole.size());
         for (Role role : listOfRole) {
             if (role.getName().equalsIgnoreCase(rolename)) {
                 return role.getRoleID();
             }
-
         }
         return 0;
     }

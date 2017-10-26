@@ -85,7 +85,7 @@ public class ReadArticleServlet extends HttpServlet {
         calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
         Timestamp time = new Timestamp(calendar.getTime().getTime());
         ArrayList<ArticleDTO> articles = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
-//        System.out.println("COMMENT: " + afterDeleteList.size() + " " + afterDeleteList.get(0).getContent());
+       System.out.println("COMMENT: " + afterDeleteList.size());
         
         request.setAttribute("COMMENT-LIST", afterDeleteList);
         request.setAttribute("ARTICLE", article);
