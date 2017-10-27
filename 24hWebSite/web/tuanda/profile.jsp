@@ -139,7 +139,8 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" id="myModalLabel">Thay đổi mật khẩu</h4>
                     </div>
-                    <form action="${pageContext.request.contextPath}/ChangePassword.action" class="form-horizontal">
+                    <form action="${pageContext.request.contextPath}/ChangePassword.action" class="form-horizontal"
+                          method="POST">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-xs-10 col-xs-offset-1">
@@ -184,7 +185,8 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" id="myModalLabel">Thay đổi thông tin cá nhân</h4>
                     </div>
-                    <form action="${pageContext.request.contextPath}/UpdateInformation.action" class="form-horizontal">
+                    <form action="${pageContext.request.contextPath}/UpdateInformation.action" class="form-horizontal"
+                          method="POST">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-xs-10 col-xs-offset-1">

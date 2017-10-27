@@ -45,6 +45,18 @@
                                 <i class="material-icons">account_circle</i> ${sessionScope.USER.name}
                             </a>
                         </li>
+                        <c:if test="${sessionScope.ROLE == 'Journalist'}">
+                            <li>
+                                <a href="${pageContext.request.contextPath}/tuanda/journalist-manage-articles.jsp">
+                                    <i class="material-icons">dashboard</i> Quản lý
+                                </a>
+                            </li>
+                            <li>
+                                <a href="${pageContext.request.contextPath}/tuanda/create-article.jsp">
+                                    <i class="material-icons">assignment</i> Viết bài
+                                </a>
+                            </li>
+                        </c:if>
                         <li>
                             <a href="${pageContext.request.contextPath}/Logout.action">
                                 <i class="material-icons">exit_to_app</i> Đăng xuất

@@ -11,7 +11,7 @@
                 </button>
                 <h4 class="modal-title">Đăng ký</h4>
             </div>
-            <form action="${pageContext.request.contextPath}/Register.action" class="form-horizontal">
+            <form action="${pageContext.request.contextPath}/Register.action" class="form-horizontal" method="POST">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-xs-10 col-xs-offset-1">
