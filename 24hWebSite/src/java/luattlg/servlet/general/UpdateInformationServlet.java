@@ -26,7 +26,7 @@ import tuanvxm.other.GenderList;
 @WebServlet(name = "UpdateInformationServlet", urlPatterns = {"/UpdateInformation.action"})
 public class UpdateInformationServlet extends HttpServlet {
 
-    private static final String PATH = "info.jsp";
+    private static final String PATH = "tuanda/profile.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

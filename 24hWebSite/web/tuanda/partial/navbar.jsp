@@ -41,7 +41,7 @@
                     <c:when test="${not empty sessionScope.USER}">
                         <!-- logined -->
                         <li>
-                            <a href="#">
+                            <a href="${pageContext.request.contextPath}/tuanda/profile.jsp">
                                 <i class="material-icons">account_circle</i> ${sessionScope.USER.name}
                             </a>
                         </li>
