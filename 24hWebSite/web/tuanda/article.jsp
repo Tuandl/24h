@@ -66,8 +66,8 @@
                                                 <div class="media">
                                                     <c:if test="${sessionScope.USER.userID == comment.creatorID}">
                                                         <div class="comment-buttons">
-                                                            <a class="btn btn-simple" href="${pageContext.request.contextPath}/ChangeCommentStatus.action?articleID=${requestScope.ARTICLE.articleID}&commentID=${comment.commentID}&txtStatus=HideByReader">Ẩn</a>
-                                                            <a class="btn btn-white" href="${pageContext.request.contextPath}/ChangeCommentStatus.action?articleID=${requestScope.ARTICLE.articleID}&commentID=${comment.commentID}&txtStatus=Available">Hiện</a>
+                                                            <a class="btn btn-simple" href="${pageContext.request.contextPath}/ChangeCommentStatus.action?articleID=${requestScope.ARTICLE.articleID}&commentID=${comment.commentID}&txtStatus=Hide">Ẩn</a>
+                                                            <a class="btn btn-white" href="${pageContext.request.contextPath}/ChangeCommentStatus.action?articleID=${requestScope.ARTICLE.articleID}&commentID=${comment.commentID}&txtStatus=Show">Hiện</a>
                                                         </div>
                                                     </c:if>
                                                     <div class="media-left">
@@ -82,8 +82,8 @@
                                             <c:otherwise>
                                                 <div class="media comment-hidden">
                                                     <div class="comment-buttons">
-                                                        <a class="btn btn-simple" href="${pageContext.request.contextPath}/ChangeCommentStatus.action?articleID=${requestScope.ARTICLE.articleID}&commentID=${comment.commentID}&txtStatus=HideByReader">Ẩn</a>
-                                                        <a class="btn btn-white" href="${pageContext.request.contextPath}/ChangeCommentStatus.action?articleID=${requestScope.ARTICLE.articleID}&commentID=${comment.commentID}&txtStatus=Available">Hiện</a>
+                                                        <a class="btn btn-simple" href="${pageContext.request.contextPath}/ChangeCommentStatus.action?articleID=${requestScope.ARTICLE.articleID}&commentID=${comment.commentID}&txtStatus=Hide">Ẩn</a>
+                                                        <a class="btn btn-white" href="${pageContext.request.contextPath}/ChangeCommentStatus.action?articleID=${requestScope.ARTICLE.articleID}&commentID=${comment.commentID}&txtStatus=Show">Hiện</a>
                                                     </div>
                                                     <div class="media-left">
                                                         <img src="https://www.w3schools.com/bootstrap/img_avatar2.png" class="media-object" style="width:45px">

@@ -29,14 +29,15 @@ import tuanvxm.other.Role;
 public class SearchArticleServlet extends HttpServlet {
 
     
-    private static String EDITOR = "manageArticle.jsp";
-    private static String OTHER = "searchResult.jsp";
+    private static String EDITOR = "tuanda/manage-article.jsp";
+    private static String OTHER = "tuanda/search-result.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         String searchType = request.getParameter("cbSearchType");
         String context = request.getParameter("txtSearch");
+        request.setAttribute("txtSearch", context);
         String role = (String)request.getSession().getAttribute("ROLE");
         UserDTO user = (UserDTO)request.getSession().getAttribute("USER");
         
@@ -58,9 +59,9 @@ public class SearchArticleServlet extends HttpServlet {
                 articleList.add(article);
             }
         }
-        
+        System.out.println("search result count = " + articleList.size());
         request.setAttribute("SEARCH-RESULT-LIST", articleList);
-        if(role.equalsIgnoreCase("editor")){
+        if(role != null && role.equalsIgnoreCase("editor")){
             request.getRequestDispatcher(EDITOR).forward(request, response);
         }else{
             request.getRequestDispatcher(OTHER).forward(request, response);

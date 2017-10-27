@@ -36,45 +36,53 @@
                                 <%
                                     List<ArticleDTO> articles = (List<ArticleDTO>) request.getAttribute("CATEGORY-ARTICLE");
                                     pageContext.setAttribute("articles", articles);
-                                    pageContext.setAttribute("highline", articles.get(0));
+                                    if(articles.size() > 0)
+                                        pageContext.setAttribute("highline", articles.get(0));
                                 %>
-                                <!-- highline -->
-                                <div class="section article-preview article-preview-highline">
-                                    <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${highline.articleID}&articleCreator=${highline.creator}">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <img class="img-responsive" src="${highline.thumbnail}" alt="">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="article-preview-title">${highline.title}</div>
-                                                <div class="article-preview-main-content">${highline.headline}</div>
-                                                <div class="article-preview-author">${highline.creator}</div>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                </div>
-                                <div class="row">
-                                    <c:forEach items="${articles}" var="article" varStatus="status">
-                                        <c:if test="${status.index > 0}">
-                                            <div class="col-sm-6">
-                                                <div class="article-preview article-preview-small">
-                                                    <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${article.articleID}&articleCreator=${article.creator}">
-                                                        <div class="article-preview-img">
-                                                            <img src="${article.thumbnail}" alt="">
-                                                        </div>
-                                                        <div class="article-preview-title">${article.headline}</div>
-                                                        <div class="article-preview-author">${article.creator}</div>
-                                                    </a>
+                                <c:if test="${not empty highline}">
+                                    <!-- highline -->
+                                    <div class="section article-preview article-preview-highline">
+                                        <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${highline.articleID}&articleCreator=${highline.creator}">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <img class="img-responsive" src="${highline.thumbnail}" alt="">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="article-preview-title">${highline.title}</div>
+                                                    <div class="article-preview-main-content">${highline.headline}</div>
+                                                    <div class="article-preview-author">${highline.creator}</div>
                                                 </div>
                                             </div>
-                                        </c:if>
-                                    </c:forEach>
+                                        </a>
 
-                                </div>
+                                    </div>
+                                    <div class="row">
+                                        <c:forEach items="${articles}" var="article" varStatus="status">
+                                            <c:if test="${status.index > 0}">
+                                                <div class="col-sm-6">
+                                                    <div class="article-preview article-preview-small">
+                                                        <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${article.articleID}&articleCreator=${article.creator}">
+                                                            <div class="article-preview-img">
+                                                                <img src="${article.thumbnail}" alt="">
+                                                            </div>
+                                                            <div class="article-preview-title">${article.title}</div>
+                                                            <div class="article-preview-author">${article.creator}</div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
+
+                                    </div>
+                                </c:if>
+                                
                             </div>
                             <div class="col-md-3 col-sm-12">
-
+                                <%= "Number of trending: " + ((List<ArticleDTO>) request.getAttribute("TOP-TREND-LIST")).size()%>
+                                <jsp:include page="partial/banner.jsp">
+                                    <jsp:param name="title" value="Đọc nhiều nhất"/>
+                                    <jsp:param name="listContent" value="${requestScope.TOP-TREND-LIST}"/>
+                                </jsp:include>
                             </div>
                         </div>
                     </article>

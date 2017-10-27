@@ -11,7 +11,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="#">
+            <a href="${pageContext.request.contextPath}/tuanda/index.jsp">
                 <div class="logo-container">
                     <div class="logo">
                         <img src="${pageContext.request.contextPath}/assets/img/logo-white-background.png" alt="24h Logo" />
@@ -24,12 +24,16 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <div class="nav navbar-nav navbar-form">
-                        <div class="input-group">
-                            <input type="text" placeholder="Tìm kiếm..." class="form-control" />
-                            <span class="input-group-btn">
-                                <button class="form-control"><i class="material-icons">search</i></button>
-                            </span>
-                        </div>
+                        <form action="${pageContext.request.contextPath}/SearchArticle.action">
+                            <div class="input-group">
+                                <input type="hidden" value="name" name="cbSearchType"/>
+                                <input type="text" placeholder="Tìm kiếm..." class="form-control" name="txtSearch"
+                                       value="${requestScope.txtSearch}" required/>
+                                <span class="input-group-btn">
+                                    <button class="form-control"><i class="material-icons">search</i></button>
+                                </span>
+                            </div>
+                        </form>
                     </div>
                 </li>
 

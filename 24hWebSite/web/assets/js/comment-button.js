@@ -10,7 +10,6 @@ $(document).ready(function() {
 function controlButtonShowHide() {
     $(".comment .media").each(function(index, element) {
         // element == this
-        console.log("herre");
         if ($(this).hasClass("comment-hidden")) {
             $(this).find("a").each(function() {
                 console.log("hidden");

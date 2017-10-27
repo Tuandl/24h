@@ -44,7 +44,7 @@
                             pageContext.setAttribute("firstArticle", entry.getValue().get(0));
                     %>
                     <div class="section">
-                        <a href="">
+                        <a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=${firstArticle.categoryID}">
                             <h4 class="section-title">
                                 ${key}
                                 <i class="material-icons">keyboard_arrow_right</i>
