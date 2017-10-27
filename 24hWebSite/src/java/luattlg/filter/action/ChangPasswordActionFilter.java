@@ -109,9 +109,11 @@ public class ChangPasswordActionFilter implements Filter {
             Map<String,String> error = new HashMap<String, String>();
             if(password.length() < 8){
                error.put("LENGTH", "Password length must be at least 8 characters.");
+               System.out.println("length");
             }
             if(!password.equals(confirmPassword)){
                 error.put("CONFIRM", "Confirm password doesn't match the password.");
+                System.out.println("Don't match");
             }
             if(!error.isEmpty()){
                 request.setAttribute("ERROR", error);
