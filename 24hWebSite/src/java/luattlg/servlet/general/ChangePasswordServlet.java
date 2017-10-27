@@ -23,8 +23,8 @@ import tuanvxm.DTOs.UserDTO;
 @WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/ChangePassword.action"})
 public class ChangePasswordServlet extends HttpServlet {
 
-    private static final String SUCCESS = "success.jsp";
-    private static final String FAIL = "fail.jsp";
+    private static final String SUCCESS = "tuanda/profile.jsp";
+    private static final String FAIL = "tuanda/profile.jsp";
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
