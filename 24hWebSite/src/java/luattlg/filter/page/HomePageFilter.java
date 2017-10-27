@@ -37,8 +37,8 @@ import tuanvxm.other.RoleList;
 /**
  * Filter for loading the article of the home page
  */
-@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/tuanda/index.jsp"}, 
-        dispatcherTypes = {DispatcherType.FORWARD,DispatcherType.REQUEST})
+@WebFilter(filterName = "HomePageFilter", urlPatterns = {"/tuanda/index.jsp"},
+        dispatcherTypes = {DispatcherType.FORWARD, DispatcherType.REQUEST})
 public class HomePageFilter implements Filter {
 
     private static final boolean debug = true;
@@ -119,16 +119,16 @@ public class HomePageFilter implements Filter {
         //Load article 
         Map<String, ArrayList<ArticleDTO>> articleWithCategory = new HashMap<>();
         List<Category> listOfCategory = (ArrayList<Category>) request.getServletContext().getAttribute("CATEGORY-LIST");
-        ArrayList<Role> listOfRole = (ArrayList<Role>)request.getServletContext().getAttribute("ROLE-LIST");
-        List<UserDTO>  listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist",listOfRole));
-        HashMap<Integer,String> mapUser;
+        ArrayList<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
+        List<UserDTO> listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));
+        HashMap<Integer, String> mapUser;
         mapUser = new HashMap<Integer, String>();
-        for(UserDTO user : listOfUserDTOs){
-            mapUser.put(new Integer(user.getUserID()),user.getName());
+        for (UserDTO user : listOfUserDTOs) {
+            mapUser.put(new Integer(user.getUserID()), user.getName());
         }
         for (Category category : listOfCategory) {
             ArrayList<ArticleDTO> articles = (ArrayList<ArticleDTO>) new ArticleDAO().findByCategoryIDAndStatus(category.getCategoryID(), ArticleDTO.STATUS_AVAILABLE);
-            for(ArticleDTO article : articles){
+            for (ArticleDTO article : articles) {
                 article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
             }
             articleWithCategory.put(category.getName(), articles);
@@ -141,14 +141,15 @@ public class HomePageFilter implements Filter {
         Timestamp time = new Timestamp(calendar.getTime().getTime());
         ArrayList<ArticleDTO> articles = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
         ArrayList<ArticleDTO> topTrendAfetDelete = new ArrayList<>();
-         for (ArticleDTO trendArticle : articles) {
+        for (ArticleDTO trendArticle : articles) {
             if (trendArticle.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)) {
-                topTrendAfetDelete.add(trendArticle);
                 trendArticle.setCreator(mapUser.get(new Integer(trendArticle.getArticleID())));
+                topTrendAfetDelete.add(trendArticle);
+
             }
         }
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
-        request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);   
+        request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);
         chain.doFilter(request, response);
     }
 
@@ -161,6 +162,7 @@ public class HomePageFilter implements Filter {
         }
         return 0;
     }
+
     /**
      * Return the filter configuration object for this filter.
      */
