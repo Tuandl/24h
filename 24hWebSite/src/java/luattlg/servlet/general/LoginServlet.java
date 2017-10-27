@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet {
         }
         request.removeAttribute("txtUsername");
         request.removeAttribute("pwfPassword");
-        request.setAttribute("ERROR", "Username or password is incorrect.");
+        request.setAttribute("ERROR", "Tên đăng nhập hoặc mật khẩu không đúng.");
         request.getRequestDispatcher(GUEST).forward(request, response);
     }
 

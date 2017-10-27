@@ -65,8 +65,9 @@ public class RegisterServlet extends HttpServlet {
             UserDTO user = new UserDTO(username, password, name, dateOfBirTimestamp, gender, address, phoneNumber, email, identityCard, roleID, UserDTO.STATUS_AVAILABLE);
             if(!new UserDAO().createUser(user)){
                 Map<String,String> error = new HashMap<String, String>();
-                error.put("EXISTENCE", "This user is already exist. Please choose another");
+                error.put("EXISTENCE", "Tên đăng nhập này đã tồn tại. Xin hãy chọn tên đăng nhập khác.");
                 request.setAttribute("ERROR", error);
+                user.setPassword("");
                 request.setAttribute("OLD-INFO", user);
             } else {
                 request.removeAttribute("txtUsername");

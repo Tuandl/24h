@@ -133,38 +133,38 @@ public class RegisterActionFilter implements Filter {
         //Validate
         Map<String,String> error = new HashMap<>();
         if(username == null || username.length() < 8){
-            error.put("USERNAME", "Username length must be at least 8 characters.");
+            error.put("USERNAME", "Tên đăng nhập dài ít nhất 8 ký tự.");
         }
         if(password == null || password.length() < 8){
-            error.put("PASSWORD", "Password length must be at least 8 characters.");
+            error.put("PASSWORD", "Mật khẩu dài ít nhất 8 ký tự.");
         }
         if(confirmPassword == null || !confirmPassword.equals(password)){
-            error.put("CONFIRM-PASSWORD", "Confirm password doesn't match the password.");
+            error.put("CONFIRM-PASSWORD", "Xác nhận mật khẩu không giống mới mật khẩu.");
         }
         if(name == null || name.length() == 0){
-            error.put("NAME", "Name cannot be blank");
+            error.put("NAME", "Họ và tên không được bỏ trống.");
         }
         if(address == null || address.length() == 0){
-            error.put("ADDRESS", "Address cannot be blank");
+            error.put("ADDRESS", "Địa chỉ không được bỏ trống.");
         }
         if(phoneNumber == null || phoneNumber.length() == 0){
-            error.put("PHONE", "Phone number cannot be blank");
+            error.put("PHONE", "Số điện thoại không được bỏ trống.");
         }
         else{
             if(!Pattern.matches("[0-9]{9,11}", phoneNumber)){
-                error.put("PHONE", "Phone number's length must be from 9 to 11 numbers");
+                error.put("PHONE", "Số điện thoại phải có độ dài từ 9-11 số.");
             }
         }
         if(email == null || email.length() == 0){
-            error.put("EMAIL", "E-mail cannot be blank.");
+            error.put("EMAIL", "E-mail không được bỏ trống.");
         }
         else{
             if(!Pattern.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\\.[a-zA-Z]+)+", email)){
-                error.put("EMAIL","E-mail is not in the correct format.");
+                error.put("EMAIL","E-mail không đúng.");
             }
         }
         if(agree == null || agree.length() == 0){
-            error.put("AGREE-THE-POLICY","Please agree with our policy");
+            error.put("AGREE-THE-POLICY","Xin hãy đồng ý với các điều khoản của chúng ta.");
         }
         return error;
     }
