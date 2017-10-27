@@ -31,7 +31,7 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
 
     private static final String CATEGORY = "tuanda/category.jsp";
     private static final int GETTOP = 15;
-    private static final int STARTDAY = 3;
+    private static final int STARTDAY = 365;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,34 +45,44 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int categoryID = 0;
-        List<Category> listOfCategorys = (ArrayList)getServletContext().getAttribute("CATEGORY-LIST");
-//        String category = request.getParameter("categoryName");
-//        for(Category cate : listOfCategorys){
-//            if(cate.getName().equalsIgnoreCase(category)){
-//                categoryID = cate.getCategoryID();
-//                break;
-//            }
-//        }
+
         categoryID = Integer.parseInt(request.getParameter("categoryID"));
         request.setAttribute("categoryID", categoryID);
-        
+
         List<ArticleDTO> articles = searchByCategory(categoryID);
+        List<Category> listOfCategorys = (ArrayList) getServletContext().getAttribute("CATEGORY-LIST");
+        String category = "";
+        for (Category cate : listOfCategorys) {
+            if (cate.getCategoryID() == categoryID) {
+                category = cate.getName();
+                break;
+            }
+        }
+        System.out.println(""+category);
+        request.setAttribute("categoryID", categoryID);
+        request.setAttribute("CATEGORYNAME", category);
         request.setAttribute("CATEGORY-ARTICLE", articles);
-        
+
         System.out.println("number of article in category: " + articles.size());
-        
-         Calendar calendar = Calendar.getInstance();
+
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
         Timestamp time = new Timestamp(calendar.getTime().getTime());
         ArrayList<ArticleDTO> articlesTopTrend = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
-        request.setAttribute("TOP-TREND-LIST", articlesTopTrend);
+        ArrayList<ArticleDTO> topTrendAfetDelete = new ArrayList<>();
+        for (ArticleDTO trendArticle : articlesTopTrend) {
+            if (trendArticle.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)) {
+                topTrendAfetDelete.add(trendArticle);
+            }
+        }
+        request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
         request.getRequestDispatcher(CATEGORY).forward(request, response);
     }
 
     private List<ArticleDTO> searchByCategory(int categoryID) {
         List<ArticleDTO> listOfArticleDTOs = new ArrayList<>();
-        
+
         //Get journalist role id;
         listOfArticleDTOs = new ArticleDTO().findByCategoryIDAndStatus(categoryID, ArticleDTO.STATUS_AVAILABLE);
         return listOfArticleDTOs;

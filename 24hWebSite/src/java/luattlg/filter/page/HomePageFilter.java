@@ -140,8 +140,14 @@ public class HomePageFilter implements Filter {
         calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
         Timestamp time = new Timestamp(calendar.getTime().getTime());
         ArrayList<ArticleDTO> articles = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
-        request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);
-        request.setAttribute("TOP-TREND-ARTICLE", articles);
+        ArrayList<ArticleDTO> topTrendAfetDelete = new ArrayList<>();
+         for (ArticleDTO trendArticle : articles) {
+            if (trendArticle.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)) {
+                topTrendAfetDelete.add(trendArticle);
+            }
+        }
+        request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
+        request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);   
         chain.doFilter(request, response);
     }
 

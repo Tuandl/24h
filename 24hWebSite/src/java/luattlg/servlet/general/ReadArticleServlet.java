@@ -25,14 +25,13 @@ import tuanvxm.DTOs.CommentDTO;
 import tuanvxm.DTOs.UserDTO;
 
 /**
- * This servlet is for loading article and comment of that article from database.
- * Redirect :
- * Article is not removed - article page.
- * Article is removed - HTTP 404 ERROR page.
+ * This servlet is for loading article and comment of that article from
+ * database. Redirect : Article is not removed - article page. Article is
+ * removed - HTTP 404 ERROR page.
  */
 @WebServlet(name = "ReadArticleServlet", urlPatterns = {"/ReadArticle.action"})
 public class ReadArticleServlet extends HttpServlet {
-    
+
     private static final String ARTICLE = "tuanda/article.jsp";
     private static final int GETTOP = 15;
     private static final int STARTDAY = 365;
@@ -48,53 +47,56 @@ public class ReadArticleServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         int articleID = Integer.parseInt(request.getParameter("articleID"));
         String articleCreator = request.getParameter("articleCreator");
         ArticleDTO article = new ArticleDAO().findByArticleID(articleID);
         article.setCreator(articleCreator);
-        
-        
-        if(article == null){
+
+        if (article == null) {
             response.sendError(response.SC_NOT_FOUND, "Article not found or this article has been removed.");
             return;
         }
-        
-        
+
         //Get comment of the article
         List<CommentDTO> commentList = new CommentDAO().findByArticleID(articleID);
         article.increaseViewCount();
-        
+
         UserDTO user = (UserDTO) request.getSession().getAttribute("USER");
         //System.out.println(""+user.getUserID());
         int userID = -1;
-        if(user != null){
+        if (user != null) {
             userID = user.getUserID();
         }
 
         //Hide comment
         List<CommentDTO> afterDeleteList = new ArrayList<CommentDTO>();
         for (CommentDTO comment : commentList) {
-            System.out.println("last change "+comment.getLastStatusChangerID());
-            System.out.println("real "+userID);
+            System.out.println("last change " + comment.getLastStatusChangerID());
+            System.out.println("real " + userID);
             if (comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) || comment.getLastStatusChangerID() == userID) {
                 afterDeleteList.add(comment);
             }
         }
-        
+
         //Get top trend
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
         Timestamp time = new Timestamp(calendar.getTime().getTime());
         ArrayList<ArticleDTO> articles = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
-        System.out.println("COMMENT: " + afterDeleteList.size());
-        
+        ArrayList<ArticleDTO> topTrendAfetDelete = new ArrayList<>();
+        for (ArticleDTO trendArticle : articles) {
+            if (trendArticle.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)) {
+                topTrendAfetDelete.add(trendArticle);
+            }
+        }
+
         request.setAttribute("COMMENT-LIST", afterDeleteList);
         request.setAttribute("ARTICLE", article);
         System.out.println("Top trend: " + articles.size());
-        request.setAttribute("TOP-TREND-LIST", articles);
-        
+        request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
+
         request.getRequestDispatcher(ARTICLE).forward(request, response);
     }
 

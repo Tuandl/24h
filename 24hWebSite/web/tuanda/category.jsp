@@ -25,7 +25,7 @@
         <jsp:include page="partial/navbar.jsp"/>
         <div class="wrapper">
             <jsp:include page="partial/categories.jsp">
-                <jsp:param name="title" value="${requestScope.categoryID}"/>
+                <jsp:param name="title" value="${requestScope.CATEGORYNAME}"/>
                 <jsp:param name="categoryId" value="${requestScope.categoryID}"/>
             </jsp:include>
             <div class="main">
