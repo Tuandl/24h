@@ -43,7 +43,7 @@ public class HomePageFilter implements Filter {
 
     private static final boolean debug = true;
     private static final int GETTOP = 15;
-    private static final int STARTDAY = 3;
+    private static final int STARTDAY = 365;
 
     private FilterConfig filterConfig = null;
 

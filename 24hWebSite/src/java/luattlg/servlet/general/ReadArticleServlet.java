@@ -35,7 +35,7 @@ public class ReadArticleServlet extends HttpServlet {
     
     private static final String ARTICLE = "tuanda/article.jsp";
     private static final int GETTOP = 15;
-    private static final int STARTDAY = 3;
+    private static final int STARTDAY = 365;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

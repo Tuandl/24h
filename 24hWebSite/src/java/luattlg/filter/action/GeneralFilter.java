@@ -20,6 +20,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import tuanvxm.other.Role;
 
 /**
@@ -111,13 +112,12 @@ public class GeneralFilter implements Filter {
                 if(isInit == null){
                     isInit = "YES";
                     HttpServletRequest httpRequest = (HttpServletRequest)request;
+                    HttpServletResponse httpResponse = (HttpServletResponse)response;
                     request.setAttribute("IS-INIT", isInit);
                     if(httpRequest.getRequestURI().contains("/tuanda")){
-                        request.getRequestDispatcher("../Init.action").forward(request, response);
-                        System.out.println("contain");
+                        httpResponse.sendRedirect("../Init.action");
                     }else{
                         request.getRequestDispatcher("Init.action").forward(request, response);
-                        System.out.println("not");
                     }
                     return;
                 }

@@ -40,7 +40,10 @@ public class SearchArticleServlet extends HttpServlet {
         request.setAttribute("txtSearch", context);
         String role = (String)request.getSession().getAttribute("ROLE");
         UserDTO user = (UserDTO)request.getSession().getAttribute("USER");
-        
+        int userID = -1;
+        if(user != null){
+            userID = user.getUserID();
+        }
         List <ArticleDTO> articleList = null;
         if(searchType.equalsIgnoreCase("Writter")){
             articleList = searchByWritter(context);
@@ -49,10 +52,12 @@ public class SearchArticleServlet extends HttpServlet {
         }
         
         //Clear the hided article
-        List<ArticleDTO> rawArticleList = articleList;
+        List<ArticleDTO> rawArticleList = articleList.subList(0, articleList.size());
         articleList = new ArrayList<ArticleDTO>();
+        System.out.println("raw article = "+rawArticleList.size());
+        
         for(ArticleDTO article : rawArticleList){
-            if(article.getLastStatusChangerID() == user.getUserID() || article.getStatus().equals(ArticleDTO.STATUS_AVAILABLE)){
+            if(article.getLastStatusChangerID() == userID || article.getStatus().equals(ArticleDTO.STATUS_AVAILABLE)){
                 articleList.add(article);
             }
             if(role.equalsIgnoreCase("Editor") && article.getStatus().equals(ArticleDTO.STATUS_NEW)){
@@ -83,7 +88,7 @@ public class SearchArticleServlet extends HttpServlet {
         }
 
         //Search all the journalist with that name and get all article of that journalist
-        List<UserDTO> listOfUserDTOs = new UserDAO().findLikeName(name);
+        List<UserDTO> listOfUserDTOs = new UserDAO().findLikeName("%"+name+"%");
         for(UserDTO user : listOfUserDTOs){
             if(user.getRoleID() == journalistRoleID){
                 //Get article
@@ -99,7 +104,8 @@ public class SearchArticleServlet extends HttpServlet {
     
     //Method for searching article by article's name
     private List<ArticleDTO> searchByName(String name){
-        List<ArticleDTO> listOfArticleDTOs = new ArticleDAO().findByTitle(name);
+        List<ArticleDTO> listOfArticleDTOs = new ArticleDAO().findByTitle("%"+name+"%");
+        System.out.println(""+listOfArticleDTOs.size());
         return listOfArticleDTOs;
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
