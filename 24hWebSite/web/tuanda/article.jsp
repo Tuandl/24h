@@ -112,7 +112,6 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <%= "Number of trending: " + ((List<ArticleDTO>) request.getAttribute("TOP-TREND-LIST")).size()%>
                                 <jsp:include page="partial/banner.jsp">
                                     <jsp:param name="title" value="Đọc nhiều nhất"/>
                                     <jsp:param name="listContent" value="${requestScope.TOP-TREND-LIST}"/>

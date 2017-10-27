@@ -14,8 +14,9 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <% pageContext.setAttribute("categoryName", request.getAttribute("CATEGORY-NAME")); %>
         <jsp:include page="partial/common-header.jsp">
-            <jsp:param name="title" value="${requestScope.categoryID}"/>
+            <jsp:param name="title" value="${categoryName}"/>
         </jsp:include>
         <!--css for current page-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/banner.css">
@@ -25,7 +26,7 @@
         <jsp:include page="partial/navbar.jsp"/>
         <div class="wrapper">
             <jsp:include page="partial/categories.jsp">
-                <jsp:param name="title" value="${requestScope["CATEGORY-NAME"]}"/>
+                <jsp:param name="title" value="${categoryName}"/>
                 <jsp:param name="categoryId" value="${requestScope.categoryID}"/>
             </jsp:include>
             <div class="main">
@@ -36,8 +37,9 @@
                                 <%
                                     List<ArticleDTO> articles = (List<ArticleDTO>) request.getAttribute("CATEGORY-ARTICLE");
                                     pageContext.setAttribute("articles", articles);
-                                    if(articles.size() > 0)
+                                    if (articles.size() > 0) {
                                         pageContext.setAttribute("highline", articles.get(0));
+                                    }
                                 %>
                                 <c:if test="${not empty highline}">
                                     <!-- highline -->
@@ -75,10 +77,9 @@
 
                                     </div>
                                 </c:if>
-                                
+
                             </div>
                             <div class="col-md-3 col-sm-12">
-                                <%= "Number of trending: " + ((List<ArticleDTO>) request.getAttribute("TOP-TREND-LIST")).size()%>
                                 <jsp:include page="partial/banner.jsp">
                                     <jsp:param name="title" value="Đọc nhiều nhất"/>
                                     <jsp:param name="listContent" value="${requestScope.TOP-TREND-LIST}"/>

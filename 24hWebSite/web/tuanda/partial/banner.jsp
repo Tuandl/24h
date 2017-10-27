@@ -16,10 +16,10 @@
         pageContext.setAttribute("listContent", articles);
     %>
     <c:if test="${not empty listContent}">
+        <div class="banner-header">
+            ${param.title}
+        </div>
         <c:forEach items="${listContent}" var="item">
-            <div class="banner-header">
-                ${param.title}
-            </div>
             <div class="banner-content">
                 <div class="article-preview">
                     <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${item.articleID}&articleCreator=${item.creator}">
