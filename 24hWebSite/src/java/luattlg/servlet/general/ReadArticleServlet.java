@@ -75,8 +75,8 @@ public class ReadArticleServlet extends HttpServlet {
         //Hide comment
         List<CommentDTO> afterDeleteList = new ArrayList<CommentDTO>();
         for (CommentDTO comment : commentList) {
-//            System.out.println(""+comment.getLastStatusChangerID());
-            System.out.println(""+userID);
+            System.out.println("last change "+comment.getLastStatusChangerID());
+            System.out.println("real "+userID);
             if (comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) || comment.getLastStatusChangerID() == userID) {
                 afterDeleteList.add(comment);
             }

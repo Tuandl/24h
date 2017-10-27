@@ -67,7 +67,7 @@ public class ChangeCommentStatusServlet extends HttpServlet {
             newStatus = CommentDTO.STATUS_AVAILABLE;
         }
         
-        CommentDTO comment = new CommentDTO(commentID, newStatus, articleID, createTime);
+        CommentDTO comment = new CommentDTO(commentID, newStatus, user.getUserID(), createTime);
         if(!new CommentDAO().changeStatus(comment)){
             request.setAttribute("ERROR-CHANGE-COMMENT-STATUS", "Some errors occurs. Please try again");
         }
