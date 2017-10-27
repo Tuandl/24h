@@ -210,10 +210,10 @@
                                     <label>
                                         <c:choose>
                                             <c:when test="${sessionScope.USER.gender == 1}">
-                                                <input type="radio" name="cbGender" checked value="male">
+                                                <input type="radio" name="cbGender" checked value="1">
                                             </c:when>
                                             <c:otherwise>
-                                                <input type="radio" name="cbGender" value="male">
+                                                <input type="radio" name="cbGender" value="1">
                                             </c:otherwise>
                                         </c:choose>
                                         Nam
@@ -221,10 +221,10 @@
                                     <label>
                                         <c:choose>
                                             <c:when test="${sessionScope.USER.gender == 2}">
-                                                <input type="radio" name="cbGender" value="female" checked>
+                                                <input type="radio" name="cbGender" value="2" checked>
                                             </c:when>
                                             <c:otherwise>
-                                                <input type="radio" name="cbGender" value="female">
+                                                <input type="radio" name="cbGender" value="2">
                                             </c:otherwise>
                                         </c:choose>
                                         Nữ
@@ -243,7 +243,7 @@
                                 <div class="col-xs-10 col-xs-offset-1">
                                     <div class="form-group label-floating">
                                         <label class="control-label">Số điện thoại</label>
-                                        <input type="text" class="form-control" value="${sessionScope.USER.phone}" name="txtPhoneNumber">
+                                        <input type="tel" class="form-control" value="${sessionScope.USER.phone}" name="txtPhoneNumber">
                                     </div>
                                 </div>
                             </div>
@@ -259,7 +259,7 @@
                                 <div class="col-xs-10 col-xs-offset-1">
                                     <div class="form-group label-floating">
                                         <label class="control-label">CMND</label>
-                                        <input type="email" class="form-control" value="${sessionScope.USER.peopleIndentityCard}" name="identityCard">
+                                        <input type="text" class="form-control" value="${sessionScope.USER.peopleIndentityCard}" name="identityCard">
                                     </div>
                                 </div>
                             </div>
