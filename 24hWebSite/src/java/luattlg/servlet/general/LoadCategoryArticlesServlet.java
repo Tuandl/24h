@@ -60,7 +60,7 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
         }
         System.out.println(""+category);
         request.setAttribute("categoryID", categoryID);
-        request.setAttribute("CATEGORYNAME", category);
+        request.setAttribute("CATEGORY-NAME", category);
         request.setAttribute("CATEGORY-ARTICLE", articles);
 
         System.out.println("number of article in category: " + articles.size());
