@@ -29,7 +29,7 @@ import tuanvxm.other.Role;
 @WebServlet(name = "ChangeCommentStatusServlet", urlPatterns = {"/ChangeCommentStatus.action"})
 public class ChangeCommentStatusServlet extends HttpServlet {
 
-    private static final String SUCCESS = "ReaArticle.action";
+    private static final String SUCCESS = "ReadArticle.action";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
