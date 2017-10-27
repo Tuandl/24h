@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/E:/GitHub/24h/24hWebSite/src/java/luattlg/filter/page/ArticlePageFilter.java</file>
+            <file>file:/E:/GitHub/24h/24hWebSite/src/java/luattlg/filter/action/UpdateArticleFilter.java</file>
+            <file>file:/E:/GitHub/24h/24hWebSite/src/java/luattlg/filter/action/UpdateInformationFilter.java</file>
+            <file>file:/E:/GitHub/24h/24hWebSite/src/java/luattlg/filter/page/HomePageFilter.java</file>
+            <file>file:/E:/GitHub/24h/24hWebSite/src/java/luattlg/servlet/journalist/CreateAticleServlet.java</file>
+            <file>file:/E:/GitHub/24h/24hWebSite/src/java/luattlg/servlet/general/UpdateInformationServlet.java</file>
+            <file>file:/E:/GitHub/24h/24hWebSite/src/java/luattlg/filter/action/RegisterActionFilter.java</file>
+            <file>file:/E:/GitHub/24h/24hWebSite/src/java/luattlg/filter/action/CreateArticleFilter.java</file>
+            <file>file:/E:/GitHub/24h/24hWebSite/src/java/luattlg/servlet/general/RegisterServlet.java</file>
+        </group>
     </open-files>
 </project-private>

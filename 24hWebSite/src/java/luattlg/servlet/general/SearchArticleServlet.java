@@ -6,7 +6,11 @@
 package luattlg.servlet.general;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +35,8 @@ public class SearchArticleServlet extends HttpServlet {
     
     private static String EDITOR = "tuanda/manage-article.jsp";
     private static String OTHER = "tuanda/search-result.jsp";
+    private static final int GETTOP = 15;
+    private static final int STARTDAY = 365;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -65,6 +71,29 @@ public class SearchArticleServlet extends HttpServlet {
             }
         }
         System.out.println("search result count = " + articleList.size());
+        
+        //Get top trend
+        ArrayList<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
+        List<UserDTO> listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));
+        HashMap<Integer, String> mapUser;
+        mapUser = new HashMap<Integer, String>();
+        for (UserDTO userr : listOfUserDTOs) {
+            mapUser.put(new Integer(userr.getUserID()), userr.getName());
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
+        Timestamp time = new Timestamp(calendar.getTime().getTime());
+        ArrayList<ArticleDTO> articlesTopTrend = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
+        ArrayList<ArticleDTO> topTrendAfetDelete = new ArrayList<>();
+        for (ArticleDTO trendArticle : articlesTopTrend) {
+            if (trendArticle.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)) {
+                trendArticle.setCreator(mapUser.get(new Integer(trendArticle.getCreatorID())));
+                topTrendAfetDelete.add(trendArticle);
+            }
+        }
+        request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
+        
         request.setAttribute("SEARCH-RESULT-LIST", articleList);
         if(role != null && role.equalsIgnoreCase("editor")){
             request.getRequestDispatcher(EDITOR).forward(request, response);
@@ -107,6 +136,16 @@ public class SearchArticleServlet extends HttpServlet {
         List<ArticleDTO> listOfArticleDTOs = new ArticleDAO().findByTitle("%"+name+"%");
         System.out.println(""+listOfArticleDTOs.size());
         return listOfArticleDTOs;
+    }
+    
+    private int getRoleID(String rolename, ArrayList<Role> listOfRole) {
+        //System.out.println("Get Role ID home page filter here "+listOfRole.size());
+        for (Role role : listOfRole) {
+            if (role.getName().equalsIgnoreCase(rolename)) {
+                return role.getRoleID();
+            }
+        }
+        return 0;
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

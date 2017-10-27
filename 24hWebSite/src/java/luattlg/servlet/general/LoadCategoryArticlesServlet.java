@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +19,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tuanvxm.DAOs.ArticleDAO;
+import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.ArticleDTO;
+import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.Category;
 import tuanvxm.other.Role;
 
@@ -65,6 +68,13 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
 
         System.out.println("number of article in category: " + articles.size());
 
+        ArrayList<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
+        List<UserDTO> listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));
+        HashMap<Integer, String> mapUser;
+        mapUser = new HashMap<Integer, String>();
+        for (UserDTO user : listOfUserDTOs) {
+            mapUser.put(new Integer(user.getUserID()), user.getName());
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
@@ -73,6 +83,7 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
         ArrayList<ArticleDTO> topTrendAfetDelete = new ArrayList<>();
         for (ArticleDTO trendArticle : articlesTopTrend) {
             if (trendArticle.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)) {
+                trendArticle.setCreator(mapUser.get(new Integer(trendArticle.getCreatorID())));
                 topTrendAfetDelete.add(trendArticle);
             }
         }
@@ -86,6 +97,16 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
         //Get journalist role id;
         listOfArticleDTOs = new ArticleDTO().findByCategoryIDAndStatus(categoryID, ArticleDTO.STATUS_AVAILABLE);
         return listOfArticleDTOs;
+    }
+    
+    private int getRoleID(String rolename, ArrayList<Role> listOfRole) {
+        //System.out.println("Get Role ID home page filter here "+listOfRole.size());
+        for (Role role : listOfRole) {
+            if (role.getName().equalsIgnoreCase(rolename)) {
+                return role.getRoleID();
+            }
+        }
+        return 0;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

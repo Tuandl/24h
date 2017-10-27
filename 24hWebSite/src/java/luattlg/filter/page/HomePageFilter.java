@@ -144,6 +144,7 @@ public class HomePageFilter implements Filter {
          for (ArticleDTO trendArticle : articles) {
             if (trendArticle.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)) {
                 topTrendAfetDelete.add(trendArticle);
+                trendArticle.setCreator(mapUser.get(new Integer(trendArticle.getArticleID())));
             }
         }
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
