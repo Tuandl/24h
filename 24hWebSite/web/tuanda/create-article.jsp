@@ -15,6 +15,7 @@
         <!--css for current page-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/third_party/froala_style.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/third_party/froala_editor.pkgd.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/third_party/codemirror.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/third_party/create-article.css">
     </head>
     <body class="template-page">
@@ -83,7 +84,7 @@
                             </div>
 
                             <div class="btn-submit-area">
-                                <button class="btn btn-info">Gởi bài</button>
+                                <button type="submit" class="btn btn-info">Gởi bài</button>
                             </div>
                         </form>
                     </div>
@@ -112,6 +113,9 @@
         <jsp:include page="partial/common-js.jsp"/>
         <!-- javascript for current page -->
         <script src="${pageContext.request.contextPath}/assets/js/third_party/froala_editor.pkgd.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/third_party/codemirror/codemirror.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/third_party/codemirror/mode/xml.js" type="text/javascript"></script>
+        
         <script src="${pageContext.request.contextPath}/assets/js/create-article.js" type="text/javascript"></script>
     </body>
 
