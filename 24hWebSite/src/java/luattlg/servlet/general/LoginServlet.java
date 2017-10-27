@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.CategoryList;
 import tuanvxm.other.RoleList;
@@ -54,6 +55,7 @@ public class LoginServlet extends HttpServlet {
         
         if(user.login()){
             String role = RoleList.getName(user.getRoleID());
+            user = new UserDAO().findByUserName(username);
             request.getSession().setAttribute("ROLE", role);
             request.getSession().setAttribute("USER", user);
             request.setAttribute("SUCCESS", "Xin chào " + user.getName());
