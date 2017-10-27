@@ -35,146 +35,146 @@
                 <ul class="nav navbar-nav">
                     <c:choose>
                         <c:when test="${param.categoryId eq 1}">
-                            <li class="active"><a href="1">Tin hằng ngày</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=1">Tin hằng ngày</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="1">Tin hằng ngày</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=1">Tin hằng ngày</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
                             <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="2">Thể thao</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=2">Thể thao</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="2">Thể thao</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=2">Thể thao</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="3">Thế giới</a></li>
+                            <c:when test="${param.categoryId eq 3}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=3">Thế giới</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="3">Thế giới</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=3">Thế giới</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="4">Thời trang</a></li>
+                            <c:when test="${param.categoryId eq 4}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=4">Thời trang</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="4">Thời trang</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=4">Thời trang</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="5">An ninh - xã hội</a></li>
+                            <c:when test="${param.categoryId eq 5}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=5">An ninh - xã hội</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="5">An ninh - xã hội</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=5">An ninh - xã hội</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="6">Hi-tech</a></li>
+                            <c:when test="${param.categoryId eq 6}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=6">Hi-tech</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="6">Hi-tech</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=6">Hi-tech</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="7">Tài chính - Địa ốc</a></li>
+                            <c:when test="${param.categoryId eq 7}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=7">Tài chính - Địa ốc</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="7">Tài chính - Địa ốc</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=7">Tài chính - Địa ốc</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="8">Ẩm thực</a></li>
+                            <c:when test="${param.categoryId eq 8}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=8">Ẩm thực</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="8">Ẩm thực</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=8">Ẩm thực</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="9">Sắc đẹp</a></li>
+                            <c:when test="${param.categoryId eq 9}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=9">Sắc đẹp</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="9">Sắc đẹp</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=9">Sắc đẹp</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="10">Showbiz</a></li>
+                            <c:when test="${param.categoryId eq 10}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=10">Showbiz</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="10">Showbiz</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=10">Showbiz</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="11">Giải trí</a></li>
+                            <c:when test="${param.categoryId eq 11}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=11">Giải trí</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="11">Giải trí</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=11">Giải trí</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="12">Nhịp sống trẻ</a></li>
+                            <c:when test="${param.categoryId eq 12}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=12">Nhịp sống trẻ</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="12">Nhịp sống trẻ</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=12">Nhịp sống trẻ</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="13">Giáo dục</a></li>
+                            <c:when test="${param.categoryId eq 13}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=13">Giáo dục</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="13">Giáo dục</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=13">Giáo dục</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="14">Ô tô</a></li>
+                            <c:when test="${param.categoryId eq 14}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=14">Ô tô</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="14">Ô tô</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=14">Ô tô</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="15">Xe máy</a></li>
+                            <c:when test="${param.categoryId eq 15}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=15">Xe máy</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="15">Xe máy</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=15">Xe máy</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="16">Thị trường - Tiêu dùng</a></li>
+                            <c:when test="${param.categoryId eq 16}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=16">Thị trường - Tiêu dùng</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="16">Thị trường - Tiêu dùng</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=16">Thị trường - Tiêu dùng</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="17">Du lịch</a></li>
+                            <c:when test="${param.categoryId eq 17}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=17">Du lịch</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="17">Du lịch</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=17">Du lịch</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
-                            <c:when test="${param.categoryId eq 2}">
-                            <li class="active"><a href="18">Sức khỏe</a></li>
+                            <c:when test="${param.categoryId eq 18}">
+                            <li class="active"><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=18">Sức khỏe</a></li>
                             </c:when>
                             <c:otherwise>
-                            <li><a href="18">Sức khỏe</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=18">Sức khỏe</a></li>
                             </c:otherwise>
                         </c:choose>
                     <li class="dropdown">

@@ -75,8 +75,8 @@ public class ReadArticleServlet extends HttpServlet {
         //Hide comment
         List<CommentDTO> afterDeleteList = new ArrayList<CommentDTO>();
         for (CommentDTO comment : commentList) {
-            System.out.println(""+comment.getLastStatusChangerID());
-            System.out.println(""+userID);
+//            System.out.println(""+comment.getLastStatusChangerID());
+//            System.out.println(""+userID);
             if (comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) || comment.getLastStatusChangerID() == userID) {
                 afterDeleteList.add(comment);
             }
@@ -88,10 +88,11 @@ public class ReadArticleServlet extends HttpServlet {
         calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);
         Timestamp time = new Timestamp(calendar.getTime().getTime());
         ArrayList<ArticleDTO> articles = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
-        System.out.println("COMMENT: " + afterDeleteList.size());
+//        System.out.println("COMMENT: " + afterDeleteList.size());
         
         request.setAttribute("COMMENT-LIST", afterDeleteList);
         request.setAttribute("ARTICLE", article);
+        System.out.println("Top trend: " + articles.size());
         request.setAttribute("TOP-TREND-LIST", articles);
         
         request.getRequestDispatcher(ARTICLE).forward(request, response);

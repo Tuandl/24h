@@ -4,6 +4,7 @@
     Author     : TUANDASE62310
 --%>
 
+<%@page import="tuanvxm.DTOs.ArticleDTO"%>
 <%@page import="tuanvxm.DTOs.CommentDTO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -24,6 +25,7 @@
         <div class="wrapper">
             <jsp:include page="partial/categories.jsp">
                 <jsp:param name="title" value="${requestScope.ARTICLE.categoryID}"/>
+                <jsp:param name="categoryId" value="${requestScope.ARTICLE.categoryID}"/>
             </jsp:include>
             <div class="main">
                 <div class="container">
@@ -95,19 +97,26 @@
                                         </c:choose>
 
                                     </c:forEach>
-                                    <%--</c:if>--%>
-                                    <div class="jumbotron new-comment">
-                                        <form action="" class="form-group">
-                                            <textarea name="newcomment" rows="5" placeholder="Bạn nghĩ gì về tin này?"></textarea>
-                                            <div class="submit-comment">
-                                                <button class="btn btn-success" type="submit">Gửi bình luận</button>
-                                            </div>
-                                        </form>
-                                    </div>
+
+                                    <c:if test="${not empty sessionScope.USER}">
+                                        <div class="jumbotron new-comment">
+                                            <form action="${pageContext.request.contextPath}/CreateComment.action" class="form-group">
+                                                <textarea name="txtComment" rows="5" placeholder="Bạn nghĩ gì về tin này?"></textarea>
+                                                <input type="hidden" name="articleID" value="${ARTICLE.articleID}"/>
+                                                <div class="submit-comment">
+                                                    <button class="btn btn-success" type="submit">Gửi bình luận</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </c:if>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <jsp:include page="partial/banner.jsp"/>
+                                <%= "Number of trending: " + ((List<ArticleDTO>) request.getAttribute("TOP-TREND-LIST")).size()%>
+                                <jsp:include page="partial/banner.jsp">
+                                    <jsp:param name="title" value="Đọc nhiều nhất"/>
+                                    <jsp:param name="listContent" value="${requestScope.TOP-TREND-LIST}"/>
+                                </jsp:include>
                             </div>
                         </div>
                     </article>

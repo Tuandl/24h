@@ -46,16 +46,20 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
             throws ServletException, IOException {
         int categoryID = 0;
         List<Category> listOfCategorys = (ArrayList)getServletContext().getAttribute("CATEGORY-LIST");
-        String category = request.getParameter("categoryName");
-        for(Category cate : listOfCategorys){
-            if(cate.getName().equalsIgnoreCase(category)){
-                categoryID = cate.getCategoryID();
-                break;
-            }
-        }
+//        String category = request.getParameter("categoryName");
+//        for(Category cate : listOfCategorys){
+//            if(cate.getName().equalsIgnoreCase(category)){
+//                categoryID = cate.getCategoryID();
+//                break;
+//            }
+//        }
+        categoryID = Integer.parseInt(request.getParameter("categoryID"));
+        request.setAttribute("categoryID", categoryID);
         
         List<ArticleDTO> articles = searchByCategory(categoryID);
         request.setAttribute("CATEGORY-ARTICLE", articles);
+        
+        System.out.println("number of article in category: " + articles.size());
         
          Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
