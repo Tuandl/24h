@@ -162,7 +162,7 @@
                                 <div class="col-xs-10 col-xs-offset-1">
                                     <div class="form-group label-floating">
                                         <label class="control-label">Nhập lại mật khẩu mới</label>
-                                        <input type="password" class="form-control" name="pwfConfirmPassword ">
+                                        <input type="password" class="form-control" name="pwfConfirmPassword">
                                     </div>
                                 </div>
                             </div>
@@ -212,10 +212,10 @@
                                     <label>
                                         <c:choose>
                                             <c:when test="${sessionScope.USER.gender == 1}">
-                                                <input type="radio" name="cbGender" checked value="1">
+                                                <input type="radio" name="cbGender" checked value="Nam">
                                             </c:when>
                                             <c:otherwise>
-                                                <input type="radio" name="cbGender" value="1">
+                                                <input type="radio" name="cbGender" value="Nam">
                                             </c:otherwise>
                                         </c:choose>
                                         Nam
@@ -223,10 +223,10 @@
                                     <label>
                                         <c:choose>
                                             <c:when test="${sessionScope.USER.gender == 2}">
-                                                <input type="radio" name="cbGender" value="2" checked>
+                                                <input type="radio" name="cbGender" value="Nữ" checked>
                                             </c:when>
                                             <c:otherwise>
-                                                <input type="radio" name="cbGender" value="2">
+                                                <input type="radio" name="cbGender" value="Nữ">
                                             </c:otherwise>
                                         </c:choose>
                                         Nữ

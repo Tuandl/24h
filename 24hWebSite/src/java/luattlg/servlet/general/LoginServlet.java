@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
     
     private static final String ADMIN = "admin.jsp";
     private static final String EDITOR = "editor.jsp";
-    private static final String JOURNALIST = "journalist.jsp";
+    private static final String JOURNALIST = "tuanda/journalist-manage-articles.jsp";
     private static final String READER = "tuanda/index.jsp";
     private static final String GUEST = "tuanda/index.jsp";
 
@@ -55,6 +55,7 @@ public class LoginServlet extends HttpServlet {
         
         if(user.login()){
             String role = RoleList.getName(user.getRoleID());
+            System.out.println("role = " + role);
             user = new UserDAO().findByUserName(username);
             request.getSession().setAttribute("ROLE", role);
             request.getSession().setAttribute("USER", user);

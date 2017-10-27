@@ -44,6 +44,8 @@ public class ChangePasswordServlet extends HttpServlet {
         if(!new UserDAO().changePassword(user.getUserID(), oldPassword, newPassword)){
             request.setAttribute("ERROR", "The old password is incorrect. Please enter new one");
             request.getRequestDispatcher(FAIL).forward(request, response);
+        } else {
+            request.setAttribute("SUCCESS", "Change password successful!!");
         }
         
         request.getRequestDispatcher(SUCCESS).forward(request, response);

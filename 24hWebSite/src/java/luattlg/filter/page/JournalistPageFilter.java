@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DTOs.ArticleDTO;
@@ -27,7 +28,8 @@ import tuanvxm.DTOs.UserDTO;
  *
  * @author luattlgse62386
  */
-@WebFilter(filterName = "JournalistPageFilter", urlPatterns = {"/journalist.html"}, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.INCLUDE})
+@WebFilter(filterName = "JournalistPageFilter", urlPatterns = {"/tuanda/journalist-manage-articles.jsp"}, 
+        dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.INCLUDE})
 public class JournalistPageFilter implements Filter {
 
     private static final boolean debug = true;
@@ -105,13 +107,13 @@ public class JournalistPageFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        String role = (String)request.getAttribute("ROLE");
+        String role = (String)((HttpServletRequest) request).getSession().getAttribute("ROLE");
         if(role == null || !role.equalsIgnoreCase("journalist")){
             HttpServletResponse httpResponse = (HttpServletResponse)response;
             httpResponse.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "This page is only for journalist. Please login to journalist and try again.");
             return;
         }
-        UserDTO user = (UserDTO)request.getAttribute("USER");
+        UserDTO user = (UserDTO)((HttpServletRequest) request).getSession().getAttribute("USER");
         List<ArticleDTO> listOfArticle = new ArticleDAO().findByCreatorID(user.getUserID());
         request.setAttribute("ARTICLE-LIST", listOfArticle);
         chain.doFilter(request, response);

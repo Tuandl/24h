@@ -4,6 +4,8 @@
     Author     : TUANDASE62310
 --%>
 
+<%@page import="tuanvxm.DTOs.ArticleDTO"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -20,8 +22,7 @@
         <jsp:include page="partial/navbar.jsp"/>
         <div class="wrapper">
             <jsp:include page="partial/categories.jsp">
-                <jsp:param name="title" value="...."/>
-                <jsp:param name="categoryId" value="......"/>
+                <jsp:param name="title" value="Quản lý bài viết"/>
             </jsp:include>
             <div class="main">
                 <div class="container">
@@ -31,7 +32,54 @@
                         <jsp:param name="SUCCESS" value="${requestScope.SUCCESS}"/>
                         <jsp:param name="WARNING" value="${requestScope.WARNING}"/>
                     </jsp:include>
-                    
+
+                    <div class="section">
+                        <article>
+
+                            <div class="row">
+                                <%
+                                    List<ArticleDTO> articles = (List<ArticleDTO>) request.getAttribute("ARTICLE-LIST");
+                                    pageContext.setAttribute("articles", articles);
+                                %>
+                                <c:forEach items="${articles}" var="article">
+                                    <div class="col-md-6">
+                                        <div class="article-preview">
+                                            <div class="btn-area">
+                                                <a href="${pageContext.request.contextPath}/UpdateArticle.action" class="btn btn-success btn-white btn-just-icon">
+                                                    <i class="material-icons">mode_edit</i>
+                                                </a>
+                                                <c:choose>
+                                                    <c:when test="${article.status == 'Available'}">
+                                                        <button class="btn btn-success btn-white btn-just-icon">
+                                                            <i class="material-icons">check_circle</i>
+                                                        </button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button class="btn btn-success btn-white btn-just-icon">
+                                                            <i class="material-icons">sync</i>
+                                                        </button>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+                                            </div>
+                                            <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${article.articleID}&articleCreator=${article.creator}">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="article-preview-img">
+                                                            <img src="${article.thumbnail}" alt="">
+                                                        </div>
+                                                        <div class="article-preview-header">${article.title}</div>
+                                                        <div class="article-preview-main-content">${article.headline}</div>
+                                                        <div class="article-preview-author">${article.creator}</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </article>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,8 +103,6 @@
         </c:if>
 
         <jsp:include page="partial/common-js.jsp"/>
-        <!-- javascript for current page -->
-        <script src="${pageContext.request.contextPath}/assets/js/....." type="text/javascript"></script>
     </body>
 
 

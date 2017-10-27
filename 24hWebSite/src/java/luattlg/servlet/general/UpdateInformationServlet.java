@@ -43,7 +43,7 @@ public class UpdateInformationServlet extends HttpServlet {
             String name = request.getParameter("txtName");
 //            DateFormat format = DateFormat.getDateInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-            Date getTime = sdf.parse(request.getParameter("txtDateOfBirth").substring(0, 9));
+            Date getTime = sdf.parse(request.getParameter("txtDateOfBirth").substring(0, 10));
             Timestamp dateOfBirTimestamp = new Timestamp(getTime.getTime());
             int gender = GenderList.toInt(request.getParameter("cbGender"));
             String address = request.getParameter("txtAddress");
