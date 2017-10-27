@@ -104,7 +104,7 @@ public class ChangPasswordActionFilter implements Filter {
             throws IOException, ServletException {
             
             HttpServletRequest httpServletRequest = (HttpServletRequest)request;
-            String password = httpServletRequest.getParameter("pwfPassword");
+            String password = httpServletRequest.getParameter("pwfNewPassword");
             String confirmPassword = httpServletRequest.getParameter("pwfConfirmPassword");
             Map<String,String> error = new HashMap<String, String>();
             if(password.length() < 8){
