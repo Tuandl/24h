@@ -49,7 +49,7 @@
                                 </ul>
                             </div>
                             <div class="col-md-4">
-                                <a class="btn btn-white btn-sm">Tìm kiếm tài khoản</a>
+                                <a href="${pageContext.request.contextPath}/tuanda/admin-view-account-page.jsp" class="btn btn-white btn-sm">Tìm kiếm tài khoản</a>
                                 <!-- <button class="btn btn-white btn-sm">Xem tất cả tài khoản</button> -->
                             </div>
                         </div>

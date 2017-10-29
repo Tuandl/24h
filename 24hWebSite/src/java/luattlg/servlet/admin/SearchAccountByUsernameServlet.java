@@ -24,8 +24,8 @@ import tuanvxm.DTOs.UserDTO;
 @WebServlet(name = "SearchAccountByUsernameServlet", urlPatterns = {"/SearchAccountByUsername.action"})
 public class SearchAccountByUsernameServlet extends HttpServlet {
 
-    private static final String SUCCESS = "userInfo.jsp";
-    private static final String FAIL = "fail.jsp";
+    private static final String SUCCESS = "/tuanda/admin-view-account-detail.jsp";
+    private static final String FAIL = "/tuanda/admin-view-account-detail.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
