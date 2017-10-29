@@ -19,7 +19,7 @@ public class UserDTO {
     public static final String STATUS_COMMENTLOCKED = "CommentLocked";
     public static final String STATUS_BANNED = "Banned";
 
-    private String username, password, name, address, phone, email, PeopleIndentityCard, PressCard, status;
+    private String username, password, name, address, phone, email, PeopleIndentityCard, PressCard, status, birthdayString;
     private int userID, gender, roleID, numberOfAllArticle, numberOfNotAvailableArticle;
     private Timestamp birthday;
 
@@ -80,6 +80,15 @@ public class UserDTO {
         this.roleID = roleID;
     }
 
+    public String getBirthdayString() {
+        return birthdayString;
+    }
+
+    public void setBirthdayString(String birthdayString) {
+        this.birthdayString = birthdayString;
+    }
+    
+    
     public int getNumberOfAllArticle() {
         return numberOfAllArticle;
     }

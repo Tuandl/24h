@@ -6,6 +6,7 @@
 package luattlg.servlet.general;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -57,6 +58,8 @@ public class LoginServlet extends HttpServlet {
             String role = RoleList.getName(user.getRoleID());
 //            System.out.println("role = " + role);
             user = new UserDAO().findByUserName(username);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            user.setBirthdayString(sdf.format(user.getBirthday()));
             request.getSession().setAttribute("ROLE", role);
             request.getSession().setAttribute("USER", user);
             request.setAttribute("SUCCESS", "Xin chào " + user.getName());
