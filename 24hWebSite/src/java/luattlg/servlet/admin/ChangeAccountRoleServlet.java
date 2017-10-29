@@ -23,7 +23,7 @@ import tuanvxm.other.Role;
 @WebServlet(name = "ChangeAccountRoleServlet", urlPatterns = {"/ChangeAccountRole.action"})
 public class ChangeAccountRoleServlet extends HttpServlet {
 
-    private static final String FOWARD = "admin.jsp";
+    private static final String FOWARD = "/tuanda/admin-home-page.jsp";
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

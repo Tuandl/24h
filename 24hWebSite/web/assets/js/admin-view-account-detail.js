@@ -14,7 +14,7 @@ $(document).ready(function() {
  * hide input press card number when role is not "Nhà báo"
  */
 function togglePresscardInput() {
-    $("input[name='role']").change(function(e) {
+    $("input[name='txtRole']").change(function(e) {
         var role = $(this).parent("label").text().trim();
         if (role == "Nhà báo") {
             $("#press-card-input").removeClass("hidden");
