@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -71,9 +72,14 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
         List<ArticleDTO> articles = searchByCategory(categoryID);
         for (ArticleDTO article : articles) {
             article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
-            System.out.println("" + mapUser.get(new Integer(article.getCreatorID())));
+            //System.out.println("" + mapUser.get(new Integer(article.getCreatorID())));
         }
-
+        articles.sort(new Comparator<ArticleDTO>(){
+            @Override
+            public int compare(ArticleDTO t, ArticleDTO t1) {
+                return t1.getCreatedTime().compareTo(t.getCreatedTime()); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
         request.setAttribute("categoryID", categoryID);
         request.setAttribute("CATEGORY-NAME", CategoryList.getName(categoryID));
         request.setAttribute("MAX-PAGE", Math.min(1000, articles.size()) / 20 + 1);
@@ -93,6 +99,7 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
                 topTrendAfetDelete.add(trendArticle);
             }
         }
+        
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
         request.getRequestDispatcher(CATEGORY).forward(request, response);
     }
