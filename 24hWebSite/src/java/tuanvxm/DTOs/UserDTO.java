@@ -20,7 +20,7 @@ public class UserDTO {
     public static final String STATUS_BANNED = "Banned";
 
     private String username, password, name, address, phone, email, PeopleIndentityCard, PressCard, status;
-    private int userID, gender, roleID;
+    private int userID, gender, roleID, numberOfAllArticle, numberOfNotAvailableArticle;
     private Timestamp birthday;
 
     public UserDTO() {
@@ -80,6 +80,23 @@ public class UserDTO {
         this.roleID = roleID;
     }
 
+    public int getNumberOfAllArticle() {
+        return numberOfAllArticle;
+    }
+
+    public void setNumberOfAllArticle(int numberOfAllArticle) {
+        this.numberOfAllArticle = numberOfAllArticle;
+    }
+
+    public int getNumberOfNotAvailableArticle() {
+        return numberOfNotAvailableArticle;
+    }
+
+    public void setNumberOfNotAvailableArticle(int numberOfNotAvailableArticle) {
+        this.numberOfNotAvailableArticle = numberOfNotAvailableArticle;
+    }
+    
+    
     public String getUsername() {
         return username;
     }

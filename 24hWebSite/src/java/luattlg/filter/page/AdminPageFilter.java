@@ -21,7 +21,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DAOs.UserDAO;
+import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.Role;
 
@@ -130,16 +132,31 @@ public class AdminPageFilter implements Filter {
             httpResponse.sendRedirect(HOME);
             return;
         }
-
+        
+        ArticleDAO articleDAO = new ArticleDAO();
         List<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
 
         List<UserDTO> listOfEditor = new UserDAO().findByRoleID(getRoleID("editor", listOfRole));
         List<UserDTO> listOfJournalist = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));
         List<UserDTO> listOfReader = new UserDAO().findByRoleID(getRoleID("reader", listOfRole));
 
-        request.setAttribute("MAXEDITORPAGE", Math.min(1000, listOfEditor.size()) / 20 + 1);
-        request.setAttribute("MAXJOURNALISTPAGE", Math.min(1000, listOfJournalist.size()) / 20 + 1);
-        request.setAttribute("MAXREADERPAGE", Math.min(1000, listOfReader.size()) / 20 + 1);
+        for(UserDTO journalist : listOfJournalist){
+            List<ArticleDTO> listOfArticle = articleDAO.findByCreatorID(journalist.getUserID());
+            int count = 0;
+            for(ArticleDTO article : listOfArticle){
+                if(article.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)){
+                    count++;
+                }
+            }
+            journalist.setNumberOfAllArticle(listOfArticle.size());
+            journalist.setNumberOfNotAvailableArticle(listOfArticle.size() - count);
+            //System.out.println("Article : "+ journalist.getNumberOfAllArticle());
+            //System.out.println("not available Article : "+ journalist.getNumberOfNotAvailableArticle());
+        }
+        
+        request.setAttribute("MAXEDITORPAGE",  listOfEditor.size() / 20 + 1);
+        request.setAttribute("MAXJOURNALISTPAGE", listOfJournalist.size() / 20 + 1);
+        request.setAttribute("MAXREADERPAGE", listOfReader.size() / 20 + 1);
 
         request.setAttribute("EDITOR-LIST", listOfEditor.subList(pageEditor * 20, Math.min((pageEditor + 1) * 20, listOfEditor.size())));
         request.setAttribute("JOURNALIST-LIST", listOfJournalist.subList(pageJournalist * 20, Math.min((pageJournalist + 1) * 20, listOfJournalist.size())));
