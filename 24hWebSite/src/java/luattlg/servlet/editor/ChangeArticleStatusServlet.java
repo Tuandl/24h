@@ -39,16 +39,17 @@ public class ChangeArticleStatusServlet extends HttpServlet {
             int articleID = Integer.parseInt(request.getParameter("txtArticleID"));
             UserDTO user = (UserDTO)request.getSession().getAttribute("USER");
             String newArticleStatus = request.getParameter("txtArticleStatus");
-            
 //            System.out.println("Change article status: ");
 //            System.out.println("article id = " + articleID);
 //            System.out.println("new status = " + newArticleStatus);
+//            System.out.println("User id "+user.getUserID());
+
             //Update
             ArticleDAO articleDAO = new ArticleDAO();
             ArticleDTO article = articleDAO.findByArticleID(articleID);
             article.setStatus(newArticleStatus);
             article.setLastModifiedTime(new Timestamp(new Date().getTime()));
-            article.setLastModifierID(user.getUserID());
+            article.setLastStatusChangerID(user.getUserID());
             articleDAO.changeStatus(article);
             
             response.sendRedirect(SUCCESS);
