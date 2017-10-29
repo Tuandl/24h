@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +25,7 @@ import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.CommentDTO;
 import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.CategoryList;
+import tuanvxm.other.RoleList;
 
 /**
  * This servlet is for loading article and comment of that article from
@@ -87,12 +89,19 @@ public class ReadArticleServlet extends HttpServlet {
         Timestamp time = new Timestamp(calendar.getTime().getTime());
         ArrayList<ArticleDTO> articles = (ArrayList) new ArticleDAO().findTopViewCountCreatedAfterTime(GETTOP, time);
         ArrayList<ArticleDTO> topTrendAfetDelete = new ArrayList<>();
+        List<UserDTO> listOfUserDTOs = new UserDAO().findByRoleID(RoleList.getID("journalist"));
+        HashMap<Integer, String> mapUser;
+        mapUser = new HashMap<Integer, String>();
+        for (UserDTO userOfList : listOfUserDTOs) {
+            mapUser.put(new Integer(userOfList.getUserID()), userOfList.getName());
+        }
         for (ArticleDTO trendArticle : articles) {
             if (trendArticle.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)) {
+                trendArticle.setCreator(mapUser.get(new Integer(trendArticle.getCreatorID())));
                 topTrendAfetDelete.add(trendArticle);
             }
         }
-
+        
         request.setAttribute("COMMENT-LIST", afterDeleteList);
         request.setAttribute("ARTICLE", article);
         request.setAttribute("CATEGORYNAME", CategoryList.getName(article.getCategoryID()));
