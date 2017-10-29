@@ -26,7 +26,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="article-preview-img">
-                                    <img src="${pageContext.request.contextPath}/assets/img/${item.thumbnail}" alt="">
+                                    <img src="${item.thumbnail}" alt="">
                                 </div>
                                 <div class="article-preview-header">${item.title}</div>
                                 <div class="article-preview-author">${item.creator}</div>

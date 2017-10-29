@@ -35,34 +35,15 @@
                     <%
                         List<ArticleDTO> newArticles = (List<ArticleDTO>) request.getAttribute("NEW-ARTICLE-LIST");
                         List<ArticleDTO> hidedArticles = (List<ArticleDTO>) request.getAttribute("HIDED-ARTICLE-LIST");
-                        pageContext.setAttribute("newArticles", newArticles);
-                        pageContext.setAttribute("hidedArticles", hidedArticles);
+                        newArticles.addAll(hidedArticles);
+                        pageContext.setAttribute("articles", newArticles);
+//                        pageContext.setAttribute("hidedArticles", hidedArticles);
                     %>
 
                     <div class="section">
                         <article>
                             <div class="row">
-                                <c:forEach items="${newArticles}" var="article">
-                                    <div class="col-md-6">
-                                        <div class="article-preview">
-                                            <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${article.articleID}&articleCreator=${article.creator}">
-                                                <div class="row">
-                                                    <div class="col-xs-12">
-                                                        <div class="article-preview-img">
-                                                            <img src="${article.thumbnail}" alt="">
-                                                        </div>
-                                                        <div class="article-preview-header">${article.title}</div>
-                                                        <div class="article-preview-main-content">${article.headline}</div>
-                                                        <div class="article-preview-author">${article.creator}</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </c:forEach>
-                            </div>
-                            <div class="row">
-                                <c:forEach items="${hidedArticles}" var="article">
+                                <c:forEach items="${articles}" var="article">
                                     <div class="col-md-6">
                                         <div class="article-preview">
                                             <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${article.articleID}&articleCreator=${article.creator}">
@@ -106,8 +87,6 @@
         </c:if>
 
         <jsp:include page="partial/common-js.jsp"/>
-        <!-- javascript for current page -->
-        <script src="${pageContext.request.contextPath}/assets/js/....." type="text/javascript"></script>
     </body>
 
 

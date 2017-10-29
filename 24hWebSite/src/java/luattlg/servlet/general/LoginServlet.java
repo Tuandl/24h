@@ -28,7 +28,7 @@ import tuanvxm.other.RoleList;
 @WebServlet(name = "LoginServlet", urlPatterns = {"/Login.action"})
 public class LoginServlet extends HttpServlet {
     
-    private static final String ADMIN = "admin.jsp";
+    private static final String ADMIN = "tuanda/admin-home-page.jsp";
     private static final String EDITOR = "tuanda/censor-page.jsp";
     private static final String JOURNALIST = "tuanda/journalist-manage-articles.jsp";
     private static final String READER = "tuanda/index.jsp";
@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
         
         if(user.login()){
             String role = RoleList.getName(user.getRoleID());
-            System.out.println("role = " + role);
+//            System.out.println("role = " + role);
             user = new UserDAO().findByUserName(username);
             request.getSession().setAttribute("ROLE", role);
             request.getSession().setAttribute("USER", user);

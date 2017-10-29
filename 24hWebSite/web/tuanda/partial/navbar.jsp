@@ -64,6 +64,13 @@
                                 </a>
                             </li>
                         </c:if>
+                        <c:if test="${sessionScope.ROLE == 'Administrator'}">
+                            <li>
+                                <a href="${pageContext.request.contextPath}/tuanda/admin-home-page.jsp">
+                                    <i class="material-icons">dns</i> Quản lý
+                                </a>
+                            </li>
+                        </c:if>
                         <li>
                             <a href="${pageContext.request.contextPath}/Logout.action">
                                 <i class="material-icons">exit_to_app</i> Đăng xuất

@@ -42,26 +42,30 @@
                             <div class="col-md-8">
                                 <c:if test="${sessionScope.ROLE == 'Editor'}">
                                     <div>
-                                        <button class="btn btn-upgrade btn-just-icon disabled" data-toggle="tooltip" data-placement="bottom" title="Trạng thái hiện tại">
-                                            <c:choose>
-                                                <c:when test="${requestScope.ARTICLE.status == 'Available'}">
-                                                    <i class="material-icons">check_circle</i>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <i class="material-icons">sync</i>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </button>
                                         <c:choose>
                                             <c:when test="${requestScope.ARTICLE.status == 'Available'}">
-                                                <button class="btn btn-white btn-just-icon" data-toggle="tooltip" data-placement="right" title="Nhấn vào để chuyển trạng thái">
-                                                    <i class="material-icons">not_interested</i>
+                                                <button class="btn btn-upgrade btn-just-icon disabled" data-toggle="tooltip" data-placement="bottom" title="Trạng thái hiện tại: Đã duyệt">
+                                                    <i class="material-icons">check_circle</i>
                                                 </button>
                                             </c:when>
                                             <c:otherwise>
-                                                <button class="btn btn-white btn-just-icon" data-toggle="tooltip" data-placement="right" title="Nhấn vào để chuyển trạng thái">
-                                                    <i class="material-icons">replay</i>
+                                                <button class="btn btn-upgrade btn-just-icon disabled" data-toggle="tooltip" data-placement="bottom" title="Trạng thái hiện tại: Ẩn">
+                                                    <i class="material-icons">sync</i>
                                                 </button>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <c:choose>
+                                            <c:when test="${requestScope.ARTICLE.status == 'Available'}">
+                                                <a class="btn btn-white btn-just-icon" data-toggle="tooltip" data-placement="right" title="Chuyển sang trạng thái Ẩn"
+                                                   href="${pageContext.request.contextPath}/ChangeArticleStatus.action?txtArticleID=${requestScope.ARTICLE.articleID}&txtArticleStatus=Hided">
+                                                    <i class="material-icons">not_interested</i>
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="btn btn-white btn-just-icon" data-toggle="tooltip" data-placement="right" title="Chuyển sang trạng thái đã duyệt"
+                                                   href="${pageContext.request.contextPath}/ChangeArticleStatus.action?txtArticleID=${requestScope.ARTICLE.articleID}&txtArticleStatus=Available">
+                                                    <i class="material-icons">replay</i>
+                                                </a>
                                             </c:otherwise>
                                         </c:choose>
 

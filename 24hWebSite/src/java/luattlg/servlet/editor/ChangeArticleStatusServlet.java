@@ -23,7 +23,7 @@ import tuanvxm.DTOs.UserDTO;
  */
 @WebServlet(name = "ChangeArticleStatusServlet", urlPatterns = {"/ChangeArticleStatus.action"})
 public class ChangeArticleStatusServlet extends HttpServlet {
-    private static final String SUCCESS = "editor.jsp";
+    private static final String SUCCESS = "tuanda/censor-page.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,6 +40,9 @@ public class ChangeArticleStatusServlet extends HttpServlet {
             UserDTO user = (UserDTO)request.getSession().getAttribute("USER");
             String newArticleStatus = request.getParameter("txtArticleStatus");
             
+//            System.out.println("Change article status: ");
+//            System.out.println("article id = " + articleID);
+//            System.out.println("new status = " + newArticleStatus);
             //Update
             ArticleDAO articleDAO = new ArticleDAO();
             ArticleDTO article = articleDAO.findByArticleID(articleID);

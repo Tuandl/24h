@@ -31,11 +31,11 @@ import tuanvxm.other.Role;
  * for admin page. If it's not admin, redirect to
  * Home page.
  */
-@WebFilter(filterName = "AdminPageFilter", urlPatterns = {"/admin.jsp"}, 
+@WebFilter(filterName = "AdminPageFilter", urlPatterns = {"/tuanda/admin-home-page.jsp"}, 
         dispatcherTypes = {DispatcherType.FORWARD,DispatcherType.REQUEST})
 public class AdminPageFilter implements Filter {
 
-    private static final String HOME = "home.jsp";
+    private static final String HOME = "/tuanda/index.jsp";
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
@@ -114,7 +114,7 @@ public class AdminPageFilter implements Filter {
         
         HttpServletRequest httpRequest = (HttpServletRequest)request;
         String role = (String)httpRequest.getSession().getAttribute("ROLE");
-        if(role == null || !role.equalsIgnoreCase("admin")){
+        if(role == null || !role.equalsIgnoreCase("Administrator")){
             HttpServletResponse httpResponse = (HttpServletResponse)response;
             httpResponse.sendRedirect(HOME);
             return;
