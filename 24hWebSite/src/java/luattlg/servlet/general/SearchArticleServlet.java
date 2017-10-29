@@ -24,57 +24,59 @@ import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.Role;
 
 /**
- * This servlet is for searching article. 
- * Redirect :
- * With editor role - manageArticle.jsp
- * Other role - searchResult.jsp
+ * This servlet is for searching article. Redirect : With editor role -
+ * manageArticle.jsp Other role - searchResult.jsp
  */
 @WebServlet(name = "SearchArticleServlet", urlPatterns = {"/SearchArticle.action"})
 public class SearchArticleServlet extends HttpServlet {
 
-    
     private static String EDITOR = "tuanda/manage-article.jsp";
     private static String OTHER = "tuanda/search-result.jsp";
     private static final int GETTOP = 15;
     private static final int STARTDAY = 365;
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String searchType = request.getParameter("cbSearchType");
         String context = request.getParameter("txtSearch");
-        int page = Integer.parseInt(request.getParameter("txtPage"));
+        int page = 1;
+        try {
+            page = Integer.parseInt(request.getParameter("txtPage"));
+        } catch (Exception ex) {
+            System.out.println("This is init");
+        }
         page--;
-        
+
         request.setAttribute("txtSearch", context);
-        String role = (String)request.getSession().getAttribute("ROLE");
-        UserDTO user = (UserDTO)request.getSession().getAttribute("USER");
+        String role = (String) request.getSession().getAttribute("ROLE");
+        UserDTO user = (UserDTO) request.getSession().getAttribute("USER");
         int userID = -1;
-        if(user != null){
+        if (user != null) {
             userID = user.getUserID();
         }
-        List <ArticleDTO> articleList = null;
-        if(searchType.equalsIgnoreCase("Writter")){
+        List<ArticleDTO> articleList = null;
+        if (searchType.equalsIgnoreCase("Writter")) {
             articleList = searchByWritter(context);
-        }else{
+        } else {
             articleList = searchByName(context);
         }
-        
+
         //Clear the hided article
         List<ArticleDTO> rawArticleList = articleList.subList(0, articleList.size());
         articleList = new ArrayList<ArticleDTO>();
         //System.out.println("raw article = "+rawArticleList.size());
-        
-        for(ArticleDTO article : rawArticleList){
-            if(article.getLastStatusChangerID() == userID || article.getStatus().equals(ArticleDTO.STATUS_AVAILABLE)){
+
+        for (ArticleDTO article : rawArticleList) {
+            if (article.getLastStatusChangerID() == userID || article.getStatus().equals(ArticleDTO.STATUS_AVAILABLE)) {
                 articleList.add(article);
             }
-            if(role.equalsIgnoreCase("Editor") && article.getStatus().equals(ArticleDTO.STATUS_NEW)){
+            if (role.equalsIgnoreCase("Editor") && article.getStatus().equals(ArticleDTO.STATUS_NEW)) {
                 articleList.add(article);
             }
         }
         //System.out.println("search result count = " + articleList.size());
-        
+
         //Get top trend
         ArrayList<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
         List<UserDTO> listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));
@@ -96,51 +98,51 @@ public class SearchArticleServlet extends HttpServlet {
             }
         }
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
-        request.setAttribute("MAXPAGE", Math.min(1000, articleList.size())/20 + 1);
-        request.setAttribute("SEARCH-RESULT-LIST", articleList.subList(page*20, Math.min((page+1)*20,articleList.size())));
-        if(role != null && role.equalsIgnoreCase("editor")){
+        request.setAttribute("MAXPAGE", Math.min(1000, articleList.size()) / 20 + 1);
+        request.setAttribute("SEARCH-RESULT-LIST", articleList.subList(page * 20, Math.min((page + 1) * 20, articleList.size())));
+        if (role != null && role.equalsIgnoreCase("editor")) {
             request.getRequestDispatcher(EDITOR).forward(request, response);
-        }else{
+        } else {
             request.getRequestDispatcher(OTHER).forward(request, response);
         }
     }
 
     //Method for searching article by writter
-    private List<ArticleDTO> searchByWritter(String name){
+    private List<ArticleDTO> searchByWritter(String name) {
         List<ArticleDTO> listOfArticleDTOs = new ArrayList<>();
-        
+
         //Get journalist role id;
-        List<Role> listOfRole = (ArrayList<Role>)getServletContext().getAttribute("ROLE-LIST");
+        List<Role> listOfRole = (ArrayList<Role>) getServletContext().getAttribute("ROLE-LIST");
         int journalistRoleID = 0;
-        for(Role role : listOfRole){
-            if(role.getName().equalsIgnoreCase("journalist")){
+        for (Role role : listOfRole) {
+            if (role.getName().equalsIgnoreCase("journalist")) {
                 journalistRoleID = role.getRoleID();
                 break;
             }
         }
 
         //Search all the journalist with that name and get all article of that journalist
-        List<UserDTO> listOfUserDTOs = new UserDAO().findLikeName("%"+name+"%");
-        for(UserDTO user : listOfUserDTOs){
-            if(user.getRoleID() == journalistRoleID){
+        List<UserDTO> listOfUserDTOs = new UserDAO().findLikeName("%" + name + "%");
+        for (UserDTO user : listOfUserDTOs) {
+            if (user.getRoleID() == journalistRoleID) {
                 //Get article
                 List<ArticleDTO> articleOfJournalist = new ArticleDAO().findByCreatorID(user.getUserID());
-                for(ArticleDTO article : articleOfJournalist){
+                for (ArticleDTO article : articleOfJournalist) {
                     listOfArticleDTOs.add(article);
                 }
             }
         }
-        
+
         return listOfArticleDTOs;
     }
-    
+
     //Method for searching article by article's name
-    private List<ArticleDTO> searchByName(String name){
-        List<ArticleDTO> listOfArticleDTOs = new ArticleDAO().findByTitle("%"+name+"%");
-        System.out.println(""+listOfArticleDTOs.size());
+    private List<ArticleDTO> searchByName(String name) {
+        List<ArticleDTO> listOfArticleDTOs = new ArticleDAO().findByTitle("%" + name + "%");
+        System.out.println("" + listOfArticleDTOs.size());
         return listOfArticleDTOs;
     }
-    
+
     private int getRoleID(String rolename, ArrayList<Role> listOfRole) {
         //System.out.println("Get Role ID home page filter here "+listOfRole.size());
         for (Role role : listOfRole) {
@@ -150,6 +152,7 @@ public class SearchArticleServlet extends HttpServlet {
         }
         return 0;
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

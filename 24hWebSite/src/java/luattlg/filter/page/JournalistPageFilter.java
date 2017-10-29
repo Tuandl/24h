@@ -29,7 +29,7 @@ import tuanvxm.DTOs.UserDTO;
  *
  * @author luattlgse62386
  */
-@WebFilter(filterName = "JournalistPageFilter", urlPatterns = {"/tuanda/journalist-manage-articles.jsp"}, 
+@WebFilter(filterName = "JournalistPageFilter", urlPatterns = {"/tuanda/journalist-manage-articles.jsp"},
         dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.INCLUDE})
 public class JournalistPageFilter implements Filter {
 
@@ -108,24 +108,29 @@ public class JournalistPageFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        String role = (String)((HttpServletRequest) request).getSession().getAttribute("ROLE");
-        int page = Integer.parseInt(((HttpServletRequest) request).getParameter("txtPage"));
+        String role = (String) ((HttpServletRequest) request).getSession().getAttribute("ROLE");
+        int page = 1;
+        try {
+            page = Integer.parseInt(((HttpServletRequest) request).getParameter("txtPage"));
+        } catch (Exception ex) {
+            System.out.println("This is init");
+        }
         page--;
-        if(role == null || !role.equalsIgnoreCase("journalist")){
-            HttpServletResponse httpResponse = (HttpServletResponse)response;
+        if (role == null || !role.equalsIgnoreCase("journalist")) {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "This page is only for journalist. Please login to journalist and try again.");
             return;
         }
-        UserDTO user = (UserDTO)((HttpServletRequest) request).getSession().getAttribute("USER");
+        UserDTO user = (UserDTO) ((HttpServletRequest) request).getSession().getAttribute("USER");
         List<ArticleDTO> listOfArticle = new ArticleDAO().findByCreatorID(user.getUserID());
-        listOfArticle.sort(new Comparator<ArticleDTO>(){
+        listOfArticle.sort(new Comparator<ArticleDTO>() {
             @Override
             public int compare(ArticleDTO t, ArticleDTO t1) {
                 return t1.getCreatedTime().compareTo(t.getCreatedTime());//To change body of generated methods, choose Tools | Templates.
             }
         });
-        request.setAttribute("MAXPAGE", Math.min(1000, listOfArticle.size())/20 + 1);
-        request.setAttribute("ARTICLE-LIST", listOfArticle.subList(page*20, Math.min((page+1)*20, listOfArticle.size())));
+        request.setAttribute("MAXPAGE", Math.min(1000, listOfArticle.size()) / 20 + 1);
+        request.setAttribute("ARTICLE-LIST", listOfArticle.subList(page * 20, Math.min((page + 1) * 20, listOfArticle.size())));
         chain.doFilter(request, response);
 
     }
