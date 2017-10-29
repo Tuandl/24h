@@ -23,6 +23,7 @@ import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.Category;
+import tuanvxm.other.CategoryList;
 import tuanvxm.other.Role;
 
 /**
@@ -51,23 +52,8 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
 
         categoryID = Integer.parseInt(request.getParameter("categoryID"));
         request.setAttribute("categoryID", categoryID);
-
-        List<ArticleDTO> articles = searchByCategory(categoryID);
-        List<Category> listOfCategorys = (ArrayList) getServletContext().getAttribute("CATEGORY-LIST");
-        String category = "";
-        for (Category cate : listOfCategorys) {
-            if (cate.getCategoryID() == categoryID) {
-                category = cate.getName();
-                break;
-            }
-        }
-        System.out.println(""+category);
-        request.setAttribute("categoryID", categoryID);
-        request.setAttribute("CATEGORY-NAME", category);
-        request.setAttribute("CATEGORY-ARTICLE", articles);
-
-        System.out.println("number of article in category: " + articles.size());
-
+        int page = Integer.parseInt(request.getParameter("txtPage"));
+                
         ArrayList<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
         List<UserDTO> listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));
         HashMap<Integer, String> mapUser;
@@ -75,6 +61,20 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
         for (UserDTO user : listOfUserDTOs) {
             mapUser.put(new Integer(user.getUserID()), user.getName());
         }
+        
+        List<ArticleDTO> articles = searchByCategory(categoryID);
+        for(ArticleDTO article : articles){
+            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
+            System.out.println(""+mapUser.get(new Integer(article.getCreatorID())));
+        }
+        
+        request.setAttribute("categoryID", categoryID);
+        request.setAttribute("CATEGORY-NAME", CategoryList.getName(categoryID));
+        request.setAttribute("CATEGORY-ARTICLE", articles.subList(page*20, Math.min((page+1)*20,articles.size())));
+
+        System.out.println("number of article in category: " + articles.size());
+
+        
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_MONTH, -STARTDAY);

@@ -10,6 +10,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -22,7 +23,11 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tuanvxm.DAOs.ArticleDAO;
+import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.ArticleDTO;
+import tuanvxm.DTOs.UserDTO;
+import tuanvxm.other.Role;
+import tuanvxm.other.RoleList;
 
 /**
  * This filter to check if user is editor or not.
@@ -118,14 +123,35 @@ public class EditorPageFilter implements Filter {
             return;
         }
         
+        int page = Integer.parseInt(request.getParameter("txtPage"));
+        
         //Load article for editor
         List<ArticleDTO> availableArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_AVAILABLE);
         List<ArticleDTO> newArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_NEW);
         List<ArticleDTO> hidedArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_HIDED);
         
-        request.setAttribute("AVAILABLE-ARTICLE-LIST", availableArticleList);
-        request.setAttribute("NEW-ARTICLE-LIST", newArticleList);
-        request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList);
+        //Get creator
+        ArrayList<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
+        List<UserDTO> listOfUserDTOs = new UserDAO().findByRoleID(RoleList.getID("journalist"));
+        HashMap<Integer, String> mapUser;
+        mapUser = new HashMap<Integer, String>();
+        for (UserDTO user : listOfUserDTOs) {
+            mapUser.put(new Integer(user.getUserID()), user.getName());
+        }
+        
+        for(ArticleDTO article : availableArticleList){
+            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
+        }
+        for(ArticleDTO article : newArticleList){
+            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
+        }
+        for(ArticleDTO article : hidedArticleList){
+            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
+        }
+        
+        request.setAttribute("AVAILABLE-ARTICLE-LIST", availableArticleList.subList(page*20, Math.min((page+1)*20,availableArticleList.size())));
+        request.setAttribute("NEW-ARTICLE-LIST", newArticleList.subList(page*20, Math.min((page+1)*20,newArticleList.size())));
+        request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList.subList(page*20, Math.min((page+1)*20,hidedArticleList.size())));
         chain.doFilter(request, response);
 
     }

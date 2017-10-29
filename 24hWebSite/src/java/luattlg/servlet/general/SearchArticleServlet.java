@@ -43,6 +43,8 @@ public class SearchArticleServlet extends HttpServlet {
         
         String searchType = request.getParameter("cbSearchType");
         String context = request.getParameter("txtSearch");
+        int page = Integer.parseInt(request.getParameter("txtPage"));
+        
         request.setAttribute("txtSearch", context);
         String role = (String)request.getSession().getAttribute("ROLE");
         UserDTO user = (UserDTO)request.getSession().getAttribute("USER");
@@ -60,7 +62,7 @@ public class SearchArticleServlet extends HttpServlet {
         //Clear the hided article
         List<ArticleDTO> rawArticleList = articleList.subList(0, articleList.size());
         articleList = new ArrayList<ArticleDTO>();
-        System.out.println("raw article = "+rawArticleList.size());
+        //System.out.println("raw article = "+rawArticleList.size());
         
         for(ArticleDTO article : rawArticleList){
             if(article.getLastStatusChangerID() == userID || article.getStatus().equals(ArticleDTO.STATUS_AVAILABLE)){
@@ -70,7 +72,7 @@ public class SearchArticleServlet extends HttpServlet {
                 articleList.add(article);
             }
         }
-        System.out.println("search result count = " + articleList.size());
+        //System.out.println("search result count = " + articleList.size());
         
         //Get top trend
         ArrayList<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
@@ -94,7 +96,7 @@ public class SearchArticleServlet extends HttpServlet {
         }
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
         
-        request.setAttribute("SEARCH-RESULT-LIST", articleList);
+        request.setAttribute("SEARCH-RESULT-LIST", articleList.subList(page*20, Math.min((page+1)*20,articleList.size())));
         if(role != null && role.equalsIgnoreCase("editor")){
             request.getRequestDispatcher(EDITOR).forward(request, response);
         }else{

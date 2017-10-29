@@ -138,7 +138,7 @@ public class HomePageFilter implements Filter {
                     return o2.getCreatedTime().compareTo(o1.getCreatedTime());
                 }
             });
-            articleWithCategory.put(category.getName(), articles);
+            articleWithCategory.put(category.getName(), new ArrayList<ArticleDTO>(articles.subList(0, Math.min(articles.size(),5))));
         }
 
         //Get trending article count from now-GETTOP day
@@ -155,6 +155,12 @@ public class HomePageFilter implements Filter {
 
             }
         }
+        topTrendAfetDelete.sort(new Comparator<ArticleDTO>(){
+            @Override
+            public int compare(ArticleDTO t, ArticleDTO t1) {
+                return t1.getCreatedTime().compareTo(t.getCreatedTime());//To change body of generated methods, choose Tools | Templates.
+            }
+        });
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
         request.setAttribute("ARTICLE-LIST-BY-CATEGORY", articleWithCategory);
         chain.doFilter(request, response);

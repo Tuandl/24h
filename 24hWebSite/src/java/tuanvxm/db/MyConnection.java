@@ -21,7 +21,7 @@ public class MyConnection {
             res = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;"
                     + "databaseName = Web24H;"
                     + "user = sa;"
-                    + "password = 123456789");
+                    + "password = 123456");
         } catch (Exception e) {
             e.printStackTrace();
         } 
