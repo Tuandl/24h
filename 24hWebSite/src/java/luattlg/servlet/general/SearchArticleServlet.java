@@ -44,6 +44,7 @@ public class SearchArticleServlet extends HttpServlet {
         String searchType = request.getParameter("cbSearchType");
         String context = request.getParameter("txtSearch");
         int page = Integer.parseInt(request.getParameter("txtPage"));
+        page--;
         
         request.setAttribute("txtSearch", context);
         String role = (String)request.getSession().getAttribute("ROLE");
@@ -95,7 +96,7 @@ public class SearchArticleServlet extends HttpServlet {
             }
         }
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
-        
+        request.setAttribute("MAXPAGE", Math.min(1000, articleList.size())/20 + 1);
         request.setAttribute("SEARCH-RESULT-LIST", articleList.subList(page*20, Math.min((page+1)*20,articleList.size())));
         if(role != null && role.equalsIgnoreCase("editor")){
             request.getRequestDispatcher(EDITOR).forward(request, response);

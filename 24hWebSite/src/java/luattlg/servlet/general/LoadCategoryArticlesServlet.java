@@ -53,7 +53,8 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
         categoryID = Integer.parseInt(request.getParameter("categoryID"));
         request.setAttribute("categoryID", categoryID);
         int page = Integer.parseInt(request.getParameter("txtPage"));
-                
+        page--;
+        
         ArrayList<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
         List<UserDTO> listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));
         HashMap<Integer, String> mapUser;
@@ -70,6 +71,7 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
         
         request.setAttribute("categoryID", categoryID);
         request.setAttribute("CATEGORY-NAME", CategoryList.getName(categoryID));
+        request.setAttribute("MAX-PAGE", Math.min(1000, articles.size())/20 + 1);
         request.setAttribute("CATEGORY-ARTICLE", articles.subList(page*20, Math.min((page+1)*20,articles.size())));
 
         System.out.println("number of article in category: " + articles.size());

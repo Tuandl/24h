@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -108,6 +109,8 @@ public class JournalistPageFilter implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
         String role = (String)((HttpServletRequest) request).getSession().getAttribute("ROLE");
+        int page = Integer.parseInt(((HttpServletRequest) request).getParameter("txtPage"));
+        page--;
         if(role == null || !role.equalsIgnoreCase("journalist")){
             HttpServletResponse httpResponse = (HttpServletResponse)response;
             httpResponse.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "This page is only for journalist. Please login to journalist and try again.");
@@ -115,7 +118,14 @@ public class JournalistPageFilter implements Filter {
         }
         UserDTO user = (UserDTO)((HttpServletRequest) request).getSession().getAttribute("USER");
         List<ArticleDTO> listOfArticle = new ArticleDAO().findByCreatorID(user.getUserID());
-        request.setAttribute("ARTICLE-LIST", listOfArticle);
+        listOfArticle.sort(new Comparator<ArticleDTO>(){
+            @Override
+            public int compare(ArticleDTO t, ArticleDTO t1) {
+                return t1.getCreatedTime().compareTo(t.getCreatedTime());//To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        request.setAttribute("MAXPAGE", Math.min(1000, listOfArticle.size())/20 + 1);
+        request.setAttribute("ARTICLE-LIST", listOfArticle.subList(page*20, Math.min((page+1)*20, listOfArticle.size())));
         chain.doFilter(request, response);
 
     }

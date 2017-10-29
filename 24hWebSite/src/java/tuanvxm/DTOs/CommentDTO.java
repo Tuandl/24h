@@ -20,7 +20,7 @@ public class CommentDTO {
     public static final String STATUS_HIDE_BY_READER = "HideByReader";
     public static final String STATUS_HIDE_BY_EDITOR = "HideByEditor";
     
-    private String content, status;
+    private String content, status,creator;
     private int commentID, articleID, creatorID, LastStatusChangerID;
     private Timestamp createdTime, lastStatusChangedTime;
 
@@ -58,9 +58,15 @@ public class CommentDTO {
         this.LastStatusChangerID = LastStatusChangerID;
         this.lastStatusChangedTime = lastStatusChangedTime;
     }
-    
-    
 
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+    
     public String getContent() {
         return content;
     }

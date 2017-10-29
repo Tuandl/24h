@@ -25,14 +25,12 @@ import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.UserDTO;
 import tuanvxm.other.Role;
 
-
 /**
- * Filter for checking role and load data 
- * for admin page. If it's not admin, redirect to
- * Home page.
+ * Filter for checking role and load data for admin page. If it's not admin,
+ * redirect to Home page.
  */
-@WebFilter(filterName = "AdminPageFilter", urlPatterns = {"/tuanda/admin-home-page.jsp"}, 
-        dispatcherTypes = {DispatcherType.FORWARD,DispatcherType.REQUEST})
+@WebFilter(filterName = "AdminPageFilter", urlPatterns = {"/tuanda/admin-home-page.jsp"},
+        dispatcherTypes = {DispatcherType.FORWARD, DispatcherType.REQUEST})
 public class AdminPageFilter implements Filter {
 
     private static final String HOME = "/tuanda/index.jsp";
@@ -111,25 +109,42 @@ public class AdminPageFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        
-        HttpServletRequest httpRequest = (HttpServletRequest)request;
-        String role = (String)httpRequest.getSession().getAttribute("ROLE");
-        if(role == null || !role.equalsIgnoreCase("Administrator")){
-            HttpServletResponse httpResponse = (HttpServletResponse)response;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        int pageEditor = 1;
+        int pageJournalist = 1;
+        int pageReader = 1;
+        try {
+            pageEditor = Integer.parseInt(httpRequest.getParameter("txtPageEditor"));
+            pageJournalist = Integer.parseInt(httpRequest.getParameter("txtpageJournalist"));
+            pageReader = Integer.parseInt(httpRequest.getParameter("txtpageReader"));
+        } catch (Exception e) {
+            System.out.println("This is the init");
+        }
+        pageEditor--;
+        pageJournalist--;
+        pageReader--;
+
+        String role = (String) httpRequest.getSession().getAttribute("ROLE");
+        if (role == null || !role.equalsIgnoreCase("Administrator")) {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.sendRedirect(HOME);
             return;
         }
-                
+
         List<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
 
         List<UserDTO> listOfEditor = new UserDAO().findByRoleID(getRoleID("editor", listOfRole));
         List<UserDTO> listOfJournalist = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));
         List<UserDTO> listOfReader = new UserDAO().findByRoleID(getRoleID("reader", listOfRole));
 
-        request.setAttribute("EDITOR-LIST", listOfEditor);
-        request.setAttribute("JOURNALIST-LIST", listOfJournalist);
-        request.setAttribute("READER-LIST", listOfReader);
-        
+        request.setAttribute("MAXEDITORPAGE", Math.min(1000, listOfEditor.size()) / 20 + 1);
+        request.setAttribute("MAXJOURNALISTPAGE", Math.min(1000, listOfJournalist.size()) / 20 + 1);
+        request.setAttribute("MAXREADERPAGE", Math.min(1000, listOfReader.size()) / 20 + 1);
+
+        request.setAttribute("EDITOR-LIST", listOfEditor.subList(pageEditor * 20, Math.min((pageEditor + 1) * 20, listOfEditor.size())));
+        request.setAttribute("JOURNALIST-LIST", listOfJournalist.subList(pageJournalist * 20, Math.min((pageJournalist + 1) * 20, listOfJournalist.size())));
+        request.setAttribute("READER-LIST", listOfReader.subList(pageReader * 20, Math.min((pageReader + 1) * 20, listOfReader.size())));
+
         chain.doFilter(request, response);
     }
 

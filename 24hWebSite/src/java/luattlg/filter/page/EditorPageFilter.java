@@ -30,12 +30,12 @@ import tuanvxm.other.Role;
 import tuanvxm.other.RoleList;
 
 /**
- * This filter to check if user is editor or not.
- * If it's not editor, redirect to home.
- * 
+ * This filter to check if user is editor or not. If it's not editor, redirect
+ * to home.
+ *
  */
-@WebFilter(filterName = "EditorPageFilter", urlPatterns = {"/tuanda/censor-page.jsp"}, 
-        dispatcherTypes = {DispatcherType.FORWARD,DispatcherType.REQUEST})
+@WebFilter(filterName = "EditorPageFilter", urlPatterns = {"/tuanda/censor-page.jsp"},
+        dispatcherTypes = {DispatcherType.FORWARD, DispatcherType.REQUEST})
 public class EditorPageFilter implements Filter {
 
     private static final boolean debug = true;
@@ -115,43 +115,58 @@ public class EditorPageFilter implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
         //Check role
-        HttpServletRequest httpRequest = (HttpServletRequest)request;
-        String role = (String)httpRequest.getSession().getAttribute("ROLE");
-        if(role == null || !role.equalsIgnoreCase("editor")){
-            HttpServletResponse httpResponse = (HttpServletResponse)response;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String role = (String) httpRequest.getSession().getAttribute("ROLE");
+        if (role == null || !role.equalsIgnoreCase("editor")) {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.sendRedirect(HOME);
             return;
         }
-        
-        int page = Integer.parseInt(request.getParameter("txtPage"));
-        
+
+        int pageNew = 1;
+        int pageAvailable = 1;
+        int pageHided = 1;
+        try {
+            pageNew = Integer.parseInt(request.getParameter("txtPageNew"));
+            pageAvailable = Integer.parseInt(request.getParameter("txtPageAvailable"));
+            pageHided = Integer.parseInt(request.getParameter("txtpageHided"));
+        } catch (Exception e) {
+            System.out.println("This is the init");
+        }
+        pageNew--;
+        pageAvailable--;
+        pageHided--;
+
         //Load article for editor
         List<ArticleDTO> availableArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_AVAILABLE);
         List<ArticleDTO> newArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_NEW);
         List<ArticleDTO> hidedArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_HIDED);
-        
+
         //Get creator
-        ArrayList<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
         List<UserDTO> listOfUserDTOs = new UserDAO().findByRoleID(RoleList.getID("journalist"));
         HashMap<Integer, String> mapUser;
         mapUser = new HashMap<Integer, String>();
         for (UserDTO user : listOfUserDTOs) {
             mapUser.put(new Integer(user.getUserID()), user.getName());
         }
+
+        for (ArticleDTO article : availableArticleList) {
+            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
+        }
+        for (ArticleDTO article : newArticleList) {
+            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
+        }
+        for (ArticleDTO article : hidedArticleList) {
+            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
+        }
+
+        request.setAttribute("MAXNEWPAGE", Math.min(1000, newArticleList.size()) / 20 + 1);
+        request.setAttribute("MAXAVAILABLEPAGE", Math.min(1000, availableArticleList.size()) / 20 + 1);
+        request.setAttribute("MAXHIDEDPAGE", Math.min(1000, hidedArticleList.size()) / 20 + 1);
         
-        for(ArticleDTO article : availableArticleList){
-            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
-        }
-        for(ArticleDTO article : newArticleList){
-            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
-        }
-        for(ArticleDTO article : hidedArticleList){
-            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
-        }
-        
-        request.setAttribute("AVAILABLE-ARTICLE-LIST", availableArticleList.subList(page*20, Math.min((page+1)*20,availableArticleList.size())));
-        request.setAttribute("NEW-ARTICLE-LIST", newArticleList.subList(page*20, Math.min((page+1)*20,newArticleList.size())));
-        request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList.subList(page*20, Math.min((page+1)*20,hidedArticleList.size())));
+        request.setAttribute("AVAILABLE-ARTICLE-LIST", availableArticleList.subList(pageAvailable * 20, Math.min((pageAvailable + 1) * 20, availableArticleList.size())));
+        request.setAttribute("NEW-ARTICLE-LIST", newArticleList.subList(pageNew * 20, Math.min((pageNew + 1) * 20, newArticleList.size())));
+        request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList.subList(pageHided * 20, Math.min((pageHided + 1) * 20, hidedArticleList.size())));
         chain.doFilter(request, response);
 
     }
