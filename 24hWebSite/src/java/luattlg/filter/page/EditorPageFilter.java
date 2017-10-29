@@ -29,7 +29,7 @@ import tuanvxm.DTOs.ArticleDTO;
  * If it's not editor, redirect to home.
  * 
  */
-@WebFilter(filterName = "EditorPageFilter", urlPatterns = {"/editor.jsp"}, 
+@WebFilter(filterName = "EditorPageFilter", urlPatterns = {"/tuanda/censor-page.jsp"}, 
         dispatcherTypes = {DispatcherType.FORWARD,DispatcherType.REQUEST})
 public class EditorPageFilter implements Filter {
 

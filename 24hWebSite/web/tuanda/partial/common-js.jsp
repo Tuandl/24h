@@ -24,4 +24,4 @@
 <script src="${pageContext.request.contextPath}/assets/js/template.js" type="text/javascript"></script>
 
 <!-- genarate random img. ONLY USE FOR PROTOTYPE!! -->
-<script src="${pageContext.request.contextPath}/assets/js/random-img.js" type="text/javascript"></script>
+<!--<script src="${pageContext.request.contextPath}/assets/js/random-img.js" type="text/javascript"></script>-->

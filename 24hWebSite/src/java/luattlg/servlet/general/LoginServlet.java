@@ -29,7 +29,7 @@ import tuanvxm.other.RoleList;
 public class LoginServlet extends HttpServlet {
     
     private static final String ADMIN = "admin.jsp";
-    private static final String EDITOR = "editor.jsp";
+    private static final String EDITOR = "tuanda/censor-page.jsp";
     private static final String JOURNALIST = "tuanda/journalist-manage-articles.jsp";
     private static final String READER = "tuanda/index.jsp";
     private static final String GUEST = "tuanda/index.jsp";

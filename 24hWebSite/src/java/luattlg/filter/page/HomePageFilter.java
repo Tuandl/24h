@@ -12,6 +12,7 @@ import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -131,6 +132,12 @@ public class HomePageFilter implements Filter {
             for (ArticleDTO article : articles) {
                 article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
             }
+            articles.sort(new Comparator<ArticleDTO>(){
+                @Override
+                public int compare(ArticleDTO o1, ArticleDTO o2) {
+                    return o2.getCreatedTime().compareTo(o1.getCreatedTime());
+                }
+            });
             articleWithCategory.put(category.getName(), articles);
         }
 

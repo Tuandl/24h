@@ -23,6 +23,7 @@ import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.CommentDTO;
 import tuanvxm.DTOs.UserDTO;
+import tuanvxm.other.CategoryList;
 
 /**
  * This servlet is for loading article and comment of that article from
@@ -94,9 +95,10 @@ public class ReadArticleServlet extends HttpServlet {
 
         request.setAttribute("COMMENT-LIST", afterDeleteList);
         request.setAttribute("ARTICLE", article);
+        request.setAttribute("CATEGORYNAME", CategoryList.getName(article.getCategoryID()));
         System.out.println("Top trend: " + articles.size());
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
-
+        
         request.getRequestDispatcher(ARTICLE).forward(request, response);
     }
 

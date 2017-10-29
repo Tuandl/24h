@@ -23,8 +23,9 @@
     <body class="template-page">
         <jsp:include page="partial/navbar.jsp"/>
         <div class="wrapper">
+            <% pageContext.setAttribute("categoryName", request.getAttribute("CATEGORYNAME")); %>
             <jsp:include page="partial/categories.jsp">
-                <jsp:param name="title" value="${requestScope.ARTICLE.categoryID}"/>
+                <jsp:param name="title" value="${categoryName}"/>
                 <jsp:param name="categoryId" value="${requestScope.ARTICLE.categoryID}"/>
             </jsp:include>
             <div class="main">
@@ -39,6 +40,33 @@
                     <article class="section">
                         <div class="row">
                             <div class="col-md-8">
+                                <c:if test="${sessionScope.ROLE == 'Editor'}">
+                                    <div>
+                                        <button class="btn btn-upgrade btn-just-icon disabled" data-toggle="tooltip" data-placement="bottom" title="Trạng thái hiện tại">
+                                            <c:choose>
+                                                <c:when test="${requestScope.ARTICLE.status == 'Available'}">
+                                                    <i class="material-icons">check_circle</i>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <i class="material-icons">sync</i>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </button>
+                                        <c:choose>
+                                            <c:when test="${requestScope.ARTICLE.status == 'Available'}">
+                                                <button class="btn btn-white btn-just-icon" data-toggle="tooltip" data-placement="right" title="Nhấn vào để chuyển trạng thái">
+                                                    <i class="material-icons">not_interested</i>
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button class="btn btn-white btn-just-icon" data-toggle="tooltip" data-placement="right" title="Nhấn vào để chuyển trạng thái">
+                                                    <i class="material-icons">replay</i>
+                                                </button>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                    </div>
+                                </c:if>
                                 <div class="article-header">
                                     <h2>${requestScope.ARTICLE.title}</h2>
                                     <h5><small>${requestScope.ARTICLE.createdTime}</small></h5>

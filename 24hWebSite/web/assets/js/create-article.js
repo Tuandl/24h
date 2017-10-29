@@ -5,7 +5,6 @@ $(function () {
             id: 'my_editor'
         },
         imageAllowedTypes: ['jpeg', 'jpg', 'png'],
-
         fileUploadURL: '/24hWebSite/upload_file',
         fileUploadParams: {
             id: 'my_editor'
@@ -103,6 +102,21 @@ $(function () {
                 }
                 alert(error.message);
                 // Response contains the original server response to the request if available.
-            })
-    ;
-});
+            });
+
+    $('#upload-form').ajaxForm({
+        success: function (msg) {
+//            alert("File has been uploaded successfully");
+//            window.alert(msg.link);
+            $('#thumbnail-img').attr("src", msg.link);
+            $('#thumbnail-url').attr("value", msg.link);
+        },
+        error: function (msg) {
+            $("#upload-error").text("Couldn't upload file");
+        }
+    });
+    
+    $('#fileUploader').change(function(){
+        $('#upload-form').submit();
+    });
+})

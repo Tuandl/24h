@@ -57,6 +57,13 @@
                                 </a>
                             </li>
                         </c:if>
+                        <c:if test="${sessionScope.ROLE == 'Editor'}">
+                            <li>
+                                <a href="${pageContext.request.contextPath}/tuanda/censor-page.jsp">
+                                    <i class="material-icons">work</i> Kiểm duyệt
+                                </a>
+                            </li>
+                        </c:if>
                         <li>
                             <a href="${pageContext.request.contextPath}/Logout.action">
                                 <i class="material-icons">exit_to_app</i> Đăng xuất

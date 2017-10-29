@@ -33,54 +33,60 @@
                         <jsp:param name="WARNING" value="${requestScope.WARNING}"/>
                     </jsp:include>
                     <div class="section create-article">
-                        <form class="form-horizontal">
+                        <div>
+                            <form action="${pageContext.request.contextPath}/upload_image" id="upload-form" class="form-horizontal form-upload-thumbnail"  method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                    <label>Tải Thumbnail</label>
+                                </div>
+                                <div class="row">
+                                    <input type="file" name="file" id="fileUploader" class="btn btn-success"/>
+                                </div>
+                                <img id="thumbnail-img" src=""/>
+                            </form>
+                        </div>
+                            <form action="${pageContext.request.contextPath}/CreateAticle.action" class="form-horizontal" method="POST">
+                            <input type="hidden" id="thumbnail-url" name="txtThumbnailURL"/>
                             <div class="center-block">
                                 <div class="form-group create-article-title">
                                     <label class="control-label control-label-normal col-sm-3" for="title">Tiêu đề:</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="title" placeholder="Ghi tiêu đề ở đây">
+                                        <input type="text" class="form-control" id="title" placeholder="Ghi tiêu đề ở đây" name="txtTitle">
                                     </div>
                                 </div>
                                 <div class="form-group create-article-category">
                                     <label class="control-label control-label-normal col-sm-5" for="category">Thể loại:</label>
                                     <div class="col-sm-7">
-                                        <select class="form-control" id="category">
+                                        <select class="form-control" id="category" name="cbCategory">
+                                            <option>Tin hàng ngày</option>
                                             <option>Thể thao</option>
                                             <option>Thế giới</option>
                                             <option>Thời trang</option>
-                                            <option>Bảo mật - xã hội</option>
+                                            <option>An ninh - xã hội</option>
                                             <option>Hi-tech</option>
                                             <option>Tài chính - Địa ốc</option>
-                                            <option>Thức ăn</option>
+                                            <option>Ẩm thực</option>
                                             <option>Sắc đẹp</option>
                                             <option>Showbiz</option>
                                             <option>Giải trí</option>
-                                            <option>Trẻ - Đời sống</option>
+                                            <option>Nhịp sống trẻ</option>
                                             <option>Giáo dục</option>
                                             <option>Ô tô</option>
                                             <option>Xe máy</option>
-                                            <option>Thị trường - người tiêu thụ</option>
+                                            <option>Thị trường - Tiêu dùng</option>
                                             <option>Du lịch</option>
                                             <option>Sức khỏe</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group create-article-title">
-                                    <label class="control-label control-label-normal col-sm-4" for="title">Hình nổi bật:</label>
-                                    <div class="col-sm-8">
-                                        <div>
-                                            <button class="btn btn-success">Tải hình lên</button>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <div class="form-group create-article-main-content">
                                     <label class="control-label control-label-normal" for="main-content">Nội dung chính:</label>
-                                    <textarea class="form-control" name="" id="main-content" rows="4" placeholder="Ghi nội tóm tắt nội dung ở đây..."></textarea>
+                                    <textarea class="form-control" name="txtHeadline" id="main-content" rows="4" placeholder="Ghi nội tóm tắt nội dung ở đây..."></textarea>
                                 </div>
                             </div>
 
                             <div class="create-article-content">
-                                <textarea name="" id="new-article"></textarea>
+                                <textarea name="txtContent" id="new-article"></textarea>
                             </div>
 
                             <div class="btn-submit-area">
@@ -115,7 +121,8 @@
         <script src="${pageContext.request.contextPath}/assets/js/third_party/froala_editor.pkgd.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/js/third_party/codemirror/codemirror.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/js/third_party/codemirror/mode/xml.js" type="text/javascript"></script>
-        
+
+        <script src="${pageContext.request.contextPath}/assets/js/jquery.form.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/js/create-article.js" type="text/javascript"></script>
     </body>
 

@@ -43,7 +43,7 @@ public class CreateCommentServlet extends HttpServlet {
         UserDTO user = (UserDTO)request.getSession().getAttribute("USER");
         Timestamp createdTime = new Timestamp(new Date().getTime());
         
-        CommentDTO newComment = new CommentDTO(user.getUserID(), articleID, createdTime, commentContent, CommentDTO.STATUS_AVAILABLE);
+        CommentDTO newComment = new CommentDTO(articleID, user.getUserID(), createdTime, commentContent, CommentDTO.STATUS_AVAILABLE);
         if(!new CommentDAO().createComment(newComment)){
             request.setAttribute("CREATE-COMMENT-ERROR", "There are some errors when you are trying to comment. Please try again");
         }

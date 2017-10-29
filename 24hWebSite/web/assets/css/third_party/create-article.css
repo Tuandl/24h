@@ -6,13 +6,15 @@
 
 .create-article .create-article-title {
     width: 500px;
-    margin-right: auto;
+    /*margin-right: auto;*/
+        margin-left: -47px;
 }
 
 .create-article .create-article-category {
     width: 300px;
     margin-right: auto;
     margin-top: 10px;
+        margin-left: -47px;
 }
 
 .create-article .create-article-main-content {
@@ -27,11 +29,22 @@
 }
 
 .center-block {
-    width: 700px;
-    margin-left: auto;
+        width: 584px;
+    margin-left: 21px;
     margin-right: auto;
 }
 
 .btn-submit-area button {
     float: right;
+}
+
+.create-article .form-upload-thumbnail {
+    position: absolute;
+    left: 119vh;
+    top: 7vh;
+    text-align: center;
+}
+
+.create-article .form-upload-thumbnail img {
+    height: 150px;
 }

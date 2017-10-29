@@ -45,7 +45,7 @@ public class CreateAticleServlet extends HttpServlet {
         String content = request.getParameter("txtContent");
         String thumbnail = request.getParameter("txtThumbnailURL");
         String category = request.getParameter("cbCategory");
-        List<Category> categoryList = (ArrayList<Category>)request.getAttribute("CATEGORY-LIST");
+        List<Category> categoryList = (ArrayList<Category>)getServletContext().getAttribute("CATEGORY-LIST");
         int categoryID = 0;
         for(Category cate : categoryList){
             if(cate.getName().equalsIgnoreCase(category)){
@@ -57,7 +57,11 @@ public class CreateAticleServlet extends HttpServlet {
         ArticleDTO newArticleDTO = new ArticleDTO(title, headine, content, thumbnail, categoryID, user.getUserID(), createdTime, ArticleDTO.STATUS_NEW);
         if(new ArticleDAO().createArticle(newArticleDTO)){
             request.setAttribute("SUCCESS", "Bài của bạn đang được chờ duyệt.");
+        } else {
+            request.setAttribute("ERROR", "Bug kìa!!!");
+        
         }
+        request.getRequestDispatcher("/tuanda/journalist-manage-articles.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
