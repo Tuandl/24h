@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UpdateArticleFilter implements Filter {
     
     private static final boolean debug = true;
-    private static final String SEND = "article.jsp";
+    private static final String SEND = "/tuanda/create-article.jsp";
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
