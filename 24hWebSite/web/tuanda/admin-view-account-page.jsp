@@ -37,45 +37,65 @@
                         <div class="row">
                             <label class="col-md-3">Tìm kiếm:</label>
                             <div class="col-md-9">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Regular" class="form-control" />
-                                </div>
+                                <form action="${pageContext.request.contextPath}/SearchUserByName.action">
+                                    <div class="input-group">
+                                        <input type="text" value="${requestScope.txtSearch}" placeholder="Nhập tên người dùng..." class="form-control" name="txtSearch"/>
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="form-control" style="background: none"><i class="material-icons">search</i></button>
+                                        </span>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
+                    <%
+                        List<UserDTO> users = (List<UserDTO>) request.getAttribute("SEARCHRESULT");
+                        pageContext.setAttribute("totalPage", request.getAttribute("MAXPAGE"));
+                        pageContext.setAttribute("curPage", request.getAttribute("curPage"));
+                        pageContext.setAttribute("users", users);
+                    %>
                     <div class="section-small">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Username</th>
-                                    <th>Tên người dùng</th>
-                                    <th>Vai trò</th>
-                                    <th>Trạng thái</th>
-                                    <th>Thông tin chi tiết</th>
-                                </tr>
-                            </thead>
-                            <%
-                                List<UserDTO> users = (List<UserDTO>) request.getAttribute("USER-LIST");
-                                pageContext.setAttribute("users", users);
-                            %>
-                            <tbody>
-                                <tr>
+                        <c:if test="${not empty users}">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Username</th>
+                                        <th>Tên người dùng</th>
+                                        <th>Vai trò</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thông tin chi tiết</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
                                     <c:forEach items="${users}" var="user">
-                                        <td></td>
-                                        <td>${user.username}</td>
-                                        <td>${user.name}</td>
-                                        <td>${user.role}</td>
-                                        <td>${user.status}</td>
-                                        <td>
-                                            <a href="${pageContext.request.contextPath}/SearchAccountByUsername.action?txtSearch=${user.username}" class="btn btn-success btn-just-icon btn-round">
-                                                <i class="material-icons">description</i>
-                                            </a>
-                                        </td>
+                                        <tr>
+                                            <td></td>
+                                            <td>${user.username}</td>
+                                            <td>${user.name}</td>
+                                            <td>${user.roleID}</td>
+                                            <td>${user.status}</td>
+                                            <td>
+                                                <a href="${pageContext.request.contextPath}/SearchAccountByUsername.action?txtSearch=${user.username}" class="btn btn-success btn-just-icon btn-round">
+                                                    <i class="material-icons">description</i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     </c:forEach>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                            <div class="row" style="text-align: center;">
+                                <jsp:include page="partial/pagination.jsp">
+                                    <jsp:param name="curPage" value="${curPage}"/>
+                                    <jsp:param name="totalPage" value="${totalPage}"/>
+                                    <jsp:param name="baseURL" value="${pageContext.request.contextPath}/SearchUserByName.action?txtSearch=${requestScope.txtSearch}&"/>
+                                </jsp:include>
+                            </div>
+                        </c:if>
+                        <c:if test="${empty users}">
+                            <h3 class="center-block text-center">Vui lòng nhập tên để tìm kiếm</h3>
+                        </c:if>
                     </div>
                 </div>
             </div>

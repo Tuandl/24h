@@ -22,7 +22,7 @@ import tuanvxm.DTOs.UserDTO;
  */
 @WebServlet(name = "SearchUserByName", urlPatterns = {"/SearchUserByName.action"})
 public class SearchUserByName extends HttpServlet {
-    private static final String FOWARD = "foward.jsp";
+    private static final String FOWARD = "/tuanda/admin-view-account-page.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,6 +43,7 @@ public class SearchUserByName extends HttpServlet {
             System.out.println("This is the init");
         }
         page--;
+        request.setAttribute("curPage", page);
         List<UserDTO> listOfUser = new UserDAO().findLikeName("%" + search + "%");
         System.out.println("Size "+listOfUser.size());
         request.setAttribute("MAXPAGE", listOfUser.size() / 20 + 1);

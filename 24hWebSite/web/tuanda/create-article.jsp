@@ -89,7 +89,7 @@
                                                 <c:otherwise><option>An ninh - xã hội</option></c:otherwise>
                                             </c:choose>
                                             <c:choose>
-                                                <c:when test="${requestScope.ARTICLE.categoryID eq 6}"><option selected>Hi-techi</option></c:when>
+                                                <c:when test="${requestScope.ARTICLE.categoryID eq 6}"><option selected>Hi-tech</option></c:when>
                                                 <c:otherwise><option>Hi-tech</option></c:otherwise>
                                             </c:choose>
                                             <c:choose>
