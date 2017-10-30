@@ -124,6 +124,7 @@ public class UpdateArticleFilter implements Filter {
         if(!error.isEmpty()){
             httpRequest.setAttribute("ERROR", error);
             httpRequest.getRequestDispatcher(SEND).forward(request, response);
+            return;
         }
         chain.doFilter(request, response);
     }
