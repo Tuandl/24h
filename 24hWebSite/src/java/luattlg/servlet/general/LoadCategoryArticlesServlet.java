@@ -60,6 +60,8 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
             System.out.println("This is init0");
         }
         page--;
+        
+        request.setAttribute("CUR-PAGE", page);
 
         ArrayList<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
         List<UserDTO> listOfUserDTOs = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));

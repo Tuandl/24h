@@ -123,19 +123,26 @@ public class EditorPageFilter implements Filter {
             return;
         }
 
+        int page = 1;
         int pageNew = 1;
         int pageAvailable = 1;
         int pageHided = 1;
         try {
+            page = Integer.parseInt(request.getParameter("txtPage"));
             pageNew = Integer.parseInt(request.getParameter("txtPageNew"));
             pageAvailable = Integer.parseInt(request.getParameter("txtPageAvailable"));
             pageHided = Integer.parseInt(request.getParameter("txtpageHided"));
         } catch (Exception e) {
             System.out.println("This is the init");
         }
+        pageNew = page;
+        pageAvailable = page;
+        pageHided = page;
         pageNew--;
         pageAvailable--;
         pageHided--;
+        page--;
+        request.setAttribute("curPage", page);
 
         //Load article for editor
         List<ArticleDTO> availableArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_AVAILABLE);
@@ -161,12 +168,20 @@ public class EditorPageFilter implements Filter {
         }
 
         request.setAttribute("MAXNEWPAGE", Math.min(1000, newArticleList.size()) / 20 + 1);
-        request.setAttribute("MAXAVAILABLEPAGE", Math.min(1000, availableArticleList.size()) / 20 + 1);
+//        request.setAttribute("MAXAVAILABLEPAGE", Math.min(1000, availableArticleList.size()) / 20 + 1);
         request.setAttribute("MAXHIDEDPAGE", Math.min(1000, hidedArticleList.size()) / 20 + 1);
-        
-        request.setAttribute("AVAILABLE-ARTICLE-LIST", availableArticleList.subList(pageAvailable * 20, Math.min((pageAvailable + 1) * 20, availableArticleList.size())));
-        request.setAttribute("NEW-ARTICLE-LIST", newArticleList.subList(pageNew * 20, Math.min((pageNew + 1) * 20, newArticleList.size())));
-        request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList.subList(pageHided * 20, Math.min((pageHided + 1) * 20, hidedArticleList.size())));
+
+//        request.setAttribute("AVAILABLE-ARTICLE-LIST", availableArticleList.subList(pageAvailable * 20, Math.min((pageAvailable + 1) * 20, availableArticleList.size())));
+        try {
+            request.setAttribute("NEW-ARTICLE-LIST", newArticleList.subList(pageNew * 20, Math.min((pageNew + 1) * 20, newArticleList.size())));
+        } catch (Exception e) {
+            request.setAttribute("NEW-ARTICLE-LIST", new ArrayList<ArticleDTO>());
+        }
+        try {
+            request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList.subList(pageHided * 20, Math.min((pageHided + 1) * 20, hidedArticleList.size())));
+        } catch (Exception e) {
+            request.setAttribute("HIDED-ARTICLE-LIST", new ArrayList<ArticleDTO>());
+        }
         chain.doFilter(request, response);
 
     }

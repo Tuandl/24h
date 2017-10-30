@@ -22,7 +22,7 @@ import tuanvxm.DTOs.ArticleDTO;
 @WebServlet(name = "LoadEditArticleServlet", urlPatterns = {"/LoadEditArticle.action"})
 public class LoadEditArticleServlet extends HttpServlet {
     
-    private static final String FOWARD = "edit.jsp";
+    private static final String FOWARD = "/tuanda/create-article.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

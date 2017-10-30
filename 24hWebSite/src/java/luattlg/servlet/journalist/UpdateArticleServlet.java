@@ -28,7 +28,7 @@ import tuanvxm.other.Category;
 @WebServlet(name = "UpdateArticleServlet", urlPatterns = {"/UpdateArticle.action"})
 public class UpdateArticleServlet extends HttpServlet {
         
-        private static final String JOURNALIST  = "journalist.jsp";
+        private static final String JOURNALIST  = "/tuanda/journalist-manage-articles.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,7 +48,7 @@ public class UpdateArticleServlet extends HttpServlet {
         String content = request.getParameter("txtContent");
         String thumbnail = request.getParameter("txtThumbnailURL");
         String category = request.getParameter("cbCategory");
-        List<Category> categoryList = (ArrayList<Category>)request.getAttribute("CATEGORY-LIST");
+        List<Category> categoryList = (ArrayList<Category>)getServletContext().getAttribute("CATEGORY-LIST");
         int categoryID = 0;
         for(Category cate : categoryList){
             if(cate.getName().equalsIgnoreCase(category)){

@@ -116,6 +116,7 @@ public class JournalistPageFilter implements Filter {
             System.out.println("This is init");
         }
         page--;
+        request.setAttribute("curPage", page);
         if (role == null || !role.equalsIgnoreCase("journalist")) {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "This page is only for journalist. Please login to journalist and try again.");

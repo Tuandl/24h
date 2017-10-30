@@ -40,8 +40,10 @@
                                     if (articles.size() > 0) {
                                         pageContext.setAttribute("highline", articles.get(0));
                                     }
+                                    pageContext.setAttribute("totalPage", request.getAttribute("MAX-PAGE"));
+                                    pageContext.setAttribute("curPage", request.getAttribute("CUR-PAGE"));
                                 %>
-                                <c:if test="${not empty highline}">
+                                <c:if test="${not empty highline and curPage eq 0}">
                                     <!-- highline -->
                                     <div class="section article-preview article-preview-highline">
                                         <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${highline.articleID}&articleCreator=${highline.creator}">
@@ -56,28 +58,34 @@
                                                 </div>
                                             </div>
                                         </a>
-
-                                    </div>
-                                    <div class="row">
-                                        <c:forEach items="${articles}" var="article" varStatus="status">
-                                            <c:if test="${status.index > 0}">
-                                                <div class="col-sm-6">
-                                                    <div class="article-preview article-preview-small">
-                                                        <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${article.articleID}&articleCreator=${article.creator}">
-                                                            <div class="article-preview-img">
-                                                                <img src="${article.thumbnail}" alt="">
-                                                            </div>
-                                                            <div class="article-preview-title">${article.title}</div>
-                                                            <div class="article-preview-author">${article.creator}</div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </c:if>
-                                        </c:forEach>
-
                                     </div>
                                 </c:if>
+                                <div class="row">
+                                    <c:forEach items="${articles}" var="article" varStatus="status">
+                                        <c:if test="${(curPage == 0 and status.index > 0) or curPage > 0}">
+                                            <div class="col-sm-6">
+                                                <div class="article-preview article-preview-small">
+                                                    <a href="${pageContext.request.contextPath}/ReadArticle.action?articleID=${article.articleID}&articleCreator=${article.creator}">
+                                                        <div class="article-preview-img">
+                                                            <img src="${article.thumbnail}" alt="">
+                                                        </div>
+                                                        <div class="article-preview-title">${article.title}</div>
+                                                        <div class="article-preview-author">${article.creator}</div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </c:if>
+                                    </c:forEach>
 
+                                </div>
+
+                                <div class="row" style="text-align: center;">
+                                    <jsp:include page="partial/pagination.jsp">
+                                        <jsp:param name="curPage" value="${curPage}"/>
+                                        <jsp:param name="totalPage" value="${totalPage}"/>
+                                        <jsp:param name="baseURL" value="${pageContext.request.contextPath}/LoadCategoryArticles.action?categoryID=${requestScope.categoryID}&"/>
+                                    </jsp:include>
+                                </div>
                             </div>
                             <div class="col-md-3 col-sm-12">
                                 <jsp:include page="partial/banner.jsp">

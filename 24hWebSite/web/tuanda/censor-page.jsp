@@ -37,7 +37,10 @@
                         List<ArticleDTO> hidedArticles = (List<ArticleDTO>) request.getAttribute("HIDED-ARTICLE-LIST");
                         newArticles.addAll(hidedArticles);
                         pageContext.setAttribute("articles", newArticles);
-//                        pageContext.setAttribute("hidedArticles", hidedArticles);
+                        pageContext.setAttribute("curPage", request.getAttribute("curPage"));
+                        int totalPage = Integer.parseInt(request.getAttribute("MAXNEWPAGE").toString());
+                        totalPage = Math.max(totalPage, Integer.parseInt(request.getAttribute("MAXHIDEDPAGE").toString()));
+                        pageContext.setAttribute("totalPage", totalPage);
                     %>
 
                     <div class="section">
@@ -61,6 +64,14 @@
                                         </div>
                                     </div>
                                 </c:forEach>
+                            </div>
+
+                            <div class="row" style="text-align: center;">
+                                <jsp:include page="partial/pagination.jsp">
+                                    <jsp:param name="curPage" value="${curPage}"/>
+                                    <jsp:param name="totalPage" value="${totalPage}"/>
+                                    <jsp:param name="baseURL" value="${pageContext.request.contextPath}/tuanda/censor-page.jsp?"/>
+                                </jsp:include>
                             </div>
                         </article>
                     </div>

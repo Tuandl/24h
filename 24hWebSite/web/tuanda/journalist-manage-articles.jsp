@@ -40,12 +40,14 @@
                                 <%
                                     List<ArticleDTO> articles = (List<ArticleDTO>) request.getAttribute("ARTICLE-LIST");
                                     pageContext.setAttribute("articles", articles);
+                                    pageContext.setAttribute("curPage", request.getAttribute("curPage"));
+                                    pageContext.setAttribute("totalPage", request.getAttribute("MAXPAGE"));
                                 %>
                                 <c:forEach items="${articles}" var="article">
                                     <div class="col-md-6">
                                         <div class="article-preview">
                                             <div class="btn-area">
-                                                <a href="${pageContext.request.contextPath}/UpdateArticle.action" class="btn btn-success btn-white btn-just-icon">
+                                                <a href="${pageContext.request.contextPath}/LoadEditArticle.action?txtArticleID=${article.articleID}" class="btn btn-success btn-white btn-just-icon">
                                                     <i class="material-icons">mode_edit</i>
                                                 </a>
                                                 <c:choose>
@@ -77,6 +79,14 @@
                                         </div>
                                     </div>
                                 </c:forEach>
+                            </div>
+
+                            <div class="row" style="text-align: center;">
+                                <jsp:include page="partial/pagination.jsp">
+                                    <jsp:param name="curPage" value="${curPage}"/>
+                                    <jsp:param name="totalPage" value="${totalPage}"/>
+                                    <jsp:param name="baseURL" value="${pageContext.request.contextPath}/tuanda/journalist-manage-articles.jsp?"/>
+                                </jsp:include>
                             </div>
                         </article>
                     </div>
