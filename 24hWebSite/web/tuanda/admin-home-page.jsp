@@ -34,6 +34,10 @@
                         List<UserDTO> journalists = (List<UserDTO>) request.getAttribute("JOURNALIST-LIST");
                         pageContext.setAttribute("editors", editors);
                         pageContext.setAttribute("journalists", journalists);
+                        pageContext.setAttribute("curPageEditor", request.getAttribute("curPageEditor"));
+                        pageContext.setAttribute("curPageJournalist", request.getAttribute("curPageJournalist"));
+                        pageContext.setAttribute("totalPageEditor", request.getAttribute("MAXEDITORPAGE"));
+                        pageContext.setAttribute("totalPageJournalist", request.getAttribute("MAXJOURNALISTPAGE"));
                     %>
 
                     <!-- common ìnormation -->
@@ -83,6 +87,14 @@
                                         </c:forEach>
                                     </tbody>
                                 </table>
+                                <div class="row" style="text-align: center;">
+                                    <jsp:include page="partial/multi-pagination.jsp">
+                                        <jsp:param name="curPage" value="${curPageJournalist}"/>
+                                        <jsp:param name="totalPage" value="${totalPageJournalist}"/>
+                                        <jsp:param name="pageParam" value="txtpageJournalist"/>
+                                        <jsp:param name="baseURL" value="${pageContext.request.contextPath}/admin-home-page.jsp?txtPageEditor=${curPageEditor}&"/>
+                                    </jsp:include>
+                                </div>
                             </div>
                             <!-- end journalist -->
                             <!-- start collaborator -->
@@ -108,6 +120,14 @@
                                         </c:forEach>
                                     </tbody>
                                 </table>
+                                <div class="row" style="text-align: center;">
+                                    <jsp:include page="partial/multi-pagination.jsp">
+                                        <jsp:param name="curPage" value="${curPageEditor}"/>
+                                        <jsp:param name="totalPage" value="${totalPageEditor}"/>
+                                        <jsp:param name="pageParam" value="txtPageEditor"/>
+                                        <jsp:param name="baseURL" value="${pageContext.request.contextPath}/admin-home-page.jsp?txtpageJournalist=${curPageJournalist}&"/>
+                                    </jsp:include>
+                                </div>
                             </div>
                         </div>
                     </div>
