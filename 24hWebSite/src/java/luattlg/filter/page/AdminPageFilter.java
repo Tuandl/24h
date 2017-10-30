@@ -125,6 +125,8 @@ public class AdminPageFilter implements Filter {
         pageEditor--;
         pageJournalist--;
         pageReader--;
+        request.setAttribute("curPageEditor", pageEditor);
+        request.setAttribute("curPageJournalist", pageJournalist);
 
         String role = (String) httpRequest.getSession().getAttribute("ROLE");
         if (role == null || !role.equalsIgnoreCase("Administrator")) {
