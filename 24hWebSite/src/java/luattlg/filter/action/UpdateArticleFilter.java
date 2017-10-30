@@ -123,10 +123,10 @@ public class UpdateArticleFilter implements Filter {
         }
         if(!error.isEmpty()){
             httpRequest.setAttribute("ERROR", error);
-            httpRequest.setAttribute("Title", title);
-            httpRequest.setAttribute("Headline", headine);
-            httpRequest.setAttribute("Content", content);
-            httpRequest.setAttribute("Thumbnail", thumbnail);
+            httpRequest.setAttribute("txtTitle", title);
+            httpRequest.setAttribute("txtHeadline", headine);
+            httpRequest.setAttribute("txtContent", content);
+            httpRequest.setAttribute("txtThumbnailURL", thumbnail);
             httpRequest.getRequestDispatcher(SEND).forward(request, response);
             return;
         }
