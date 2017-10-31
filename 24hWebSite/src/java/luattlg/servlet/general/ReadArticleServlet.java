@@ -76,10 +76,8 @@ public class ReadArticleServlet extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         List<CommentDTO> afterDeleteList = new ArrayList<CommentDTO>();
         for (CommentDTO comment : commentList) {
-            System.out.println("last change " + comment.getLastStatusChangerID());
-            System.out.println("real " + userID);
-            if (comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) || comment.getLastStatusChangerID() == userID) {
-                //Wait for search user by ID to get name of comment creator
+            if (comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) || comment.getLastStatusChangerID() == userID) {         
+                comment.setCreator(userDAO.findByUserID(comment.getCreatorID()).getName());
                 afterDeleteList.add(comment);
             }
         }
@@ -107,7 +105,7 @@ public class ReadArticleServlet extends HttpServlet {
         request.setAttribute("COMMENT-LIST", afterDeleteList);
         request.setAttribute("ARTICLE", article);
         request.setAttribute("CATEGORYNAME", CategoryList.getName(article.getCategoryID()));
-        System.out.println("Top trend: " + articles.size());
+        //System.out.println("Top trend: " + articles.size());
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
         
         request.getRequestDispatcher(ARTICLE).forward(request, response);
