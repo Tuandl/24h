@@ -294,4 +294,59 @@ public class UserDAO {
         }
         return res;
     }
+     
+     /*
+    Find and return User which UserID = 'userID'.
+    This function is called when search User by userID.
+    @Param: String username.
+    @Return:
+        - UserDTO if userID is exist.
+        - null if opposite.
+    */
+    public UserDTO findByUserID(int userID) {
+        UserDTO res = null;
+        try {
+            String sql = "SELECT \n" +
+                    "		UserID,\n" +
+                    "		Username,\n" +
+                    "		[Name],\n" +
+                    "		Birthday,\n" +
+                    "		Gender,\n" +
+                    "		[Address],\n" +
+                    "		Phone,\n" +
+                    "		Email,\n" +
+                    "		PeopleIndentityCard,\n" +
+                    "		PressCard,\n" +
+                    "		RoleID,\n" +
+                    "		[Status]\n" +
+                    "	FROM [User]\n" +
+                    "	WHERE UserID = ?";
+            cnn = MyConnection.getConnection();
+            stm = cnn.prepareStatement(sql);
+            stm.setInt(1, userID);
+            
+            rs = stm.executeQuery();
+            
+            if (rs.next()) {
+                res = new UserDTO();
+                res.setUserID(rs.getInt("UserID"));
+                res.setUsername(rs.getString("Username"));
+                res.setName(rs.getString("Name"));
+                res.setBirthday(rs.getTimestamp("Birthday"));
+                res.setGender(rs.getInt("Gender"));
+                res.setAddress(rs.getString("Address"));
+                res.setPhone(rs.getString("Phone"));
+                res.setEmail(rs.getString("Email"));
+                res.setPeopleIndentityCard(rs.getString("PeopleIndentityCard"));
+                res.setPressCard(rs.getString("PressCard"));
+                res.setRoleID(rs.getInt("RoleID"));
+                res.setStatus(rs.getString("Status"));
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+        return res;
+    }
 }

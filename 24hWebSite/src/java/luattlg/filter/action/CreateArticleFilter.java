@@ -23,10 +23,10 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author luattlgse62386
  */
-@WebFilter(filterName = "CreateArticleFilter", urlPatterns = {"/CreateArticle.action"})
+@WebFilter(filterName = "CreateArticleFilter", urlPatterns = {"/CreateAticle.action"})
 public class CreateArticleFilter implements Filter {
 
-    private static final String SEND = "createArticle.jsp";
+    private static final String SEND = "/tuanda/create-article.jsp";
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
@@ -123,7 +123,12 @@ public class CreateArticleFilter implements Filter {
         }
         if(!error.isEmpty()){
             httpRequest.setAttribute("ERROR", error);
+            httpRequest.setAttribute("txtTitle", title);
+            httpRequest.setAttribute("txtHeadline", headine);
+            httpRequest.setAttribute("txtContent", content);
+            httpRequest.setAttribute("txtThumbnailURL", thumbnail);
             httpRequest.getRequestDispatcher(SEND).forward(request, response);
+            return;
         }
         chain.doFilter(request, response);
 
