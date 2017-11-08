@@ -6,6 +6,8 @@
 package tuanvxm.DTOs;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import tuanvxm.DAOs.UserDAO;
 
@@ -209,7 +211,21 @@ public class UserDTO {
     public void setBirthday(Timestamp birthday) {
         this.birthday = birthday;
     }
-
+    
+    /**
+     * Return date string format of birthday.
+    */
+    public String getDateString(){
+        String ans = "";
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date getTime = sdf.parse(birthday.toString());
+            ans = getTime.toString();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return ans;
+    }
     /*
     Save this DTO as new user to database
     @return true if save successfully, opposite return fail

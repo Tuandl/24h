@@ -52,10 +52,11 @@ public class ReadArticleServlet extends HttpServlet {
             throws ServletException, IOException {
 
         int articleID = Integer.parseInt(request.getParameter("articleID"));
-        String articleCreator = request.getParameter("articleCreator");
+        UserDAO userDAO = new UserDAO();
         ArticleDTO article = new ArticleDAO().findByArticleID(articleID);
-        article.setCreator(articleCreator);
-
+        article.setCreator(userDAO.findByUserID(article.getCreatorID()).getName());
+        article.setViewCount(article.getViewCount()+1);
+        
         if (article == null) {
             response.sendError(response.SC_NOT_FOUND, "Article not found or this article has been removed.");
             return;
@@ -66,14 +67,12 @@ public class ReadArticleServlet extends HttpServlet {
         article.increaseViewCount();
 
         UserDTO user = (UserDTO) request.getSession().getAttribute("USER");
-        //System.out.println(""+user.getUserID());
         int userID = -1;
         if (user != null) {
             userID = user.getUserID();
         }
 
         //Hide comment
-        UserDAO userDAO = new UserDAO();
         List<CommentDTO> afterDeleteList = new ArrayList<CommentDTO>();
         for (CommentDTO comment : commentList) {
             if (comment.getStatus().equalsIgnoreCase(CommentDTO.STATUS_AVAILABLE) || comment.getLastStatusChangerID() == userID) {         
