@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -39,6 +42,8 @@ public class AdminPageFilter implements Filter {
     private static final String HOME = "/tuanda/index.jsp";
     private static final boolean debug = true;
     private int page_split;
+    private static final int TOP_ARTICLE = 10;
+    private static final int DAY_CALCULATE = 30;
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
@@ -149,7 +154,16 @@ public class AdminPageFilter implements Filter {
             journalist.setNumberOfAllArticle(list.get(0));
             journalist.setNumberOfNotAvailableArticle(list.get(0)-list.get(1));
         }
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_MONTH, -DAY_CALCULATE);
+        Timestamp timeStart = new Timestamp(calendar.getTime().getTime());
+        Timestamp timeEnd = new Timestamp(new Date().getTime());
+        List<ArticleDTO> listOfTopView = new ReportDAO().findTopViewCountArticle(TOP_ARTICLE, timeStart, timeEnd);
+        
         request.setAttribute("NUMBEROFARTICLE", new ArticleDAO().findByTitle("").size());
+        request.setAttribute("TOPVIEWARTICLE", listOfTopView);
         
         request.setAttribute("MAXEDITORPAGE",  listOfEditor.size() / page_split + 1);
         request.setAttribute("MAXJOURNALISTPAGE", listOfJournalist.size() / page_split + 1);
