@@ -37,7 +37,7 @@ public class SearchArticleServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        int page_split = Integer.parseInt(request.getServletContext().getInitParameter("SIZEOFPAGE"));
         String searchType = request.getParameter("cbSearchType");
         String context = request.getParameter("txtSearch");
         int page = 1;
@@ -98,8 +98,8 @@ public class SearchArticleServlet extends HttpServlet {
             }
         }
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
-        request.setAttribute("MAXPAGE", Math.min(1000, articleList.size()) / 20 + 1);
-        request.setAttribute("SEARCH-RESULT-LIST", articleList.subList(page * 20, Math.min((page + 1) * 20, articleList.size())));
+        request.setAttribute("MAXPAGE", Math.min(1000, articleList.size()) / page_split + 1);
+        request.setAttribute("SEARCH-RESULT-LIST", articleList.subList(page * page_split, Math.min((page + 1) * page_split, articleList.size())));
         if (role != null && role.equalsIgnoreCase("editor")) {
             request.getRequestDispatcher(EDITOR).forward(request, response);
         } else {

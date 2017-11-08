@@ -9,6 +9,10 @@
             30
         </session-timeout>
     </session-config>
+    <context-param>
+        <param-name>SIZEOFPAGE</param-name>
+        <param-value>15</param-value>
+    </context-param>
     <welcome-file-list>
         <welcome-file>Init.action</welcome-file>
     </welcome-file-list>

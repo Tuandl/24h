@@ -158,7 +158,7 @@ public class HomePageFilter implements Filter {
         topTrendAfetDelete.sort(new Comparator<ArticleDTO>(){
             @Override
             public int compare(ArticleDTO t, ArticleDTO t1) {
-                return t1.getCreatedTime().compareTo(t.getCreatedTime());//To change body of generated methods, choose Tools | Templates.
+                return t1.getCreatedTime().compareTo(t.getCreatedTime());
             }
         });
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);

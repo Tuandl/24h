@@ -50,7 +50,7 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int categoryID = 0;
-
+        int page_split = Integer.parseInt(request.getServletContext().getInitParameter("SIZEOFPAGE"));
         categoryID = Integer.parseInt(request.getParameter("categoryID"));
         request.setAttribute("categoryID", categoryID);
         int page = 1;
@@ -84,8 +84,8 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
         });
         request.setAttribute("categoryID", categoryID);
         request.setAttribute("CATEGORY-NAME", CategoryList.getName(categoryID));
-        request.setAttribute("MAX-PAGE", Math.min(1000, articles.size()) / 20 + 1);
-        request.setAttribute("CATEGORY-ARTICLE", articles.subList(page * 20, Math.min((page + 1) * 20, articles.size())));
+        request.setAttribute("MAX-PAGE", Math.min(1000, articles.size()) / page_split + 1);
+        request.setAttribute("CATEGORY-ARTICLE", articles.subList(page * page_split, Math.min((page + 1) * page_split, articles.size())));
 
         System.out.println("number of article in category: " + articles.size());
 

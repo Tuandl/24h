@@ -34,6 +34,8 @@ import tuanvxm.DTOs.UserDTO;
 public class JournalistPageFilter implements Filter {
 
     private static final boolean debug = true;
+    private int page_split;
+    private static final String HOME = "tuanda/index.jsp";
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
@@ -109,6 +111,13 @@ public class JournalistPageFilter implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
         String role = (String) ((HttpServletRequest) request).getSession().getAttribute("ROLE");
+        page_split = Integer.parseInt(request.getServletContext().getInitParameter("SIZEOFPAGE"));
+        if(!role.equalsIgnoreCase("journalist")){
+            HttpServletRequest httpRequest = (HttpServletRequest)request;
+            httpRequest.setAttribute("WARNING", "Please login to journalist to use this");
+            httpRequest.getRequestDispatcher(HOME).forward(request, response);
+            return;
+        }
         int page = 1;
         try {
             page = Integer.parseInt(((HttpServletRequest) request).getParameter("txtPage"));
@@ -130,8 +139,8 @@ public class JournalistPageFilter implements Filter {
                 return t1.getCreatedTime().compareTo(t.getCreatedTime());//To change body of generated methods, choose Tools | Templates.
             }
         });
-        request.setAttribute("MAXPAGE", Math.min(1000, listOfArticle.size()) / 20 + 1);
-        request.setAttribute("ARTICLE-LIST", listOfArticle.subList(page * 20, Math.min((page + 1) * 20, listOfArticle.size())));
+        request.setAttribute("MAXPAGE", Math.min(1000, listOfArticle.size()) / page_split + 1);
+        request.setAttribute("ARTICLE-LIST", listOfArticle.subList(page * page_split, Math.min((page + 1) * page_split, listOfArticle.size())));
         chain.doFilter(request, response);
 
     }

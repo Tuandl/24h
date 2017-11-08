@@ -10,6 +10,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.DispatcherType;
@@ -40,7 +41,7 @@ public class EditorPageFilter implements Filter {
 
     private static final boolean debug = true;
     private static final String HOME = "home.jsp";
-
+    private int page_split;
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
@@ -122,7 +123,7 @@ public class EditorPageFilter implements Filter {
             httpResponse.sendRedirect(HOME);
             return;
         }
-
+        page_split = Integer.parseInt(request.getServletContext().getInitParameter("SIZEOFPAGE"));
         int page = 1;
         int pageNew = 1;
         int pageAvailable = 1;
@@ -145,7 +146,6 @@ public class EditorPageFilter implements Filter {
         request.setAttribute("curPage", page);
 
         //Load article for editor
-        List<ArticleDTO> availableArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_AVAILABLE);
         List<ArticleDTO> newArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_NEW);
         List<ArticleDTO> hidedArticleList = new ArticleDAO().findByStatus(ArticleDTO.STATUS_HIDED);
 
@@ -157,9 +157,6 @@ public class EditorPageFilter implements Filter {
             mapUser.put(new Integer(user.getUserID()), user.getName());
         }
 
-        for (ArticleDTO article : availableArticleList) {
-            article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
-        }
         for (ArticleDTO article : newArticleList) {
             article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
         }
@@ -167,23 +164,34 @@ public class EditorPageFilter implements Filter {
             article.setCreator(mapUser.get(new Integer(article.getCreatorID())));
         }
 
-        request.setAttribute("MAXNEWPAGE", Math.min(1000, newArticleList.size()) / 20 + 1);
-//        request.setAttribute("MAXAVAILABLEPAGE", Math.min(1000, availableArticleList.size()) / 20 + 1);
-        request.setAttribute("MAXHIDEDPAGE", Math.min(1000, hidedArticleList.size()) / 20 + 1);
+        newArticleList = sortList(newArticleList);
+        hidedArticleList = sortList(hidedArticleList);
 
-//        request.setAttribute("AVAILABLE-ARTICLE-LIST", availableArticleList.subList(pageAvailable * 20, Math.min((pageAvailable + 1) * 20, availableArticleList.size())));
+        request.setAttribute("MAXNEWPAGE", Math.min(1000, newArticleList.size()) / page_split + 1);
+        request.setAttribute("MAXHIDEDPAGE", Math.min(1000, hidedArticleList.size()) / page_split + 1);
+
         try {
-            request.setAttribute("NEW-ARTICLE-LIST", newArticleList.subList(pageNew * 20, Math.min((pageNew + 1) * 20, newArticleList.size())));
+            request.setAttribute("NEW-ARTICLE-LIST", newArticleList.subList(pageNew * page_split, Math.min((pageNew + 1) * page_split, newArticleList.size())));
         } catch (Exception e) {
             request.setAttribute("NEW-ARTICLE-LIST", new ArrayList<ArticleDTO>());
         }
         try {
-            request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList.subList(pageHided * 20, Math.min((pageHided + 1) * 20, hidedArticleList.size())));
+            request.setAttribute("HIDED-ARTICLE-LIST", hidedArticleList.subList(pageHided * page_split, Math.min((pageHided + 1) * page_split, hidedArticleList.size())));
         } catch (Exception e) {
             request.setAttribute("HIDED-ARTICLE-LIST", new ArrayList<ArticleDTO>());
         }
         chain.doFilter(request, response);
 
+    }
+
+    private List<ArticleDTO> sortList(List<ArticleDTO> list) {
+        list.sort(new Comparator<ArticleDTO>() {
+            @Override
+            public int compare(ArticleDTO t, ArticleDTO t1) {
+                return t1.getCreatedTime().compareTo(t.getCreatedTime());
+            }
+        });
+        return list;
     }
 
     /**
