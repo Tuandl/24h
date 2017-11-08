@@ -112,8 +112,8 @@ public class JournalistPageFilter implements Filter {
             throws IOException, ServletException {
         String role = (String) ((HttpServletRequest) request).getSession().getAttribute("ROLE");
         page_split = Integer.parseInt(request.getServletContext().getInitParameter("SIZEOFPAGE"));
-        if(!role.equalsIgnoreCase("journalist")){
-            HttpServletRequest httpRequest = (HttpServletRequest)request;
+        if (!role.equalsIgnoreCase("journalist")) {
+            HttpServletRequest httpRequest = (HttpServletRequest) request;
             httpRequest.setAttribute("WARNING", "Please login to journalist to use this");
             httpRequest.getRequestDispatcher(HOME).forward(request, response);
             return;
@@ -136,7 +136,10 @@ public class JournalistPageFilter implements Filter {
         listOfArticle.sort(new Comparator<ArticleDTO>() {
             @Override
             public int compare(ArticleDTO t, ArticleDTO t1) {
-                return t1.getCreatedTime().compareTo(t.getCreatedTime());//To change body of generated methods, choose Tools | Templates.
+                if (t.getCategoryID() == t1.getCategoryID()) {
+                    return t1.getCreatedTime().compareTo(t.getCreatedTime());
+                }//To change body of generated methods, choose Tools | Templates.
+                return t.getCategoryID() < t1.getCategoryID() ? -1 : 1;
             }
         });
         request.setAttribute("MAXPAGE", Math.min(1000, listOfArticle.size()) / page_split + 1);

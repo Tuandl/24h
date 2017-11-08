@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tuanvxm.DAOs.ArticleDAO;
+import tuanvxm.DAOs.ReportDAO;
 import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.UserDTO;
@@ -37,7 +38,7 @@ public class AdminPageFilter implements Filter {
 
     private static final String HOME = "/tuanda/index.jsp";
     private static final boolean debug = true;
-
+    private int page_split;
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
@@ -115,6 +116,7 @@ public class AdminPageFilter implements Filter {
         int pageEditor = 1;
         int pageJournalist = 1;
         int pageReader = 1;
+        page_split = Integer.parseInt(request.getServletContext().getInitParameter("SIZEOFPAGE"));
         try {
             pageEditor = Integer.parseInt(httpRequest.getParameter("txtPageEditor"));
             pageJournalist = Integer.parseInt(httpRequest.getParameter("txtpageJournalist"));
@@ -143,26 +145,19 @@ public class AdminPageFilter implements Filter {
         List<UserDTO> listOfReader = new UserDAO().findByRoleID(getRoleID("reader", listOfRole));
 
         for(UserDTO journalist : listOfJournalist){
-            List<ArticleDTO> listOfArticle = articleDAO.findByCreatorID(journalist.getUserID());
-            int count = 0;
-            for(ArticleDTO article : listOfArticle){
-                if(article.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)){
-                    count++;
-                }
-            }
-            journalist.setNumberOfAllArticle(listOfArticle.size());
-            journalist.setNumberOfNotAvailableArticle(listOfArticle.size() - count);
-            //System.out.println("Article : "+ journalist.getNumberOfAllArticle());
-            //System.out.println("not available Article : "+ journalist.getNumberOfNotAvailableArticle());
+            List<Integer> list = new ReportDAO().reportArticleByCreatorID(journalist.getUserID());
+            journalist.setNumberOfAllArticle(list.get(0));
+            journalist.setNumberOfNotAvailableArticle(list.get(0)-list.get(1));
         }
+        request.setAttribute("NUMBEROFARTICLE", new ArticleDAO().findByTitle("").size());
         
-        request.setAttribute("MAXEDITORPAGE",  listOfEditor.size() / 20 + 1);
-        request.setAttribute("MAXJOURNALISTPAGE", listOfJournalist.size() / 20 + 1);
-        request.setAttribute("MAXREADERPAGE", listOfReader.size() / 20 + 1);
+        request.setAttribute("MAXEDITORPAGE",  listOfEditor.size() / page_split + 1);
+        request.setAttribute("MAXJOURNALISTPAGE", listOfJournalist.size() / page_split + 1);
+        request.setAttribute("MAXREADERPAGE", listOfReader.size() / page_split + 1);
 
-        request.setAttribute("EDITOR-LIST", listOfEditor.subList(pageEditor * 20, Math.min((pageEditor + 1) * 20, listOfEditor.size())));
-        request.setAttribute("JOURNALIST-LIST", listOfJournalist.subList(pageJournalist * 20, Math.min((pageJournalist + 1) * 20, listOfJournalist.size())));
-        request.setAttribute("READER-LIST", listOfReader.subList(pageReader * 20, Math.min((pageReader + 1) * 20, listOfReader.size())));
+        request.setAttribute("EDITOR-LIST", listOfEditor.subList(pageEditor * page_split, Math.min((pageEditor + 1) * page_split, listOfEditor.size())));
+        request.setAttribute("JOURNALIST-LIST", listOfJournalist.subList(pageJournalist * page_split, Math.min((pageJournalist + 1) * page_split, listOfJournalist.size())));
+        request.setAttribute("READER-LIST", listOfReader.subList(pageReader * page_split, Math.min((pageReader + 1) * page_split, listOfReader.size())));
 
         chain.doFilter(request, response);
     }

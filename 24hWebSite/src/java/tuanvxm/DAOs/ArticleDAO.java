@@ -417,4 +417,48 @@ public class ArticleDAO {
         }
         return res;
     }
+    
+    /*
+    Find articles which be created by User with UserID equal to 'creatorID' and CategoryID = 'categoryID'
+    This function is called when Journalist access Journalist Page to load articles created by himself.
+    @Param int creatorID.
+    @Return List<ArticleDTO>: List of articles sastify searching condition.
+    */
+    public List<ArticleDTO> findByCreatorIDAndCategoryID(int creatorID, int categoryID) {
+        List<ArticleDTO> res = new ArrayList<>();
+        try {
+            String sql = "EXEC dbo.ProcedureFindArticleByCategoryIDAndCreatorID @CategoryID = ?, @CreatorID = ?";
+            cnn = MyConnection.getConnection();
+            stm = cnn.prepareStatement(sql);
+            
+            stm.setInt(1, categoryID);
+            stm.setInt(2, creatorID);
+            
+            rs = stm.executeQuery();
+            
+            while (rs.next()) {
+                ArticleDTO dto = new ArticleDTO();
+                dto.setArticleID(rs.getInt("ArticleID"));
+                dto.setTitle(rs.getString("Title"));
+                dto.setHeadline(rs.getString("Headline"));
+                dto.setContent(rs.getString("Content"));
+                dto.setThumbnail(rs.getString("Thumbnail"));
+                dto.setCategoryID(rs.getInt("CategoryID"));
+                dto.setCreatorID(rs.getInt("CreatorID"));
+                dto.setCreatedTime(rs.getTimestamp("CreatedTime"));
+                dto.setLastModifierID(rs.getInt("LastModifierID"));
+                dto.setLastModifiedTime(rs.getTimestamp("LastModifiedTime"));
+                dto.setStatus(rs.getString("Status"));
+                dto.setLastStatusChangerID(rs.getInt("LastStatusChangerID"));
+                dto.setLastStatusChangedTime(rs.getTimestamp("LastStatusChangedTime"));
+                dto.setViewCount(rs.getInt("ViewCount"));
+                res.add(dto);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+        return res;
+    }
 }
