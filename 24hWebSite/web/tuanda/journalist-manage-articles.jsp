@@ -35,15 +35,28 @@
 
                     <div class="section">
                         <article>
-
-                            <div class="row">
-                                <%
-                                    List<ArticleDTO> articles = (List<ArticleDTO>) request.getAttribute("ARTICLE-LIST");
-                                    pageContext.setAttribute("articles", articles);
-                                    pageContext.setAttribute("curPage", request.getAttribute("curPage"));
-                                    pageContext.setAttribute("totalPage", request.getAttribute("MAXPAGE"));
-                                %>
-                                <c:forEach items="${articles}" var="article">
+                            <%
+                                List<ArticleDTO> articles = (List<ArticleDTO>) request.getAttribute("ARTICLE-LIST");
+                                pageContext.setAttribute("articles", articles);
+                                pageContext.setAttribute("curPage", request.getAttribute("curPage"));
+                                pageContext.setAttribute("totalPage", request.getAttribute("MAXPAGE"));
+                                pageContext.setAttribute("lastCategoryId", "-1");
+                            %>
+                            <c:forEach items="${articles}" var="article">
+                                <c:if test="${lastCategoryId ne article.categoryID}">
+                                    <c:if test="${lastCategoryId ne -1}">
+                                        <% out.print("</div>");%>
+                                    </c:if>
+                                    <div>
+                                        <h4 class="section-title">
+                                            ${article.categoryID}
+                                            <i class="material-icons">keyboard_arrow_right</i>
+                                        </h4>
+                                            <hr/>
+                                    </div>
+                                    <div class="row">
+                                        <c:set var="lastCategoryId" value="${article.categoryID}"/>
+                                    </c:if>
                                     <div class="col-md-6">
                                         <div class="article-preview">
                                             <div class="btn-area">
@@ -78,8 +91,8 @@
                                             </a>
                                         </div>
                                     </div>
-                                </c:forEach>
-                            </div>
+                            </c:forEach>
+                            <% out.print("</div>"); %>
 
                             <div class="row" style="text-align: center;">
                                 <jsp:include page="partial/pagination.jsp">

@@ -74,6 +74,7 @@
                                 <div class="article-header">
                                     <h2>${requestScope.ARTICLE.title}</h2>
                                     <h5><small>${requestScope.ARTICLE.createdTime}</small></h5>
+                                    <h4><small>Lượt xem: ${requestScope.ARTICLE.viewCount}</small></h4>
                                 </div>
                                 <p class="article-main-content">${requestScope.ARTICLE.headline}</p>
                                 <div class="article-content">
@@ -106,7 +107,7 @@
                                                         <img src="https://www.w3schools.com/bootstrap/img_avatar2.png" class="media-object" style="width:45px">
                                                     </div>
                                                     <div class="media-body">
-                                                        <h4 class="media-heading"> ${comment.creatorID} <small><i>${comment.createdTime}</i></small></h4>
+                                                        <h4 class="media-heading"> ${comment.creator} <small><i>${comment.createdTime}</i></small></h4>
                                                         <p>${comment.content}</p>
                                                     </div>
                                                 </div>
@@ -121,7 +122,7 @@
                                                         <img src="https://www.w3schools.com/bootstrap/img_avatar2.png" class="media-object" style="width:45px">
                                                     </div>
                                                     <div class="media-body">
-                                                        <h4 class="media-heading"> ${comment.creatorID} <small><i>${comment.createdTime}</i></small></h4>
+                                                        <h4 class="media-heading"> ${comment.creator} <small><i>${comment.createdTime}</i></small></h4>
                                                         <p>${comment.content}</p>
                                                     </div>
                                                 </div>
