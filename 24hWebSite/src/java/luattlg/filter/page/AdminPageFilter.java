@@ -167,6 +167,24 @@ public class AdminPageFilter implements Filter {
             Date getTimeEnd = sdf.parse(dateEnd);
             timeStart = new Timestamp(getTimeStart.getTime());
             timeEnd = new Timestamp(getTimeEnd.getTime());
+            
+            if (timeEnd.compareTo(new Date()) > 0) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                calendar.add(Calendar.DAY_OF_MONTH, -DAY_CALCULATE);
+                timeStart = new Timestamp(calendar.getTime().getTime());
+                timeEnd = new Timestamp(new Date().getTime());
+                request.setAttribute("WARNING", "Ngày kết thúc không được lớn hơn hôm nay");
+            }
+            
+            if(timeStart.compareTo(timeEnd) > 0){
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                calendar.add(Calendar.DAY_OF_MONTH, -DAY_CALCULATE);
+                timeStart = new Timestamp(calendar.getTime().getTime());
+                timeEnd = new Timestamp(new Date().getTime());
+                request.setAttribute("WARNING", "Ngày bắt đầu không được lớn hơn ngày kết thúc.");
+            }
         } catch (Exception ex) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
@@ -174,10 +192,10 @@ public class AdminPageFilter implements Filter {
             timeStart = new Timestamp(calendar.getTime().getTime());
             timeEnd = new Timestamp(new Date().getTime());
         }
-        try{
+        try {
             dateStart = sdf.format(new Date(timeStart.getTime()));
             dateEnd = sdf.format(new Date(timeEnd.getTime()));
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         List<ArticleDTO> listOfTopView = reportDAO.findTopViewCountArticle(TOP_ARTICLE, timeStart, timeEnd);
@@ -210,12 +228,13 @@ public class AdminPageFilter implements Filter {
         return 0;
     }
 
-    private int getMaxPage(int number,int page){
-        if(number == 0){
+    private int getMaxPage(int number, int page) {
+        if (number == 0) {
             number++;
         }
-        return number / page + (number%page == 0 ? 0 : 1);
+        return number / page + (number % page == 0 ? 0 : 1);
     }
+
     /**
      * Return the filter configuration object for this filter.
      */
