@@ -3,25 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package tuanvxm.DTOs;
 
 import java.sql.Timestamp;
 import java.util.List;
 import tuanvxm.DAOs.ArticleDAO;
+import tuanvxm.other.CategoryList;
 
 /**
  *
  * @author fightback
  */
 public class ArticleDTO {
-    
-    public static final String STATUS_NEW= "New"; //Default status
+
+    public static final String STATUS_NEW = "New"; //Default status
     public static final String STATUS_AVAILABLE = "Available";
     public static final String STATUS_HIDED = "Hided";
-    
-    private String title, headline, content, thumbnail, status,creator;
-    private int articleID, categoryID, creatorID, lastModifierID, lastStatusChangerID, viewCount; 
+
+    private String title, headline, content, thumbnail, status, creator, categoryName;
+    private int articleID, categoryID, creatorID, lastModifierID, lastStatusChangerID, viewCount;
     private Timestamp createdTime, lastModifiedTime, lastStatusChangedTime;
 
     public ArticleDTO() {
@@ -29,7 +29,7 @@ public class ArticleDTO {
 
     /*
     This constructor is designed for loading article from database
-    */
+     */
     public ArticleDTO(int articleID, String title, String headline, String content, String thumbnail, int categoryID, int creatorID, Timestamp createdTime, int lastModifierID, Timestamp lastModifiedTime, String status, int lastStatusChangerID, Timestamp lastStatusChangedTime, int viewCount) {
         this.title = title;
         this.headline = headline;
@@ -45,11 +45,12 @@ public class ArticleDTO {
         this.createdTime = createdTime;
         this.lastModifiedTime = lastModifiedTime;
         this.lastStatusChangedTime = lastStatusChangedTime;
+        categoryName = CategoryList.getName(categoryID);
     }
-    
+
     /*
     This constructor is designed for creating new article
-    */
+     */
     public ArticleDTO(String title, String headline, String content, String thumbnail, int categoryID, int creatorID, Timestamp createdTime, String status) {
         this.title = title;
         this.headline = headline;
@@ -64,7 +65,7 @@ public class ArticleDTO {
 
     /*
     This constructor for change status
-    */
+     */
     public ArticleDTO(int articleID, String status, int lastStatusChangerID, Timestamp lastStatusChangedTime) {
         this.status = status;
         this.articleID = articleID;
@@ -126,6 +127,7 @@ public class ArticleDTO {
 
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
+        categoryName = CategoryList.getName(categoryID);
     }
 
     public int getCreatorID() {
@@ -191,100 +193,108 @@ public class ArticleDTO {
     public void setCreator(String creator) {
         this.creator = creator;
     }
-    
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     
     /*
     Save this DTO to database as a new article
     Must provide CreatorID and CreatedTime
     @return true if save successful
     @return false if save fail
-    */
+     */
     public boolean createArticle() {
         return new ArticleDAO().createArticle(this);
     }
-    
+
     /*
     Update this article to database using articleID as searching key
     Must provide ModifierID and ModifiedTime
     articleID, creatorID, createdTime, status and viewCount will not be changed
     @return true if update successful
     @return false if update fail
-    */
+     */
     public boolean updateArticle() {
         return new ArticleDAO().updateArticle(this);
     }
-    
+
     /*
     Change status of article with articleID to newStatus
     provide articleID, newStatus, Changer, ChangedTime before call this function
     @param this
     @return true if success
     @return false if fail
-    */
+     */
     public boolean changeStatus() {
         return new ArticleDAO().changeStatus(this);
     }
-    
+
     /*
     Increase ViewCount of article by 1
     Searching article by ArticleID
     @return true if successful
     @return false if not success
-    */
+     */
     public boolean increaseViewCount() {
         return new ArticleDAO().increaseViewCount(articleID);
     }
-    
+
     /*
     Find and return list of articles which title contain searching title
     @param String title
     @return empty list if there isn't any article matching search condition
-    */
+     */
     public List<ArticleDTO> findByTitle(String title) {
         return new ArticleDAO().findByTitle(title);
     }
-    
+
     /*
     Find and return list of articles which creatorID is the same with searching creatorID
     @param int creatorID
     @return empty list if there isn't any article matching search condition
-    */
+     */
     public List<ArticleDTO> findByCreatorID(int creatorID) {
         return new ArticleDAO().findByCreatorID(creatorID);
     }
-    
+
     /*
     Find and return list of articles which status is the same searching status
     @param String status
     @return empty list if there isn't any article matching search condition
-    */
+     */
     public List<ArticleDTO> findByStatus(String status) {
         return new ArticleDAO().findByStatus(status);
     }
-    
+
     /*
     Find and return list of articles which title contain searching title and status is the same with searching status
     @param String title, String status
     @return empty list if there isn't any article matching search condition
-    */
+     */
     public List<ArticleDTO> findByTitleAndStatus(String title, String status) {
         return new ArticleDAO().findByTitleAndStatus(title, status);
     }
-    
+
     /*
     Find and return list of articles which categoryID is the same searching categoryID 
             and status is the same with searching status
     @param String categoryID
     @param status
     @return empty list if there isn't any article matching search condition
-    */
+     */
     public List<ArticleDTO> findByCategoryIDAndStatus(int categoryID, String status) {
         return new ArticleDAO().findByCategoryIDAndStatus(categoryID, status);
     }
-    
+
     /*
     Return 'top' article with created after 'time' ordered desc by viewcount
-    */
+     */
     public List<ArticleDTO> findTopViewCountCreatedAfterTime(int top, Timestamp time) {
         return new ArticleDAO().findTopViewCountCreatedAfterTime(top, time);
     }
