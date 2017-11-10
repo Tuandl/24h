@@ -33,17 +33,23 @@
                         <jsp:param name="WARNING" value="${requestScope.WARNING}"/>
                     </jsp:include>
                     <div class="section create-article">
-                        <div>
-                            <form action="${pageContext.request.contextPath}/upload_image" id="upload-form" class="form-horizontal form-upload-thumbnail"  method="POST" enctype="multipart/form-data">
-                                <div class="row">
-                                    <label>Tải Thumbnail</label>
-                                </div>
-                                <div class="row">
-                                    <input type="file" name="file" id="fileUploader" class="btn btn-success"/>
-                                </div>
-                                <img id="thumbnail-img" src="${requestScope.ARTICLE.thumbnail}"/>
-                            </form>
+                        <div class="row">
+                            <div class="col-md-6" style="height: 0px;">
+                                
+                            </div>
+                            <div class="col-md-6 form-upload-thumbnail">
+                                <form action="${pageContext.request.contextPath}/upload_image" id="upload-form" class="form-horizontal"  method="POST" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <label>Tải Thumbnail</label>
+                                    </div>
+                                    <div class="row">
+                                        <input type="file" name="file" id="fileUploader" class="btn btn-success"/>
+                                    </div>
+                                    <img id="thumbnail-img" src="${requestScope.ARTICLE.thumbnail}"/>
+                                </form>
+                            </div>    
                         </div>
+
                         <c:choose>
                             <c:when test="${empty requestScope.ARTICLE}">
                                 <c:set var="actionUrl" value="CreateAticle.action"/>
