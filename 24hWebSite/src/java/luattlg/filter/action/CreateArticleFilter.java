@@ -140,6 +140,7 @@ public class CreateArticleFilter implements Filter {
             article.setThumbnail(thumbnail);
             String category = request.getParameter("cbCategory");
             article.setCategoryID(CategoryList.getID(category));
+            httpRequest.setAttribute("ARTICLE", article);
             httpRequest.getRequestDispatcher(SEND).forward(request, response);
             return;
         }
