@@ -10,6 +10,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -122,12 +123,16 @@ public class AdminPageFilter implements Filter {
         int pageJournalist = 1;
         int pageReader = 1;
         page_split = Integer.parseInt(request.getServletContext().getInitParameter("SIZEOFPAGE"));
+        String dateStart = httpRequest.getParameter("httpDateStart");
+        String dateEnd = httpRequest.getParameter("httpDateEnd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        //Date getTime = sdf.parse(request.getParameter("txtDateOfBirth").substring(0, 10));
         try {
             pageEditor = Integer.parseInt(httpRequest.getParameter("txtPageEditor"));
             pageJournalist = Integer.parseInt(httpRequest.getParameter("txtpageJournalist"));
             pageReader = Integer.parseInt(httpRequest.getParameter("txtpageReader"));
         } catch (Exception e) {
-            System.out.println("This is the init");
+            //System.out.println("This is the init");
         }
         pageEditor--;
         pageJournalist--;
@@ -141,32 +146,48 @@ public class AdminPageFilter implements Filter {
             httpResponse.sendRedirect(HOME);
             return;
         }
-        
+
         List<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
 
         List<UserDTO> listOfEditor = new UserDAO().findByRoleID(getRoleID("editor", listOfRole));
         List<UserDTO> listOfJournalist = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));
         List<UserDTO> listOfReader = new UserDAO().findByRoleID(getRoleID("reader", listOfRole));
         ReportDAO reportDAO = new ReportDAO();
-        for(UserDTO journalist : listOfJournalist){
+        for (UserDTO journalist : listOfJournalist) {
             List<Integer> list = reportDAO.reportArticleByCreatorID(journalist.getUserID());
             journalist.setNumberOfAllArticle(list.get(0));
             journalist.setNumberOfAvailableArticle(list.get(1));
         }
         UserDAO userDAO = new UserDAO();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_MONTH, -DAY_CALCULATE);
-        Timestamp timeStart = new Timestamp(calendar.getTime().getTime());
-        Timestamp timeEnd = new Timestamp(new Date().getTime());
+        Timestamp timeStart = null;
+        Timestamp timeEnd = null;
+
+        try {
+            Date getTimeStart = sdf.parse(dateStart);
+            Date getTimeEnd = sdf.parse(dateEnd);
+            timeStart = new Timestamp(getTimeStart.getTime());
+            timeEnd = new Timestamp(getTimeEnd.getTime());
+        } catch (Exception ex) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.add(Calendar.DAY_OF_MONTH, -DAY_CALCULATE);
+            timeStart = new Timestamp(calendar.getTime().getTime());
+            timeEnd = new Timestamp(new Date().getTime());
+        }
+        try{
+            dateStart = sdf.format(new Date(timeStart.getTime()));
+            dateEnd = sdf.format(new Date(timeEnd.getTime()));
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
         List<ArticleDTO> listOfTopView = reportDAO.findTopViewCountArticle(TOP_ARTICLE, timeStart, timeEnd);
-        for(ArticleDTO article : listOfTopView){
+        for (ArticleDTO article : listOfTopView) {
             article.setCreator(userDAO.findByUserID(article.getCreatorID()).getName());
         }
-        request.setAttribute("NUMBEROFARTICLE", new ArticleDAO().findByTitle("").size());
+        request.setAttribute("NUMBEROFARTICLE", new ArticleDAO().findByTitle("%%").size());
         request.setAttribute("TOPVIEWARTICLE", listOfTopView);
-        
-        request.setAttribute("MAXEDITORPAGE",  listOfEditor.size() / page_split + 1);
+
+        request.setAttribute("MAXEDITORPAGE", listOfEditor.size() / page_split + 1);
         request.setAttribute("MAXJOURNALISTPAGE", listOfJournalist.size() / page_split + 1);
         request.setAttribute("MAXREADERPAGE", listOfReader.size() / page_split + 1);
 
@@ -174,6 +195,8 @@ public class AdminPageFilter implements Filter {
         request.setAttribute("JOURNALIST-LIST", listOfJournalist.subList(pageJournalist * page_split, Math.min((pageJournalist + 1) * page_split, listOfJournalist.size())));
         request.setAttribute("READER-LIST", listOfReader.subList(pageReader * page_split, Math.min((pageReader + 1) * page_split, listOfReader.size())));
 
+        request.setAttribute("TIMESTARTREPORT", dateStart);
+        request.setAttribute("TIMEENDREPORT", dateEnd);
         chain.doFilter(request, response);
     }
 
