@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import luattlg.other.General;
 import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.UserDTO;
 
@@ -34,7 +35,8 @@ public class SearchUserByName extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        int page_split = Integer.parseInt(getServletContext().getInitParameter("SIZEOFPAGE"));
         String search = request.getParameter("txtSearch");
         int page = 1;
         try {
@@ -46,10 +48,11 @@ public class SearchUserByName extends HttpServlet {
         request.setAttribute("curPage", page);
         List<UserDTO> listOfUser = new UserDAO().findLikeName("%" + search + "%");
         System.out.println("Size "+listOfUser.size());
-        request.setAttribute("MAXPAGE", listOfUser.size() / 20 + 1);
-        request.setAttribute("SEARCHRESULT", listOfUser.subList(page*20, Math.min((page+1)*20, listOfUser.size())));
+        request.setAttribute("MAXPAGE", General.getMaxPage(listOfUser.size(), page_split));
+        request.setAttribute("SEARCHRESULT", listOfUser.subList(page*page_split, Math.min((page+1)*page_split, listOfUser.size())));
         request.getRequestDispatcher(FOWARD).forward(request, response);
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

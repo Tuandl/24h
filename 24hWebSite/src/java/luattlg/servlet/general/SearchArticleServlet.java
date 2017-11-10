@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import luattlg.other.General;
 import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.ArticleDTO;
@@ -98,7 +99,7 @@ public class SearchArticleServlet extends HttpServlet {
             }
         }
         request.setAttribute("TOP-TREND-LIST", topTrendAfetDelete);
-        request.setAttribute("MAXPAGE", Math.min(1000, articleList.size()) / page_split + 1);
+        request.setAttribute("MAXPAGE", General.getMaxPage(articleList.size(),page_split) );
         request.setAttribute("SEARCH-RESULT-LIST", articleList.subList(page * page_split, Math.min((page + 1) * page_split, articleList.size())));
         if (role != null && role.equalsIgnoreCase("editor")) {
             request.getRequestDispatcher(EDITOR).forward(request, response);
@@ -106,7 +107,8 @@ public class SearchArticleServlet extends HttpServlet {
             request.getRequestDispatcher(OTHER).forward(request, response);
         }
     }
-
+    
+    
     //Method for searching article by writter
     private List<ArticleDTO> searchByWritter(String name) {
         List<ArticleDTO> listOfArticleDTOs = new ArrayList<>();

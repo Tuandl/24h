@@ -23,6 +23,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import luattlg.other.General;
 import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.ArticleDTO;
@@ -167,8 +168,8 @@ public class EditorPageFilter implements Filter {
         newArticleList = sortList(newArticleList);
         hidedArticleList = sortList(hidedArticleList);
 
-        request.setAttribute("MAXNEWPAGE", Math.min(1000, newArticleList.size()) / page_split + 1);
-        request.setAttribute("MAXHIDEDPAGE", Math.min(1000, hidedArticleList.size()) / page_split + 1);
+        request.setAttribute("MAXNEWPAGE", General.getMaxPage(newArticleList.size(), page_split));
+        request.setAttribute("MAXHIDEDPAGE", General.getMaxPage(hidedArticleList.size(), page_split));
 
         try {
             request.setAttribute("NEW-ARTICLE-LIST", newArticleList.subList(pageNew * page_split, Math.min((pageNew + 1) * page_split, newArticleList.size())));

@@ -21,6 +21,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import luattlg.other.General;
 import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DTOs.ArticleDTO;
 import tuanvxm.DTOs.UserDTO;
@@ -142,7 +143,7 @@ public class JournalistPageFilter implements Filter {
                 return t.getCategoryID() < t1.getCategoryID() ? -1 : 1;
             }
         });
-        request.setAttribute("MAXPAGE", Math.min(1000, listOfArticle.size()) / page_split + 1);
+        request.setAttribute("MAXPAGE",  General.getMaxPage(listOfArticle.size(), page_split));
         request.setAttribute("ARTICLE-LIST", listOfArticle.subList(page * page_split, Math.min((page + 1) * page_split, listOfArticle.size())));
         chain.doFilter(request, response);
 

@@ -25,6 +25,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import luattlg.other.General;
 import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DAOs.ReportDAO;
 import tuanvxm.DAOs.UserDAO;
@@ -187,9 +188,9 @@ public class AdminPageFilter implements Filter {
         request.setAttribute("NUMBEROFARTICLE", new ArticleDAO().findByTitle("%%").size());
         request.setAttribute("TOPVIEWARTICLE", listOfTopView);
 
-        request.setAttribute("MAXEDITORPAGE", listOfEditor.size() / page_split + 1);
-        request.setAttribute("MAXJOURNALISTPAGE", listOfJournalist.size() / page_split + 1);
-        request.setAttribute("MAXREADERPAGE", listOfReader.size() / page_split + 1);
+        request.setAttribute("MAXEDITORPAGE", General.getMaxPage(listOfEditor.size(), page_split));
+        request.setAttribute("MAXJOURNALISTPAGE", General.getMaxPage(listOfJournalist.size(), page_split));
+        request.setAttribute("MAXREADERPAGE", General.getMaxPage(listOfReader.size(), page_split));
 
         request.setAttribute("EDITOR-LIST", listOfEditor.subList(pageEditor * page_split, Math.min((pageEditor + 1) * page_split, listOfEditor.size())));
         request.setAttribute("JOURNALIST-LIST", listOfJournalist.subList(pageJournalist * page_split, Math.min((pageJournalist + 1) * page_split, listOfJournalist.size())));
@@ -210,6 +211,12 @@ public class AdminPageFilter implements Filter {
         return 0;
     }
 
+    private int getMaxPage(int number,int page){
+        if(number == 0){
+            number++;
+        }
+        return number / page + (number%page == 0 ? 0 : 1);
+    }
     /**
      * Return the filter configuration object for this filter.
      */

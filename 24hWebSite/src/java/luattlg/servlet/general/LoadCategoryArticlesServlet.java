@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import luattlg.other.General;
 import tuanvxm.DAOs.ArticleDAO;
 import tuanvxm.DAOs.UserDAO;
 import tuanvxm.DTOs.ArticleDTO;
@@ -84,7 +85,7 @@ public class LoadCategoryArticlesServlet extends HttpServlet {
         });
         request.setAttribute("categoryID", categoryID);
         request.setAttribute("CATEGORY-NAME", CategoryList.getName(categoryID));
-        request.setAttribute("MAX-PAGE", Math.min(1000, articles.size()) / page_split + 1);
+        request.setAttribute("MAX-PAGE", General.getMaxPage(articles.size(), page_split));
         request.setAttribute("CATEGORY-ARTICLE", articles.subList(page * page_split, Math.min((page + 1) * page_split, articles.size())));
 
         System.out.println("number of article in category: " + articles.size());
