@@ -97,7 +97,7 @@
 
         <jsp:include page="partial/common-js.jsp"/>
         <!-- javascript for current page -->
-        <script src="${pageContext.request.contextPath}/assets/js/....." type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/search-result.js" type="text/javascript"></script>
     </body>
 
 
