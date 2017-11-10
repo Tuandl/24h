@@ -56,7 +56,7 @@
                                         Ngày sinh:
                                     </div>
                                     <div class="col-sm-7 col-xs-9">
-                                        ${sessionScope.USER.birthday}
+                                        ${sessionScope.USER.birthdayString}
                                     </div>
                                 </div>
                                 <!-- Gender -->
@@ -200,7 +200,7 @@
                                 <div class="col-xs-10 col-xs-offset-1">
                                     <div class="form-group label-floating">
                                         <label class="control-label">Ngày sinh</label>
-                                        <input type="text" class="form-control datepicker" value="${sessionScope.USER.birthday}" name="txtDateOfBirth">
+                                        <input type="text" class="form-control datepicker" value="${sessionScope.USER.birthdayString}" name="txtDateOfBirth">
                                     </div>
                                 </div>
                             </div>

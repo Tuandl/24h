@@ -83,14 +83,21 @@ public class UserDTO {
     }
 
     public String getBirthdayString() {
-        return birthdayString;
+        String ans = "";
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            ans = sdf.format(new Date(birthday.getTime()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        System.out.println("" + ans);
+        return ans;
     }
 
     public void setBirthdayString(String birthdayString) {
         this.birthdayString = birthdayString;
     }
-    
-    
+
     public int getNumberOfAllArticle() {
         return numberOfAllArticle;
     }
@@ -107,9 +114,6 @@ public class UserDTO {
         this.numberOfAvailableArticle = numberOfAvailableArticle;
     }
 
-    
-    
-    
     public String getUsername() {
         return username;
     }
@@ -213,21 +217,7 @@ public class UserDTO {
     public void setBirthday(Timestamp birthday) {
         this.birthday = birthday;
     }
-    
-    /**
-     * Return date string format of birthday.
-    */
-    public String getDateString(){
-        String ans = "";
-        try{
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date getTime = sdf.parse(birthday.toString());
-            ans = getTime.toString();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return ans;
-    }
+
     /*
     Save this DTO as new user to database
     @return true if save successfully, opposite return fail
@@ -310,7 +300,7 @@ public class UserDTO {
     public boolean changeRoleID(int userID, int newRoleID, String newPressCard) {
         return new UserDAO().changeRoleID(userID, newRoleID, newPressCard);
     }
-    
+
     /*
     Search users in database using a part of fullname
     @param String name
