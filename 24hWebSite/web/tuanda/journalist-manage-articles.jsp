@@ -49,7 +49,7 @@
                                     </c:if>
                                     <div>
                                         <h4 class="section-title">
-                                            ${article.categoryID}
+                                            ${article.categoryName}
                                             <i class="material-icons">keyboard_arrow_right</i>
                                         </h4>
                                             <hr/>
