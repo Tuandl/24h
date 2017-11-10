@@ -134,7 +134,7 @@
                                         Vai trò:
                                     </div>
                                     <div class="col-sm-7 col-xs-9">
-                                        <c:out value="${user.roleID}"/>
+                                        <c:out value="${user.role}"/>
                                     </div>
                                 </div>
                                 <!-- state -->

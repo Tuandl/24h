@@ -74,7 +74,7 @@
                                             <td></td>
                                             <td>${user.username}</td>
                                             <td>${user.name}</td>
-                                            <td>${user.roleID}</td>
+                                            <td>${user.role}</td>
                                             <td>${user.status}</td>
                                             <td>
                                                 <a href="${pageContext.request.contextPath}/SearchAccountByUsername.action?txtSearch=${user.username}" class="btn btn-success btn-just-icon btn-round">
