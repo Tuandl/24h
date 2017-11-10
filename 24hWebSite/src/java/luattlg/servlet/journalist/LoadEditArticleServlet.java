@@ -23,6 +23,7 @@ import tuanvxm.DTOs.ArticleDTO;
 public class LoadEditArticleServlet extends HttpServlet {
     
     private static final String FOWARD = "/tuanda/create-article.jsp";
+    private static final String BACK = "/tuanda/journalist-manage-articles.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,6 +38,11 @@ public class LoadEditArticleServlet extends HttpServlet {
         
         int articleID = Integer.parseInt(request.getParameter("txtArticleID"));
         ArticleDTO article = new ArticleDAO().findByArticleID(articleID);
+        if(article.getStatus().equalsIgnoreCase(ArticleDTO.STATUS_AVAILABLE)){
+            request.setAttribute("WARNING", "Không thể thay đổi nội dung bài đã được duyệt.");
+            request.getRequestDispatcher(BACK).forward(request, response);
+            return;
+        }
         request.setAttribute("ARTICLE", article);
         //System.out.println(""+article.getTitle());
         request.getRequestDispatcher(FOWARD).forward(request, response);
