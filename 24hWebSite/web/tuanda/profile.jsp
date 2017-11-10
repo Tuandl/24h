@@ -200,7 +200,7 @@
                                 <div class="col-xs-10 col-xs-offset-1">
                                     <div class="form-group label-floating">
                                         <label class="control-label">Ngày sinh</label>
-                                        <input type="text" class="form-control datepicker" value="${sessionScope.USER.birthdayString}" name="txtDateOfBirth">
+                                        <input type="text" class="form-control datepicker" value="${sessionScope.USER.birthdayString}" name="txtDateOfBirth" data-date-format="dd/mm/yyyy">
                                     </div>
                                 </div>
                             </div>

@@ -55,10 +55,10 @@
                                 <label class="control-label">Ngày sinh</label>
                                 <c:choose>
                                     <c:when test="${empty param.txtDateOfBirth}">
-                                        <input type="text" class="form-control datepicker" value="01/01/1997" name="txtDateOfBirth">
+                                        <input type="text" class="form-control datepicker" value="01/01/1997" name="txtDateOfBirth" data-date-format="dd/mm/yyyy">
                                     </c:when>
                                     <c:otherwise>
-                                        <input type="text" class="form-control datepicker" value="${param.txtDateOfBirth}" name="txtDateOfBirth">
+                                        <input type="text" class="form-control datepicker" value="${param.txtDateOfBirth}" name="txtDateOfBirth" data-date-format="dd/mm/yyyy">
                                     </c:otherwise>
                                 </c:choose>
                                 

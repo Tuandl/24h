@@ -64,15 +64,15 @@
                                 <div class="col-md-2 col-xs-3">
                                     <div class="form-group label-floating" style="margin-top: -7px;">
                                         <label class="control-label">Ngày bắt đầu</label>
-                                        <input class="datepicker form-control" type="text" value="${requestScope.dateFrom}"
-                                               name="dateFrom"/>
+                                        <input class="datepicker form-control" type="text" value="${requestScope.TIMESTARTREPORT}"
+                                               name="httpDateStart" data-date-format="dd/mm/yyyy"/>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-xs-3">
                                     <div class="form-group label-floating" style="margin-top: -7px;">
                                         <label class="control-label">Ngày kết thúc</label>
-                                        <input class="datepicker form-control" type="text" value="${requestScope.dateTo}"
-                                               name="dateTo"/>
+                                        <input class="datepicker form-control" type="text" value="${requestScope.TIMEENDREPORT}"
+                                               name="httpDateEnd" data-date-format="dd/mm/yyyy"/>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -81,7 +81,7 @@
                             </div>
 
                         </form>
-                        <h2>Được đọc nhiều nhất từ ngày ${requestScope.dateFrom} đến ngày ${requestScope.dateTo}</h2>
+                        <h2>Được đọc nhiều nhất từ ngày ${requestScope.TIMESTARTREPORT} đến ngày ${requestScope.TIMEENDREPORT}</h2>
                         <table class="table table-hover table-striped table-responsive">
                             <thead>
                                 <tr>
