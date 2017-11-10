@@ -156,8 +156,8 @@ public class AdminPageFilter implements Filter {
         ReportDAO reportDAO = new ReportDAO();
         for (UserDTO journalist : listOfJournalist) {
             List<Integer> list = reportDAO.reportArticleByCreatorID(journalist.getUserID());
-            journalist.setNumberOfAllArticle(list.get(0));
-            journalist.setNumberOfAvailableArticle(list.get(1));
+            journalist.setNumberOfAllArticle(list.get(1));
+            journalist.setNumberOfAvailableArticle(list.get(0));
         }
         UserDAO userDAO = new UserDAO();
         Timestamp timeStart = null;
