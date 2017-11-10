@@ -45,7 +45,7 @@ public class SearchArticleServlet extends HttpServlet {
         try {
             page = Integer.parseInt(request.getParameter("txtPage"));
         } catch (Exception ex) {
-            System.out.println("This is init");
+            //System.out.println("This is init");
         }
         page--;
 
