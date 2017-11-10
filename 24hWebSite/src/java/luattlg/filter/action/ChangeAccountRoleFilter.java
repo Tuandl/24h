@@ -19,6 +19,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tuanvxm.DTOs.UserDTO;
 
 /**
  *
@@ -26,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebFilter(filterName = "ChangeAccountRoleFilter", urlPatterns = {"/ChangeAccountRole.action"}, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.INCLUDE})
 public class ChangeAccountRoleFilter implements Filter {
-    
+    private static final String FOWARD = "/tuanda/admin-home-page.jsp";
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
@@ -108,6 +109,13 @@ public class ChangeAccountRoleFilter implements Filter {
         if (role == null || !role.equalsIgnoreCase("administrator")) {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        int userID = Integer.parseInt(request.getParameter("txtUserID"));
+        UserDTO user = (UserDTO)httpRequest.getSession().getAttribute("USER");
+        if(user.getUserID() == userID){
+            request.setAttribute("WARNING", "Không thể đổi role của bản thân.");
+            request.getRequestDispatcher(FOWARD).forward(request, response);
             return;
         }
         chain.doFilter(request, response);

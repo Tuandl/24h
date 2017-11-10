@@ -70,7 +70,7 @@
                                         Ngày sinh:
                                     </div>
                                     <div class="col-sm-7 col-xs-9">
-                                        <c:out value="${user.birthday}"/>
+                                        <c:out value="${user.birthdayString}"/>
                                     </div>
                                 </div>
                                 <!-- Gender -->
