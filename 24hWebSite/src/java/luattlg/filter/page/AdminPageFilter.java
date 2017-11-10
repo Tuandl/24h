@@ -123,6 +123,12 @@ public class AdminPageFilter implements Filter {
         int pageEditor = 1;
         int pageJournalist = 1;
         int pageReader = 1;
+        String role = (String) httpRequest.getSession().getAttribute("ROLE");
+        if (role == null || !role.equalsIgnoreCase("administrator")) {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
         page_split = Integer.parseInt(request.getServletContext().getInitParameter("SIZEOFPAGE"));
         String dateStart = httpRequest.getParameter("httpDateStart");
         String dateEnd = httpRequest.getParameter("httpDateEnd");
@@ -140,13 +146,6 @@ public class AdminPageFilter implements Filter {
         pageReader--;
         request.setAttribute("curPageEditor", pageEditor);
         request.setAttribute("curPageJournalist", pageJournalist);
-
-        String role = (String) httpRequest.getSession().getAttribute("ROLE");
-        if (role == null || !role.equalsIgnoreCase("Administrator")) {
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.sendRedirect(HOME);
-            return;
-        }
 
         List<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
 

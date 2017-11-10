@@ -18,6 +18,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -109,6 +110,12 @@ public class CreateArticleFilter implements Filter {
         String content = request.getParameter("txtContent");
         String thumbnail = request.getParameter("txtThumbnailURL");
         HashMap<String,String> error = new HashMap<String, String>();
+        String role = (String)httpRequest.getSession().getAttribute("ROLE");
+        if(role == null || !role.equalsIgnoreCase("journalist")){
+            HttpServletResponse httpResponse = (HttpServletResponse)response;
+            httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
         if(title == null || title.length() < 8){
             error.put("TITLE", "Tiêu đề không được ít hơn 8 ký tự");
         }

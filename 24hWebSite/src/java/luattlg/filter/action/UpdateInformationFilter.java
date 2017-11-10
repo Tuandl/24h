@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UpdateInformationFilter implements Filter {
     
     private static final boolean debug = true;
-    private static final String PATH = "";
+    private static final String PATH = "/tuanda/profile.jsp";
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
@@ -127,6 +128,8 @@ public class UpdateInformationFilter implements Filter {
         request.setAttribute("txtPhoneNumber", phoneNumber);
         String email = request.getParameter("txtEmail");
         request.setAttribute("txtEmail", email);
+        String birthday = request.getParameter("txtDateOfBirth");
+        request.setAttribute("txtDateOfBirth", birthday);
         
         //Validate
         Map<String,String> error = new HashMap<>();
@@ -152,6 +155,12 @@ public class UpdateInformationFilter implements Filter {
                 error.put("EMAIL","E-mail không đúng.");
             }
         }
+        int year = Integer.parseInt(birthday.split("/")[2]);
+        Calendar nowCal = Calendar.getInstance();
+        if(nowCal.get(Calendar.YEAR)-year < 16){
+            error.put("BIRTHDAY","Bạn phải từ 16 tuổi trơ lên mới được phép đăng ký tài khoản trên trang của chúng tôi.");
+        }
+        
         return error;
     }
 

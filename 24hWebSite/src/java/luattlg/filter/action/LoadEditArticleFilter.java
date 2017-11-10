@@ -9,11 +9,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -25,25 +21,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Filter to validate the data load in Register
+ *
+ * @author luattlgse62386
  */
-@WebFilter(filterName = "RegisterActionFilter", urlPatterns = {"/Register.action"})
-public class RegisterActionFilter implements Filter {
+@WebFilter(filterName = "LoadEditArticleFilter", urlPatterns = {"/LoadEditArticle.action"}, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.INCLUDE})
+public class LoadEditArticleFilter implements Filter {
 
     private static final boolean debug = true;
-    private static final String REGISTER = "tuanda/index.jsp";
+
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
 
-    public RegisterActionFilter() {
+    public LoadEditArticleFilter() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("RegisterFilter:DoBeforeProcessing");
+            log("LoadEditArticleFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -71,7 +68,7 @@ public class RegisterActionFilter implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("RegisterFilter:DoAfterProcessing");
+            log("LoadEditArticleFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -105,78 +102,15 @@ public class RegisterActionFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        Map<String,String> error = doValidate((HttpServletRequest) request,(HttpServletResponse) response);
-        if(!error.isEmpty()){
-            System.out.println("have error " + error.size());
-            request.setAttribute("ERROR", error);
-            request.getRequestDispatcher(REGISTER).forward(request, response);
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String role = (String)httpRequest.getSession().getAttribute("ROLE");
+        if (role == null || !role.equalsIgnoreCase("journalist")) {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
         chain.doFilter(request, response);
-    }
 
-    private Map<String,String> doValidate(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
-        
-        //Get value
-        String username = request.getParameter("txtUsername");
-        request.setAttribute("txtUsername", username);
-        String password = request.getParameter("pwfPassword");
-        String confirmPassword = request.getParameter("pwfConfirmPassword");
-        String name = request.getParameter("txtName");
-        request.setAttribute("txtName", name);
-        String address = request.getParameter("txtAddress");
-        request.setAttribute("txtAddress", address);
-        String phoneNumber = request.getParameter("txtPhoneNumber");
-        request.setAttribute("txtPhoneNumber", phoneNumber);
-        String email = request.getParameter("txtEmail");
-        request.setAttribute("txtEmail", email);
-        String agree = request.getParameter("cbAgree");
-        String birthday = request.getParameter("txtDateOfBirth");
-        request.setAttribute("txtDateOfBirth", birthday);
-        
-        //Validate
-        Map<String,String> error = new HashMap<>();
-        if(username == null || username.length() < 8){
-            error.put("USERNAME", "Tên đăng nhập dài ít nhất 8 ký tự.");
-        }
-        if(password == null || password.length() < 8){
-            error.put("PASSWORD", "Mật khẩu dài ít nhất 8 ký tự.");
-        }
-        if(confirmPassword == null || !confirmPassword.equals(password)){
-            error.put("CONFIRM-PASSWORD", "Xác nhận mật khẩu không giống mới mật khẩu.");
-        }
-        if(name == null || name.length() == 0){
-            error.put("NAME", "Họ và tên không được bỏ trống.");
-        }
-        if(address == null || address.length() == 0){
-            error.put("ADDRESS", "Địa chỉ không được bỏ trống.");
-        }
-        if(phoneNumber == null || phoneNumber.length() == 0){
-            error.put("PHONE", "Số điện thoại không được bỏ trống.");
-        }
-        else{
-            if(!Pattern.matches("[0-9]{9,11}", phoneNumber)){
-                error.put("PHONE", "Số điện thoại phải có độ dài từ 9-11 số.");
-            }
-        }
-        if(email == null || email.length() == 0){
-            error.put("EMAIL", "E-mail không được bỏ trống.");
-        }
-        else{
-            if(!Pattern.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+(\\.[a-zA-Z]+)+", email)){
-                error.put("EMAIL","E-mail không đúng.");
-            }
-        }
-        if(agree == null || agree.length() == 0){
-            error.put("AGREE-THE-POLICY","Xin hãy đồng ý với các điều khoản của chúng ta.");
-        }
-        int year = Integer.parseInt(birthday.split("/")[2]);
-        Calendar nowCal = Calendar.getInstance();
-        if(nowCal.get(Calendar.YEAR)-year < 16){
-            error.put("BIRTHDAY","Bạn phải từ 16 tuổi trơ lên mới được phép đăng ký tài khoản trên trang của chúng tôi.");
-        }
-        
-        return error;
     }
 
     /**
@@ -208,7 +142,7 @@ public class RegisterActionFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("RegisterFilter:Initializing filter");
+                log("LoadEditArticleFilter:Initializing filter");
             }
         }
     }
@@ -219,9 +153,9 @@ public class RegisterActionFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("RegisterFilter()");
+            return ("LoadEditArticleFilter()");
         }
-        StringBuffer sb = new StringBuffer("RegisterFilter(");
+        StringBuffer sb = new StringBuffer("LoadEditArticleFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
