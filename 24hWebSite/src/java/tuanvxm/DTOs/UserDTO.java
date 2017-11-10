@@ -26,6 +26,15 @@ public class UserDTO {
     private int userID, gender, roleID, numberOfAllArticle, numberOfAvailableArticle;
     private Timestamp birthday;
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
+    
     public UserDTO() {
     }
 
