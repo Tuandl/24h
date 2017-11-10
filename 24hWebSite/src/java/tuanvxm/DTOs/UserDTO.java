@@ -22,7 +22,7 @@ public class UserDTO {
     public static final String STATUS_BANNED = "Banned";
 
     private String username, password, name, address, phone, email, PeopleIndentityCard, PressCard, status, birthdayString;
-    private int userID, gender, roleID, numberOfAllArticle, numberOfNotAvailableArticle;
+    private int userID, gender, roleID, numberOfAllArticle, numberOfAvailableArticle;
     private Timestamp birthday;
 
     public UserDTO() {
@@ -99,13 +99,15 @@ public class UserDTO {
         this.numberOfAllArticle = numberOfAllArticle;
     }
 
-    public int getNumberOfNotAvailableArticle() {
-        return numberOfNotAvailableArticle;
+    public int getNumberOfAvailableArticle() {
+        return numberOfAvailableArticle;
     }
 
-    public void setNumberOfNotAvailableArticle(int numberOfNotAvailableArticle) {
-        this.numberOfNotAvailableArticle = numberOfNotAvailableArticle;
+    public void setNumberOfAvailableArticle(int numberOfAvailableArticle) {
+        this.numberOfAvailableArticle = numberOfAvailableArticle;
     }
+
+    
     
     
     public String getUsername() {

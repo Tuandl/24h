@@ -142,26 +142,27 @@ public class AdminPageFilter implements Filter {
             return;
         }
         
-        ArticleDAO articleDAO = new ArticleDAO();
         List<Role> listOfRole = (ArrayList<Role>) request.getServletContext().getAttribute("ROLE-LIST");
 
         List<UserDTO> listOfEditor = new UserDAO().findByRoleID(getRoleID("editor", listOfRole));
         List<UserDTO> listOfJournalist = new UserDAO().findByRoleID(getRoleID("journalist", listOfRole));
         List<UserDTO> listOfReader = new UserDAO().findByRoleID(getRoleID("reader", listOfRole));
-
+        ReportDAO reportDAO = new ReportDAO();
         for(UserDTO journalist : listOfJournalist){
-            List<Integer> list = new ReportDAO().reportArticleByCreatorID(journalist.getUserID());
+            List<Integer> list = reportDAO.reportArticleByCreatorID(journalist.getUserID());
             journalist.setNumberOfAllArticle(list.get(0));
-            journalist.setNumberOfNotAvailableArticle(list.get(0)-list.get(1));
+            journalist.setNumberOfAvailableArticle(list.get(1));
         }
-        
+        UserDAO userDAO = new UserDAO();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_MONTH, -DAY_CALCULATE);
         Timestamp timeStart = new Timestamp(calendar.getTime().getTime());
         Timestamp timeEnd = new Timestamp(new Date().getTime());
-        List<ArticleDTO> listOfTopView = new ReportDAO().findTopViewCountArticle(TOP_ARTICLE, timeStart, timeEnd);
-        
+        List<ArticleDTO> listOfTopView = reportDAO.findTopViewCountArticle(TOP_ARTICLE, timeStart, timeEnd);
+        for(ArticleDTO article : listOfTopView){
+            article.setCreator(userDAO.findByUserID(article.getCreatorID()).getName());
+        }
         request.setAttribute("NUMBEROFARTICLE", new ArticleDAO().findByTitle("").size());
         request.setAttribute("TOPVIEWARTICLE", listOfTopView);
         
