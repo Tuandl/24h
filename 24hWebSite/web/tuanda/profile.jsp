@@ -34,7 +34,7 @@
                             <!-- Avatar -->
                             <div class="section">
                                 <div class="profile-avatar img-circle img-raised">
-                                    <img class="https://www.w3schools.com/bootstrap/img_avatar2.png" src="" alt="">
+                                    <img class="" src="https://www.w3schools.com/bootstrap/img_avatar2.png" alt="">
                                 </div>
                             </div>
                         </div>
