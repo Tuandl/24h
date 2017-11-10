@@ -32,7 +32,7 @@ private static final long serialVersionUID = 1L;
         String filename = URLDecoder.decode(request.getPathInfo().substring(1), "UTF-8");
 //        System.out.println("file name = " + filename);
         File file = new File(getServletContext().getRealPath("/24h/img/"), filename);
-        System.out.println("file path = " + file.getAbsolutePath());
+//        System.out.println("file path = " + file.getAbsolutePath());
         response.setHeader("Content-Type", getServletContext().getMimeType(filename));
         response.setHeader("Content-Length", String.valueOf(file.length()));
         response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
