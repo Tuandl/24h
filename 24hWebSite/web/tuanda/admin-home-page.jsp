@@ -61,9 +61,19 @@
                     <div class="section">
                         <form action="${pageContext.request.contextPath}/tuanda/admin-home-page.jsp">
                             <div class="row">
-                                <div class="col-md-2 col-xs-3" style="margin-top: -27px">
-                                    <input class="datepicker form-control" type="text" value="${requestScope.dateFrom}"
-                                           name="dateFrom"/>
+                                <div class="col-md-2 col-xs-3">
+                                    <div class="form-group label-floating" style="margin-top: -7px;">
+                                        <label class="control-label">Ngày bắt đầu</label>
+                                        <input class="datepicker form-control" type="text" value="${requestScope.dateFrom}"
+                                               name="dateFrom"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-xs-3">
+                                    <div class="form-group label-floating" style="margin-top: -7px;">
+                                        <label class="control-label">Ngày kết thúc</label>
+                                        <input class="datepicker form-control" type="text" value="${requestScope.dateTo}"
+                                               name="dateTo"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-2">
                                     <button class="btn btn-info btn-round btn-sm">Đổi ngày</button>
@@ -71,7 +81,7 @@
                             </div>
 
                         </form>
-                        <h2>Được đọc nhiều nhất từ ngày: ${requestScope.dateFrom}</h2>
+                        <h2>Được đọc nhiều nhất từ ngày ${requestScope.dateFrom} đến ngày ${requestScope.dateTo}</h2>
                         <table class="table table-hover table-striped table-responsive">
                             <thead>
                                 <tr>
@@ -113,7 +123,7 @@
                                             <th>Tên</th>
                                             <th>Số thẻ nhà báo</th>
                                             <th>Số bài đã viết</th>
-                                            <th>Số bài chưa kiểm duyệt</th>
+                                            <th>Số bài đã kiểm duyệt</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -122,8 +132,8 @@
                                                 <td></td>
                                                 <td><c:out value="${journalist.name}"/></td>
                                                 <td><c:out value="${journalist.getPressCard()}"/></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><c:out value="${journalist.numberOfAllArticle}"/></td>
+                                                <td><c:out value="${journalist.numberOfAvailableArticle}"/></td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
