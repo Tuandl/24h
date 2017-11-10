@@ -19,6 +19,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tuanvxm.DTOs.ArticleDTO;
+import tuanvxm.other.CategoryList;
 
 /**
  *
@@ -109,6 +111,7 @@ public class CreateArticleFilter implements Filter {
         String headine = request.getParameter("txtHeadline");
         String content = request.getParameter("txtContent");
         String thumbnail = request.getParameter("txtThumbnailURL");
+        
         HashMap<String,String> error = new HashMap<String, String>();
         String role = (String)httpRequest.getSession().getAttribute("ROLE");
         if(role == null || !role.equalsIgnoreCase("journalist")){
@@ -130,10 +133,13 @@ public class CreateArticleFilter implements Filter {
         }
         if(!error.isEmpty()){
             httpRequest.setAttribute("ERROR", error);
-            httpRequest.setAttribute("txtTitle", title);
-            httpRequest.setAttribute("txtHeadline", headine);
-            httpRequest.setAttribute("txtContent", content);
-            httpRequest.setAttribute("txtThumbnailURL", thumbnail);
+            ArticleDTO article = new ArticleDTO();
+            article.setTitle(title);
+            article.setHeadline(headine);
+            article.setContent(content);
+            article.setThumbnail(thumbnail);
+            String category = request.getParameter("cbCategory");
+            article.setCategoryID(CategoryList.getID(category));
             httpRequest.getRequestDispatcher(SEND).forward(request, response);
             return;
         }

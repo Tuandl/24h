@@ -51,8 +51,8 @@ public class ChangeArticleStatusServlet extends HttpServlet {
             article.setLastModifiedTime(new Timestamp(new Date().getTime()));
             article.setLastStatusChangerID(user.getUserID());
             articleDAO.changeStatus(article);
-            
-            response.sendRedirect(SUCCESS);
+            request.setAttribute("SUCCESS", "Chuyển trạng thái bài thành "+newArticleStatus+" thành công");
+            request.getRequestDispatcher(SUCCESS).forward(request, response);
         }
     
 

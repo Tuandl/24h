@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import tuanvxm.DAOs.UserDAO;
+import tuanvxm.other.RoleList;
 
 /**
  *
@@ -21,7 +22,7 @@ public class UserDTO {
     public static final String STATUS_COMMENTLOCKED = "CommentLocked";
     public static final String STATUS_BANNED = "Banned";
 
-    private String username, password, name, address, phone, email, PeopleIndentityCard, PressCard, status, birthdayString;
+    private String username, password, name, address, phone, email, PeopleIndentityCard, PressCard, status, birthdayString, role;
     private int userID, gender, roleID, numberOfAllArticle, numberOfAvailableArticle;
     private Timestamp birthday;
 
@@ -44,6 +45,7 @@ public class UserDTO {
         this.gender = gender;
         this.roleID = roleID;
         this.birthday = birthday;
+        role = RoleList.getName(roleID);
     }
 
     /*
@@ -80,6 +82,7 @@ public class UserDTO {
         this.status = status;
         this.userID = userID;
         this.roleID = roleID;
+        role = RoleList.getName(roleID);
     }
 
     public String getBirthdayString() {
@@ -208,6 +211,7 @@ public class UserDTO {
 
     public void setRoleID(int roleID) {
         this.roleID = roleID;
+        role = RoleList.getName(roleID);
     }
 
     public Timestamp getBirthday() {

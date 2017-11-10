@@ -42,14 +42,26 @@ public class ChangeAccountRoleServlet extends HttpServlet {
         String pressCard = request.getParameter("txtPressCard");
         List<Role> roleList = (ArrayList<Role>) getServletContext().getAttribute("ROLE-LIST");
         int newRoleID = 0;
+        int journalistID = 0;
         for (Role role : roleList) {
             if (role.getName().equalsIgnoreCase(newRole)) {
                 newRoleID = role.getRoleID();
             }
+            if(role.getName().equalsIgnoreCase("journalist")){
+                journalistID = role.getRoleID();
+            }
         }
-        
+        if(newRoleID == journalistID){
+            if(pressCard == null || pressCard.length() == 0){
+                request.setAttribute("WARNING", "Để chuyển vai trò thành nhà báo xin hãy nhập mã số nhà báo.");
+                request.getRequestDispatcher(FOWARD).forward(request, response);
+                return;
+            }
+        }
         if(!new UserDAO().changeRoleID(userID, newRoleID, pressCard)){
             request.setAttribute("ERROR-CHANGE-ROLE", "Some errors occur. Please try again.");
+        }else{
+            request.setAttribute("SUCCESS", "Chuyển vai trò thành công");
         }
         request.getRequestDispatcher(FOWARD).forward(request, response);
     }
